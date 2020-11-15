@@ -11,6 +11,13 @@ class Order extends Model
 
     protected $guarded = ['id'];
 
+    public function complete()
+    {
+        return $this->update([
+            'completed_at' => now(),
+        ]);
+    }
+
     public function isComplete()
     {
         return (bool) $this->completed_at;

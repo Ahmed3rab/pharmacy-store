@@ -41,7 +41,7 @@
                                     @endif
                                 </td>
                                 <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
-                                    <a href="#" class="text-arwad-500 hover:text-indigo-900">View</a>
+                                    <a href="{{ route('orders.show', $order) }}" class="text-arwad-500 hover:text-indigo-900">View</a>
                                 </td>
                             </tr>
                         @endforeach
