@@ -24,6 +24,7 @@ class ProductFactory extends Factory
     {
         return [
             'category_id' => Category::factory(),
+            'image_path' => $this->faker->imageUrl(),
             'name' => $this->faker->name,
             'description' => $this->faker->paragraph,
             'price' => $this->faker->randomNumber(),
