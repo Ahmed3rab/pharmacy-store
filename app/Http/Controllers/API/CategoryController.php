@@ -10,14 +10,14 @@ class CategoryController
 {
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::paginate(20);
 
         return CategoryResource::collection($categories);
     }
 
     public function show(Category $category)
     {
-        $products = $category->products;
+        $products = $category->products()->paginate(20);
 
         return ProductResource::collection($products);
     }

@@ -9,7 +9,7 @@ class OrderController
 {
     public function index()
     {
-        $orders = auth()->user()->orders;
+        $orders = auth()->user()->orders->paginate(20);
 
         return OrderResource::collection($orders);
     }
