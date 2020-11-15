@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Resources\OrderCollection;
+use App\Http\Resources\OrderResource;
 use App\Models\Product;
 
 class OrderController
@@ -11,7 +11,7 @@ class OrderController
     {
         $orders = auth()->user()->orders;
 
-        return new OrderCollection($orders);
+        return OrderResource::collection($orders);
     }
 
     public function store()

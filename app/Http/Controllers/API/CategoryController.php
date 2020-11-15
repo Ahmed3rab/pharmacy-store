@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Resources\CategoryCollection;
-use App\Http\Resources\ProductCollection;
+use App\Http\Resources\CategoryResource;
+use App\Http\Resources\ProductResource;
 use App\Models\Category;
 
 class CategoryController
@@ -12,13 +12,13 @@ class CategoryController
     {
         $categories = Category::all();
 
-        return new CategoryCollection($categories);
+        return CategoryResource::collection($categories);
     }
 
     public function show(Category $category)
     {
         $products = $category->products;
 
-        return new ProductCollection($products);
+        return ProductResource::collection($products);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Resources\AdvertisementCollection;
+use App\Http\Resources\AdvertisementResource;
 use App\Models\Advertisement;
 
 class AdvertisementController
@@ -11,6 +11,6 @@ class AdvertisementController
     {
         $ads = Advertisement::all();
 
-        return new AdvertisementCollection($ads);
+        return AdvertisementResource::collection($ads);
     }
 }
