@@ -27,8 +27,8 @@ class ProductFactory extends Factory
             'image_path' => $this->faker->imageUrl(),
             'name' => $this->faker->name,
             'description' => $this->faker->paragraph,
-            'price' => $this->faker->randomNumber(),
-            'quantity' => $this->faker->randomNumber(),
+            'price' => $this->faker->randomNumber(3),
+            'quantity' => $this->faker->randomNumber(2),
         ];
     }
 }
