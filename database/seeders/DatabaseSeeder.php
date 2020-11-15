@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             'phone_number' => '0920000000'
         ]);
 
+        Category::factory()->times(1)->hasProducts(30)->create();
         Category::factory()->times(5)->hasProducts(6)->create();
 
         \App\Models\Advertisement::factory()->count(3)->create();
