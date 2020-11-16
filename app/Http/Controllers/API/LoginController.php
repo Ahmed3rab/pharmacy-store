@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\API;
 
 use App\Exceptions\AppException;
+use App\Http\Resources\AuthResource;
 use App\Models\User;
 use App\Services\FirebaseUserToken;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Kreait\Firebase\JWT\Error\IdTokenVerificationFailed;
 
 class LoginController
@@ -19,7 +21,9 @@ class LoginController
         ]);
 
         try {
+
             FirebaseUserToken::tokenVerified($data['firebase_user_token']);
+
 
             $user = User::firstOrNew(['phone_number' => str_replace('+218', '', FirebaseUserToken::getFirebaseUserPhoneNumber())]);
 
