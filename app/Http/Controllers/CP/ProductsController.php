@@ -12,4 +12,9 @@ class ProductsController
 
         return view('products.index')->with('products', $products);
     }
+
+    public function create()
+    {
+        return view('products.create');
+    }
 }

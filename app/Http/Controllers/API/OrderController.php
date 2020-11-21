@@ -28,6 +28,7 @@ class OrderController
             $order->items()->create([
                 'product_id' => $product->id,
                 'quantity' => $item['quantity'],
+                'price' => $product->price,
             ]);
         }
 

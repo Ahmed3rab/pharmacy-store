@@ -25,6 +25,7 @@ Route::patch('cp/orders/{order}', [CompleteOrderController::class, 'store'])->na
 
 # Products
 Route::get('cp/products', [ProductsController::class, 'index'])->name('products.index');
+Route::get('cp/products/create', [ProductsController::class, 'create'])->name('products.create');
 
 # Categories
 Route::get('cp/categories', [CategoriesController::class, 'index'])->name('categories.index');
