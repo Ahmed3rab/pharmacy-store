@@ -17,6 +17,7 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('reference_number');
+            $table->string('notes')->nullable();
             $table->timestamp('completed_at')->nullable();
             $table->timestamps();
         });
