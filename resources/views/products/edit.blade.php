@@ -2,8 +2,10 @@
 
 @section('content')
     <div class="shadow bg-white p-6">
-        <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('products.update', $product) }}" method="POST" enctype="multipart/form-data">
             @csrf
+            @method('PUT')
+
             <div>
                 <div>
                     <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
