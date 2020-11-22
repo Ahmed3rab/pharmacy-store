@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="shadow bg-white p-6">
-        <form action="{{ route('products.store') }}" method="POST">
+        <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div>
                 <div>
