@@ -10,7 +10,7 @@ class CategoryResource extends JsonResource
     {
         return [
             'uuid' => $this->uuid,
-            'thumbnail_path' => $this->thumbnail_path,
+            'icon_path' => $this->icon_path,
             'name' => $this->name,
         ];
     }
