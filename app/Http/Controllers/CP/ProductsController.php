@@ -63,7 +63,9 @@ class ProductsController
             $path = request()->file('image')
                 ->storeAs(
                     'products',
-                    $product->uuid . '-' . time() . '.' . request()->file('image')->extension());
+                    $product->uuid . '-' . time() . '.' . request()->file('image')->extension(),
+                    ['disk' => 'public']
+                );
 
             $product->update([
                 'image_path' => $path
