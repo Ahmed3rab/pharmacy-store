@@ -26,6 +26,9 @@ Route::patch('cp/orders/{order}', [CompleteOrderController::class, 'store'])->na
 # Products
 Route::get('cp/products', [ProductsController::class, 'index'])->name('products.index');
 Route::get('cp/products/create', [ProductsController::class, 'create'])->name('products.create');
+Route::post('cp/products', [ProductsController::class, 'store'])->name('products.store');
+Route::get('cp/products/{product}/edit', [ProductsController::class, 'edit'])->name('products.edit');
+Route::delete('cp/products/{product}', [ProductsController::class, 'destroy'])->name('products.delete');
 
 # Categories
 Route::get('cp/categories', [CategoriesController::class, 'index'])->name('categories.index');
