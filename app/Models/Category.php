@@ -21,4 +21,9 @@ class Category extends Model
     {
         return 'uuid';
     }
+
+    public function iconPath()
+    {
+        return asset($this->icon_path);
+    }
 }
