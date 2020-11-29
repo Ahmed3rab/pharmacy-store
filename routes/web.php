@@ -2,15 +2,14 @@
 
 use App\Http\Controllers\CP\CategoriesController;
 use App\Http\Controllers\CP\CompleteOrderController;
+use App\Http\Controllers\CP\HomeController;
 use App\Http\Controllers\CP\LoginController;
 use App\Http\Controllers\CP\OrdersController;
 use App\Http\Controllers\CP\ProductsController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('cp', function () {
-    return view('cp');
-})->name('cp');
+Route::get('cp', [HomeController::class, 'show'])->name('cp');
 
 Route::get('/', function () {
     return view('auth.login');
