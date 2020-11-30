@@ -1,5 +1,12 @@
-@extends('layouts.app', ['pageTitle' => 'Order:' . $order->reference_number ])
+@extends('layouts.app')
 
+@section('header')
+    <div class="flex justify-start">
+        <h1 class="text-2xl font-semibold text-gray-900">
+            {{ $order->reference_number }}
+        </h1>
+    </div>
+@endsection
 @section('content')
 <div class="bg-white shadow overflow-hidden sm:rounded-lg">
     <div class="px-4 py-3 sm:p-0">
