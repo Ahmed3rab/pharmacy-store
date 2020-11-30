@@ -1,4 +1,10 @@
-@extends('layouts.app', ['pageTitle' => 'Create Product' ])
+@extends('layouts.app')
+
+@section('header')
+    <div class="flex justify-between items-baseline">
+        <h1 class="text-2xl font-semibold text-gray-900">Create Product</h1>
+    </div>
+@endsection
 
 @section('content')
     <div class="shadow bg-white p-6">

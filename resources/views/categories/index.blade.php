@@ -1,10 +1,14 @@
-@extends('layouts.app', ['pageTitle' => 'Categories'])
+@extends('layouts.app')
+
+@section('header')
+    <div class="flex justify-between items-baseline">
+        <h1 class="text-2xl font-semibold text-gray-900">Categories</h1>
+        <a href="{{ route('categories.create') }}" class="text-arwad-500 font-bold text-sm">+ New Category</a>
+    </div>
+@endsection
 
 @section('content')
     <div class="flex flex-col">
-        <div class="text-sm my-5">
-            <a href="{{ route('categories.create') }}" class="text-arwad-500 font-bold">+ New Category</a>
-        </div>
         <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                 <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
