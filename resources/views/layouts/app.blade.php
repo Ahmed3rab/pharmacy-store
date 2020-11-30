@@ -80,7 +80,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
                 </svg>
             </button>
-            <div class="flex-1 px-4 flex justify-between">
+            <div class="flex-1 px-8 flex justify-between">
                 <div class="flex-1 flex">
 
                 </div>
@@ -122,7 +122,7 @@
             </div>
         </nav>
         <div class="flex-1 relative overflow-y-auto focus:outline-none" tabindex="0">
-            <div class="max-w-7xl md:px-0 md:py-16 mx-auto px-4 py-12">
+            <div class="max-w-7xl px-8 md:py-16 mx-auto px-4 py-12">
                 @yield('header')
                 <div class="mt-6">
                     @yield('content')
