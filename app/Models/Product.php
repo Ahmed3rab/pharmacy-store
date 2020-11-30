@@ -26,4 +26,9 @@ class Product extends Model
     {
         return asset($this->image_path);
     }
+
+    public function discount()
+    {
+        return $this->hasOne(ProductDiscount::class);
+    }
 }
