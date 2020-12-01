@@ -68,4 +68,12 @@ class ProductDiscountController extends Controller
 
         return view('products-discounts.show')->with('discount', $discount);
     }
+
+    public function destroy(ProductDiscount $discount)
+    {
+        $discount->items()->delete();
+        $discount->delete();
+
+        return redirect()->route('products.discounts.index');
+    }
 }

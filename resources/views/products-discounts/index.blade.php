@@ -50,7 +50,12 @@
                                 {{ $discount->ends_at }}
                             </td>
                             <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
-                                <a href="#" class="text-red-500 hover:text-red-600">Remove</a>
+                                <form action="{{ route('products-discounts.destroy', $discount) }}" method="post">
+                                    @method('DELETE')
+                                    @csrf
+
+                                    <button type="submit" class="text-red-500 hover:text-red-600">Remove</button>
+                                </form>
                             </td>
                         </tr>
                         @endforeach
