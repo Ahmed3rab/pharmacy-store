@@ -27,6 +27,10 @@ class Order extends Model
 
     public function complete()
     {
+        $this->items->each(function ($item) {
+            $item->product->decreaseQuantity($item->quantity);
+        });
+
         return $this->update([
             'completed_at' => now(),
         ]);
