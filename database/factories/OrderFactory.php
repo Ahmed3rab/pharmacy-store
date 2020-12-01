@@ -24,7 +24,6 @@ class OrderFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
-            'reference_number' => "ORDER-NOV-" . $this->faker->randomNumber(6),
             'completed_at' => $this->faker->randomElement([now(), null]),
         ];
     }
