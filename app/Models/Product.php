@@ -31,4 +31,10 @@ class Product extends Model
     {
         return $this->hasOne(ProductDiscount::class);
     }
+
+    public function decreaseQuantity($amount)
+    {
+        $this->quantity -= $amount;
+        $this->save();
+    }
 }
