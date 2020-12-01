@@ -21,7 +21,7 @@ class CreateProductDiscountItemsTable extends Migration
             $table->float('price_after');
             $table->timestamps();
 
-            $table->unique('product_id');
+            $table->unique(['product_discount_id', 'product_id']);
         });
     }
 

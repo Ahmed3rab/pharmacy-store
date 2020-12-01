@@ -12,6 +12,8 @@ class ProductDiscount extends Model
 
     protected $guarded = ['id'];
 
+    protected $dates = ['starts_at', 'ends_at'];
+
     public function items()
     {
         return $this->hasMany(ProductDiscountItem::class);
@@ -20,5 +22,10 @@ class ProductDiscount extends Model
     public function getSalePriceOfProduct($product)
     {
         return $product->price * (100 - $this->percentage) / 100;
+    }
+
+    public function hasExpired()
+    {
+        return $this->ends_at->lessThan(today());
     }
 }

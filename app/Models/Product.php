@@ -27,9 +27,9 @@ class Product extends Model
         return asset($this->image_path);
     }
 
-    public function discountItem()
+    public function discountItems()
     {
-        return $this->hasOne(ProductDiscountItem::class);
+        return $this->hasMany(ProductDiscountItem::class);
     }
 
     public function getPriceAfterAttribute()
@@ -45,5 +45,12 @@ class Product extends Model
     {
         $this->quantity -= $amount;
         $this->save();
+    }
+
+    public function activeDiscountItem()
+    {
+        return $this->hasOne(ProductDiscountItem::class, 'product_id')->whereHas('productDiscount', function ($query) {
+            return $query->where('ends_at', '>=', today());
+        });
     }
 }

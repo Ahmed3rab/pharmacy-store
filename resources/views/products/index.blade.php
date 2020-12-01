@@ -51,9 +51,9 @@
                                 {{ $product->category->name }}
                             </td>
                             <td class="text-center px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-                                @if ($product->discountItem)
+                                @if ($product->activeDiscountItem)
                                 <span class="line-through">{{ $product->price }}</span> -
-                                {{ $product->discountItem->price_after }}
+                                {{ $product->activeDiscountItem->price_after }}
                                 @else
                                 {{ $product->price }}
                                 @endif

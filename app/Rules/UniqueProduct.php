@@ -33,13 +33,21 @@ class UniqueProduct implements Rule
             $category = Category::whereUuid($value)->first();
 
             if ($item = ProductDiscountItem::whereIn('product_id', $category->products->pluck('id'))->first()) {
+                if ($item->productDiscount->hasExpired()) {
+                    return true;
+                }
+
                 $this->product = $item->product;
                 return false;
             }
         } else {
             $this->product = Product::whereUuid($value)->first();
 
-            if (ProductDiscountItem::where('product_id', $this->product->id)->first()) {
+            if ($item = ProductDiscountItem::where('product_id', $this->product->id)->first()) {
+                if ($item->productDiscount->hasExpired()) {
+                    return true;
+                }
+
                 return false;
             }
         }
@@ -53,6 +61,6 @@ class UniqueProduct implements Rule
      */
     public function message()
     {
-        return "The product {$this->product->name} already has a discount.";
+        return "The product {$this->product->name} already has an active discount.";
     }
 }
