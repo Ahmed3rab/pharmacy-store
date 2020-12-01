@@ -27,9 +27,9 @@ class Product extends Model
         return asset($this->image_path);
     }
 
-    public function discount()
+    public function discountItem()
     {
-        return $this->belongsTo(ProductDiscount::class);
+        return $this->hasOne(ProductDiscountItem::class);
     }
 
     public function getPriceAfterAttribute()

@@ -6,8 +6,8 @@ use App\Http\Controllers\CP\CompleteOrderController;
 use App\Http\Controllers\CP\HomeController;
 use App\Http\Controllers\CP\LoginController;
 use App\Http\Controllers\CP\OrdersController;
+use App\Http\Controllers\CP\ProductDiscountController;
 use App\Http\Controllers\CP\ProductsController;
-use App\Http\Controllers\ProductDiscountController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/login', function () {

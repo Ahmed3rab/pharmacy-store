@@ -16,4 +16,9 @@ class ProductDiscountItem extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function productDiscount()
+    {
+        return $this->belongsTo(ProductDiscount::class);
+    }
 }

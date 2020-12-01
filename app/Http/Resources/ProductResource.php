@@ -21,8 +21,7 @@ class ProductResource extends JsonResource
             'description' => $this->description,
             'quantity'    => $this->quantity,
             'price'       => $this->price,
-            'price_after' => $this->price_after,
-            'discount'    => new ProductDiscountResource($this->discount),
+            'discount'    => new ProductDiscountItemResource($this->discountItem),
         ];
     }
 }
