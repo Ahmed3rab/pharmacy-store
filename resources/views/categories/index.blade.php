@@ -2,7 +2,7 @@
 
 @section('header')
     <div class="flex justify-between items-baseline">
-        <h1 class="text-2xl font-semibold text-gray-900">Categories</h1>
+        <h1 class="header-title">Categories</h1>
         <a href="{{ route('categories.create') }}" class="text-arwad-500 font-bold text-sm">+ New Category</a>
     </div>
 @endsection

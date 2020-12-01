@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CP\AdvertisementController;
 use App\Http\Controllers\CP\CategoriesController;
 use App\Http\Controllers\CP\CompleteOrderController;
 use App\Http\Controllers\CP\HomeController;
@@ -36,4 +37,11 @@ Route::group(['prefix' => 'cp', 'middleware' => 'auth'], function () {
     Route::post('categories', [CategoriesController::class, 'store'])->name('categories.store');
     Route::get('categories/{category}/edit', [CategoriesController::class, 'edit'])->name('categories.edit');
     Route::patch('categories/{category}', [CategoriesController::class, 'update'])->name('categories.update');
+
+    #advertisements
+    Route::get('advertisements', [AdvertisementController::class, 'index'])->name('advertisements.index');
+    Route::get('advertisements/create', [AdvertisementController::class, 'create'])->name('advertisements.create');
+    Route::post('advertisements', [AdvertisementController::class, 'store'])->name('advertisements.store');
+    Route::get('advertisements/{advertisement}/edit', [AdvertisementController::class, 'edit'])->name('advertisements.edit');
+    Route::patch('advertisements/{advertisement}', [AdvertisementController::class, 'update'])->name('advertisements.update');
 });
