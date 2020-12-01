@@ -7,6 +7,7 @@ use App\Http\Controllers\CP\HomeController;
 use App\Http\Controllers\CP\LoginController;
 use App\Http\Controllers\CP\OrdersController;
 use App\Http\Controllers\CP\ProductDiscountController;
+use App\Http\Controllers\CP\ProductDiscountItemController;
 use App\Http\Controllers\CP\ProductsController;
 use Illuminate\Support\Facades\Route;
 
@@ -51,4 +52,7 @@ Route::group(['prefix' => 'cp', 'middleware' => 'auth'], function () {
     Route::get('products-discounts/create', [ProductDiscountController::class, 'create'])->name('products-discounts.create');
     Route::get('products-discounts/{discount}', [ProductDiscountController::class, 'show'])->name('products-discounts.show');
     Route::post('products-discounts', [ProductDiscountController::class, 'store'])->name('products-discounts.store');
+
+    # Discount Items
+    Route::delete('products-discounts/{discount}/items/{item}', [ProductDiscountItemController::class, 'destroy'])->name('products-discounts-items.destroy');
 });

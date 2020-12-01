@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
 @section('header')
-    <div class="flex justify-between items-baseline">
-        <h1 class="text-2xl font-semibold text-gray-900">Products</h1>
-        <a href="{{ route('products.create') }}" class="text-arwad-500 font-bold text-sm">+ New Product</a>
-    </div>
+<div class="flex justify-between items-baseline">
+    <h1 class="text-2xl font-semibold text-gray-900">Products</h1>
+    <a href="{{ route('products.create') }}" class="text-arwad-500 font-bold text-sm">+ New Product</a>
+</div>
 @endsection
 
 @section('content')
@@ -51,7 +51,12 @@
                                 {{ $product->category->name }}
                             </td>
                             <td class="text-center px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+                                @if ($product->discountItem)
+                                <span class="line-through">{{ $product->price }}</span> -
+                                {{ $product->discountItem->price_after }}
+                                @else
                                 {{ $product->price }}
+                                @endif
                             </td>
                             <td class="text-center px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
                                 {{ $product->quantity }}

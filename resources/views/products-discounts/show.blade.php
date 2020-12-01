@@ -70,6 +70,10 @@
                                 class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Saving
                             </th>
+                            <th scope="col"
+                                class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Options
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -86,6 +90,18 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 {{ $item->product->price - $item->price_after }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                <form
+                                    action="{{ route('products-discounts-items.destroy', ['discount' => $discount, 'item' => $item]) }}"
+                                    method="post">
+                                    @method('DELETE')
+                                    @csrf
+
+                                    <button type="submit" class="text-red-500 text-xs hover:text-red-600">Remove
+                                        Discount
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                         @endforeach
