@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductDiscount;
+use App\Rules\UniqueProduct;
 
 class ProductDiscountController extends Controller
 {
@@ -35,9 +36,9 @@ class ProductDiscountController extends Controller
             'percentage' => 'required|numeric|between:1,99',
             'starts_at'  => 'required|date',
             'ends_at'    => 'required|date',
-            'category'   => 'nullable|required_if:products,|exists:categories,uuid',
+            'category'   => ['nullable', 'required_if:products,', 'exists:categories,uuid', new UniqueProduct],
             'products'   => 'nullable|required_if:category,|array',
-            'products.*' => 'nullable|exists:products,uuid',
+            'products.*' => ['nullable', 'exists:products,uuid', new UniqueProduct],
         ]);
 
         $discount = ProductDiscount::create([
@@ -49,13 +50,19 @@ class ProductDiscountController extends Controller
 
         if ($category = Category::whereUuid(request('category'))->first()) {
             $category->products->each(function ($product) use ($discount) {
-                $discount->items()->create(['product_id' => $product->id, 'price_after' => ($product->price * (100 - $discount->percentage) / 100)]);
+                $discount->items()->create([
+                    'product_id' => $product->id,
+                    'price_after' => $discount->getSalePriceOfProduct($product),
+                ]);
             });
         }
 
         if ($products = request('products')) {
             Product::whereIn('uuid', $products)->get()->each(function ($product) use ($discount) {
-                $discount->items()->create(['product_id' => $product->id, 'price_after' => ($product->price * (100 - $discount->percentage) / 100)]);
+                $discount->items()->create([
+                    'product_id' => $product->id,
+                    'price_after' => $discount->getSalePriceOfProduct($product),
+                ]);
             });
         }
 

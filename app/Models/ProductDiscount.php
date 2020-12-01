@@ -16,4 +16,9 @@ class ProductDiscount extends Model
     {
         return $this->hasMany(ProductDiscountItem::class);
     }
+
+    public function getSalePriceOfProduct($product)
+    {
+        return $product->price * (100 - $this->percentage) / 100;
+    }
 }

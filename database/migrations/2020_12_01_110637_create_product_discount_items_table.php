@@ -20,6 +20,8 @@ class CreateProductDiscountItemsTable extends Migration
             $table->foreignId('product_id')->constrained();
             $table->float('price_after');
             $table->timestamps();
+
+            $table->unique('product_id');
         });
     }
 
