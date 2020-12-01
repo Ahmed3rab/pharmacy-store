@@ -6,14 +6,14 @@ use App\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ProductDiscount extends Model
+class ProductDiscountItem extends Model
 {
     use HasFactory, HasUuid;
 
     protected $guarded = ['id'];
 
-    public function items()
+    public function product()
     {
-        return $this->hasMany(ProductDiscountItem::class);
+        return $this->belongsTo(Product::class);
     }
 }

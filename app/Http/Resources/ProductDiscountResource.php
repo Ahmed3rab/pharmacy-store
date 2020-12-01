@@ -17,7 +17,6 @@ class ProductDiscountResource extends JsonResource
         return [
             'uuid'        => $this->uuid,
             'percentage'  => $this->percentage,
-            'price_after' => $this->price_after,
             'starts_at'   => $this->starts_at,
             'ends_at'     => $this->ends_at,
         ];

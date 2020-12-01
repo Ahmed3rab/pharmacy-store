@@ -29,7 +29,16 @@ class Product extends Model
 
     public function discount()
     {
-        return $this->hasOne(ProductDiscount::class);
+        return $this->belongsTo(ProductDiscount::class);
+    }
+
+    public function getPriceAfterAttribute()
+    {
+        if ($this->discount) {
+            return $this->price * (100 - $this->discount->percentage) / 100;
+        }
+
+        return $this->price;
     }
 
     public function decreaseQuantity($amount)
