@@ -22,7 +22,9 @@ class AdvertisementFactory extends Factory
     public function definition()
     {
         return [
+            'title' => $this->faker->sentence,
             'image_path' => $this->faker->imageUrl(),
+            'url' => $this->faker->url,
         ];
     }
 }
