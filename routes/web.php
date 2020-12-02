@@ -9,6 +9,7 @@ use App\Http\Controllers\CP\OrdersController;
 use App\Http\Controllers\CP\ProductDiscountController;
 use App\Http\Controllers\CP\ProductDiscountItemController;
 use App\Http\Controllers\CP\ProductsController;
+use App\Http\Controllers\CP\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/login', function () {
@@ -56,4 +57,12 @@ Route::group(['prefix' => 'cp', 'middleware' => 'auth'], function () {
 
     # Discount Items
     Route::delete('products-discounts/{discount}/items/{item}', [ProductDiscountItemController::class, 'destroy'])->name('products-discounts-items.destroy');
+
+    # Users
+    Route::get('users', [UserController::class, 'index'])->name('users.index');
+    Route::get('users/create', [UserController::class, 'create'])->name('users.create');
+    Route::post('users', [UserController::class, 'store'])->name('users.store');
+    Route::get('users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
+    Route::get('users/{user}', [UserController::class, 'show'])->name('users.show');
+    Route::patch('users/{user}', [UserController::class, 'update'])->name('users.update');
 });
