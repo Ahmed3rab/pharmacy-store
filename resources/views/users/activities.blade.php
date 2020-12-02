@@ -45,7 +45,7 @@
             </li>
         @endforelse
     </ul>
-    @if($activities->count() > 0)
+    @if($activities->count() >= 10)
         <div class="px-5 py-3 border-t border-gray-200">{{ $activities->links() }}</div>
     @endif
 </div>
