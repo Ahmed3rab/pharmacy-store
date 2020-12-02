@@ -10,6 +10,7 @@ use App\Http\Controllers\CP\OrdersController;
 use App\Http\Controllers\CP\ProductDiscountController;
 use App\Http\Controllers\CP\ProductDiscountItemController;
 use App\Http\Controllers\CP\ProductsController;
+use App\Http\Controllers\CP\UserActivityController;
 use App\Http\Controllers\CP\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -70,4 +71,7 @@ Route::group(['prefix' => 'cp', 'middleware' => 'auth'], function () {
     #activities
     Route::get('activities', [ActivityLogController::class, 'index'])->name('activities.index');
     Route::get('activities/{activity}', [ActivityLogController::class, 'show'])->name('activities.show');
+
+    #user-activities
+    Route::get('users/{user}/activities', UserActivityController::class)->name('user-activities.show');
 });
