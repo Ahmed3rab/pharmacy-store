@@ -72,6 +72,8 @@
         </li>
         @endforeach
     </ul>
+    <div class="px-5 py-3 border-t border-gray-200">{{ $users->links() }}</div>
 </div>
+
 
 @endsection

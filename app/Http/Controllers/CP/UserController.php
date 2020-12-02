@@ -10,7 +10,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::withCount('orders')->latest()->paginate();
+        $users = User::withCount('orders')->latest()->paginate(10);
 
         return view('users.index')->with('users', $users);
     }
