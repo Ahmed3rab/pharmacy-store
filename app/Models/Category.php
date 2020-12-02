@@ -26,4 +26,9 @@ class Category extends Model
     {
         return asset($this->icon_path);
     }
+
+    public function path()
+    {
+        return config('app.url') . "/cp/categories/{$this->uuid}/edit";
+    }
 }

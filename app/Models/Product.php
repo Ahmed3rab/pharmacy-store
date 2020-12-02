@@ -53,4 +53,9 @@ class Product extends Model
             return $query->where('ends_at', '>=', today());
         });
     }
+
+    public function path()
+    {
+        return config('app.url') . "/cp/products/{$this->uuid}/edit";
+    }
 }

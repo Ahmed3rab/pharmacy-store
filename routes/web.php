@@ -69,4 +69,5 @@ Route::group(['prefix' => 'cp', 'middleware' => 'auth'], function () {
 
     #activities
     Route::get('activities', [ActivityLogController::class, 'index'])->name('activities.index');
+    Route::get('activities/{activity}', [ActivityLogController::class, 'show'])->name('activities.show');
 });
