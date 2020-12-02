@@ -20,11 +20,11 @@
                             User Name
                         </label>
                         <div class="my-1 rounded-md shadow-sm">
-                            <input type="text" id="name" name="name" value="{{ $user->name }}"
-                                class="form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                            <input type="text" id="name" name="name" value="{{ old('name', $user->name) }}"
+                                class="form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5 @error('name') border border-red-400 @enderror">
                         </div>
                         @error('name')
-                        <div class="text-red-500 text-xs">{{ $message }}</div>
+                            <small class="text-red-600 text-sm">{{ $message }}</small>
                         @enderror
                     </div>
 
@@ -33,11 +33,11 @@
                             Email
                         </label>
                         <div class="my-1 rounded-md shadow-sm">
-                            <input type="email" id="email" name="email" value="{{ $user->email }}"
-                                class="form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                            <input type="email" id="email" name="email" value="{{ old('email', $user->email) }}"
+                                class="form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5 @error('email') border border-red-400 @enderror">
                         </div>
                         @error('email')
-                        <div class="text-red-500 text-xs">{{ $message }}</div>
+                            <small class="text-red-600 text-sm">{{ $message }}</small>
                         @enderror
                     </div>
 
@@ -46,11 +46,11 @@
                             Phone Number
                         </label>
                         <div class="my-1 rounded-md shadow-sm">
-                            <input type="text" id="phone_number" name="phone_number" value="{{ $user->phone_number }}"
-                                class="form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                            <input type="text" id="phone_number" name="phone_number" value="{{ old('phone_number', $user->phone_number) }}"
+                                class="form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5 @error('phone_number') border border-red-400 @enderror">
                         </div>
                         @error('phone_number')
-                        <div class="text-red-500 text-xs">{{ $message }}</div>
+                            <small class="text-red-600 text-sm">{{ $message }}</small>
                         @enderror
                     </div>
                 </div>
@@ -60,15 +60,15 @@
         <div class="mt-8 border-t border-gray-200 pt-5">
             <div class="flex justify-end">
                 <span class="inline-flex rounded-md shadow-sm">
-                    <button type="button"
+                    <a href="{{ route('users.index') }}"
                         class="py-2 px-4 border border-gray-300 rounded-md text-sm leading-5 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800 transition duration-150 ease-in-out">
                         Cancel
-                    </button>
+                    </a>
                 </span>
                 <span class="ml-3 inline-flex rounded-md shadow-sm">
                     <button type="submit"
                         class="inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-arwad-500 hover:bg-arwad-500 focus:outline-none focus:border-arwad-500 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out">
-                        Edit
+                        Update
                     </button>
                 </span>
             </div>
