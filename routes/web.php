@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CP\ActivityLogController;
 use App\Http\Controllers\CP\AdvertisementController;
 use App\Http\Controllers\CP\CategoriesController;
 use App\Http\Controllers\CP\CompleteOrderController;
@@ -65,4 +66,7 @@ Route::group(['prefix' => 'cp', 'middleware' => 'auth'], function () {
     Route::get('users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
     Route::get('users/{user}', [UserController::class, 'show'])->name('users.show');
     Route::patch('users/{user}', [UserController::class, 'update'])->name('users.update');
+
+    #activities
+    Route::get('activities', [ActivityLogController::class, 'index'])->name('activities.index');
 });
