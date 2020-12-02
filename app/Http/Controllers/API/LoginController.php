@@ -31,9 +31,12 @@ class LoginController
                 $user->fill([
                     'password'                 => bcrypt(Str::random(8)),
                     'phone_number_verified_at' => now(),
-                    'device_name'              => $data['device_name'],
-                    'device_token'             => $data['device_token'],
                 ])->save();
+
+                $user->deviceTokens()->create([
+                    'device_name'  => $data['device_name'],
+                    'device_token' => $data['device_token'],
+                ]);
             }
         } catch (IdTokenVerificationFailed $e) {
             throw new AppException(__('not_found'), 404);

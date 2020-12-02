@@ -6,6 +6,7 @@ use App\Http\Controllers\CP\CategoriesController;
 use App\Http\Controllers\CP\CompleteOrderController;
 use App\Http\Controllers\CP\HomeController;
 use App\Http\Controllers\CP\LoginController;
+use App\Http\Controllers\CP\NotificationController;
 use App\Http\Controllers\CP\OrdersController;
 use App\Http\Controllers\CP\ProductDiscountController;
 use App\Http\Controllers\CP\ProductDiscountItemController;
@@ -74,4 +75,8 @@ Route::group(['prefix' => 'cp', 'middleware' => 'auth'], function () {
 
     #user-activities
     Route::get('users/{user}/activities', UserActivityController::class)->name('user-activities.show');
+
+    # Notifications
+    Route::get('notifications/create', [NotificationController::class, 'create'])->name('notifications.create');
+    Route::post('notifications', [NotificationController::class, 'store'])->name('notifications.store');
 });
