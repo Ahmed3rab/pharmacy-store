@@ -170,7 +170,7 @@
                 @endforeach
             </ul>
         </div>
-        <a href="{{ route('user-activities.show', $user) }}" class="flex justify-end text-indigo-600 mt-4 hover:underline">
+        <a href="{{ route('users.activities.show', $user) }}" class="flex justify-end text-indigo-600 mt-4 hover:underline">
             View All Activities
         </a>
     </div>

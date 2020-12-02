@@ -74,7 +74,7 @@ Route::group(['prefix' => 'cp', 'middleware' => 'auth'], function () {
     Route::get('activities/{activity}', [ActivityLogController::class, 'show'])->name('activities.show');
 
     #user-activities
-    Route::get('users/{user}/activities', UserActivityController::class)->name('user-activities.show');
+    Route::get('users/{user}/activities', UserActivityController::class)->name('users.activities.show');
 
     # Notifications
     Route::get('notifications/create', [NotificationController::class, 'create'])->name('notifications.create');
