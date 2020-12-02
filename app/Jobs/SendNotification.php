@@ -66,7 +66,5 @@ class SendNotification implements ShouldQueue
         array_walk($unregisteredDeviceTokens, function ($token) {
             UserDeviceToken::where('device_token', $token)->first()->delete();
         });
-
-        dd($push->getFeedback());
     }
 }
