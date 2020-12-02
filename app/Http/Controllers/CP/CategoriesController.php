@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\CP;
 
 use App\Models\Category;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class CategoriesController
@@ -19,8 +20,13 @@ class CategoriesController
         return view('categories.create');
     }
 
-    public function store()
+    public function store(Request $request)
     {
+        $request->validate([
+            'name' => ['required', 'string', 'min:3'],
+            'icon' => ['image'],
+        ]);
+
         $category = Category::create([
             'name' => request('name'),
         ]);
@@ -46,8 +52,13 @@ class CategoriesController
         return view('categories.edit')->with('category', $category);
     }
 
-    public function update(Category $category)
+    public function update(Request $request, Category $category)
     {
+        $request->validate([
+            'name' => ['required', 'string', 'min:3'],
+            'icon' => ['image'],
+        ]);
+
         $category->update([
             'name' => request('name'),
         ]);
