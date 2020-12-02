@@ -18,17 +18,17 @@ class OrderController
     {
         $order = auth()->user()->orders()->create([
             'reference_number' => 'ABCD-1234',
-            'notes' => request('notes'),
+            'notes'            => request('notes'),
         ]);
 
-        foreach(request('cart_items') as $item)
-        {
+        foreach (request('cart_items') as $item) {
             $product = Product::where('uuid', $item['product_uuid'])->firstOrFail();
 
             $order->items()->create([
-                'product_id' => $product->id,
-                'quantity' => $item['quantity'],
-                'price' => $product->price,
+                'product_id'               => $product->id,
+                'product_discount_item_id' => $product->activeDiscountItem ? $product->activeDiscountItem->id : null,
+                'quantity'                 => $item['quantity'],
+                'price'                    => $product->activeDiscountItem ? $product->activeDiscountItem->price_after : $product->price,
             ]);
         }
 

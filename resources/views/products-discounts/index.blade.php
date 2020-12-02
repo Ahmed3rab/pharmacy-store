@@ -2,8 +2,8 @@
 
 @section('header')
 <div class="flex justify-between items-baseline">
-    <h1 class="text-2xl font-semibold text-gray-900">Products</h1>
-    <a href="{{ route('products.create') }}" class="text-arwad-500 font-bold text-sm">+ New Product</a>
+    <h1 class="text-2xl font-semibold text-gray-900">Products Discounts</h1>
+    <a href="{{ route('products-discounts.create') }}" class="text-arwad-500 font-bold text-sm">+ New Discount</a>
 </div>
 @endsection
 
@@ -17,53 +17,45 @@
                         <tr>
                             <th
                                 class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                Name
+                                Title
                             </th>
                             <th
                                 class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                Category
+                                Precentage
                             </th>
                             <th
                                 class="text-center px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                Price
+                                Starts At
                             </th>
                             <th
                                 class="text-center px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                                Quantity
+                                Ends At
                             </th>
                             <th class="px-6 py-3 bg-gray-50"></th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($products as $product)
+                        @foreach($discounts as $discount)
                         <tr class="{{ $loop->even ? 'bg-gray-50' :  'bg-white'}}">
                             <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
-                                <div class="flex items-center">
-                                    <div class="flex-shrink-0 h-10 w-10">
-                                        <img class="h-10 w-10 rounded-full" src="{{ $product->imagePath() }}" alt="">
-                                    </div>
-                                    <div class="ml-4">
-                                        {{ $product->name }}
-                                    </div>
-                                </div>
+                                <a href="{{ route('products-discounts.show', $discount) }}">{{ $discount->title }}</a>
                             </td>
                             <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-                                {{ $product->category->name }}
+                                {{ $discount->percentage }}%
                             </td>
                             <td class="text-center px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-                                @if ($product->activeDiscountItem)
-                                <span class="line-through">{{ $product->price }}</span> -
-                                {{ $product->activeDiscountItem->price_after }}
-                                @else
-                                {{ $product->price }}
-                                @endif
+                                {{ $discount->starts_at }}
                             </td>
                             <td class="text-center px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-                                {{ $product->quantity }}
+                                {{ $discount->ends_at }}
                             </td>
                             <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
-                                <a href="{{ route('products.edit', $product) }}"
-                                    class="text-arwad-500 hover:text-indigo-900">Edit</a>
+                                <form action="{{ route('products-discounts.destroy', $discount) }}" method="post">
+                                    @method('DELETE')
+                                    @csrf
+
+                                    <button type="submit" class="text-red-500 hover:text-red-600">Remove</button>
+                                </form>
                             </td>
                         </tr>
                         @endforeach

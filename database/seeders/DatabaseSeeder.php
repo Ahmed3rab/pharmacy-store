@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\ProductDiscount;
+use App\Models\ProductDiscountItem;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -25,7 +27,9 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Category::factory()->times(1)->hasProducts(30)->create();
-        Category::factory()->times(5)->has(Product::factory()->hasDiscount()->count(6), 'products')->create();
+        Category::factory()->times(5)->hasProducts(6)->create();
+
+        ProductDiscountItem::factory()->times(5)->create();
 
         \App\Models\Advertisement::factory()->count(3)->create();
         \App\Models\Order::factory()->count(10)->create();
