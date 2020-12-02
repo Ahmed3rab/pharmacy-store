@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CP\ActivityLogController;
 use App\Http\Controllers\CP\AdvertisementController;
 use App\Http\Controllers\CP\CategoriesController;
 use App\Http\Controllers\CP\CompleteOrderController;
@@ -10,6 +11,7 @@ use App\Http\Controllers\CP\OrdersController;
 use App\Http\Controllers\CP\ProductDiscountController;
 use App\Http\Controllers\CP\ProductDiscountItemController;
 use App\Http\Controllers\CP\ProductsController;
+use App\Http\Controllers\CP\UserActivityController;
 use App\Http\Controllers\CP\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -66,6 +68,13 @@ Route::group(['prefix' => 'cp', 'middleware' => 'auth'], function () {
     Route::get('users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
     Route::get('users/{user}', [UserController::class, 'show'])->name('users.show');
     Route::patch('users/{user}', [UserController::class, 'update'])->name('users.update');
+
+    #activities
+    Route::get('activities', [ActivityLogController::class, 'index'])->name('activities.index');
+    Route::get('activities/{activity}', [ActivityLogController::class, 'show'])->name('activities.show');
+
+    #user-activities
+    Route::get('users/{user}/activities', UserActivityController::class)->name('users.activities.show');
 
     # Notifications
     Route::get('notifications/create', [NotificationController::class, 'create'])->name('notifications.create');

@@ -42,7 +42,7 @@
                             <div class="hidden md:block">
                                 <div>
                                     <p class="text-sm text-gray-900">
-                                        Joined At   
+                                        Joined At
                                         <time datetime="2020-01-07">{{ $user->created_at->toDateString() }}</time>
                                     </p>
                                     <p class="mt-2 flex items-center text-sm text-gray-500">
