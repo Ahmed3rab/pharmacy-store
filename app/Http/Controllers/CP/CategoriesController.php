@@ -24,7 +24,7 @@ class CategoriesController
     {
         $request->validate([
             'name' => ['required', 'string', 'min:3'],
-            'icon' => ['image'],
+            'icon' => ['required', 'image'],
         ]);
 
         $category = Category::create([

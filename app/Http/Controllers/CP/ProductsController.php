@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\CP;
 
 use App\Models\Product;
-use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 
 class ProductsController
 {
@@ -14,47 +14,24 @@ class ProductsController
         return view('products.index')->with('products', $products);
     }
 
-    public function edit(Product $product)
-    {
-        return view('products.edit')->with('product', $product);
-    }
-
-    public function update(Product $product)
-    {
-        $product->update([
-            'category_id' => request('category_id'),
-            'name' => request('name'),
-            'description' => request('description'),
-            'price' => request('price'),
-            'quantity' => request('quantity'),
-        ]);
-
-        if (request()->has('image')) {
-            // TODO: delete current image before uploading new one.
-            $path = request()->file('image')
-                ->storeAs(
-                    'products',
-                    $product->uuid . '-' . time() . '.' . request()->file('image')->extension(),
-                    ['disk' => 'public']
-                );
-
-            $product->update([
-                'image_path' => $path
-            ]);
-        }
-
-        return redirect()->route('products.edit', $product);
-    }
-
     public function create()
     {
         return view('products.create');
     }
 
-    public function store()
+    public function store(Request $request)
     {
+        $request->validate([
+            'name' => ['required', 'string', 'min:3'],
+            'description' => ['required', 'string', 'min:3'],
+            'price' => ['required', 'numeric'],
+            'quantity' => ['required', 'numeric'],
+            'category' => ['required', 'exists:categories,id'],
+            'image' => ['required', 'image'],
+        ]);
+
         $product = Product::create([
-            'category_id' => request('category_id'),
+            'category_id' => request('category'),
             'name' => request('name'),
             'description' => request('description'),
             'price' => request('price'),
@@ -75,6 +52,47 @@ class ProductsController
         }
 
         return redirect()->route('products.index');
+    }
+
+    public function edit(Product $product)
+    {
+        return view('products.edit')->with('product', $product);
+    }
+
+    public function update(Request $request, Product $product)
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'min:3'],
+            'description' => ['required', 'string', 'min:3'],
+            'price' => ['required', 'numeric'],
+            'quantity' => ['required', 'numeric'],
+            'category' => ['required', 'exists:categories,id'],
+            'image' => ['image'],
+        ]);
+
+        $product->update([
+            'category_id' => request('category_id'),
+            'name' => request('name'),
+            'description' => request('description'),
+            'price' => request('price'),
+            'quantity' => request('quantity'),
+        ]);
+
+        if (request()->has('image')) {
+            Storage::disk('public')->delete($product->image_path);
+            $path = request()->file('image')
+                ->storeAs(
+                    'products',
+                    $product->uuid . '-' . time() . '.' . request()->file('image')->extension(),
+                    ['disk' => 'public']
+                );
+
+            $product->update([
+                'image_path' => $path
+            ]);
+        }
+
+        return redirect()->route('products.edit', $product);
     }
 
     public function destroy(Product $product)
