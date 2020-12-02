@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/login', function () {
     return view('auth.login');
-})->name('auth.login');
+})->name('login');
 
 Route::post('auth/authenticate', [LoginController::class, 'authenticate'])->name('auth.authenticate');
 Route::redirect('/', 'cp');
@@ -60,4 +60,6 @@ Route::group(['prefix' => 'cp', 'middleware' => 'auth'], function () {
 
     # Users
     Route::get('users', [UserController::class, 'index'])->name('users.index');
+    Route::get('users/create', [UserController::class, 'create'])->name('users.create');
+    Route::post('users', [UserController::class, 'store'])->name('users.store');
 });
