@@ -71,7 +71,7 @@ class ProductsController
         ]);
 
         $product->update([
-            'category_id' => request('category_id'),
+            'category_id' => request('category'),
             'name' => request('name'),
             'description' => request('description'),
             'price' => request('price'),
