@@ -26,7 +26,7 @@ class ProductDiscountItemFactory extends Factory
         return [
             'product_discount_id' => $discount = ProductDiscount::factory()->create(),
             'product_id'          => $product = Product::factory()->create(),
-            'price_after'         => $product->price * (100 - $discount->percentage),
+            'price_after'         => $discount->getSalePriceOfProduct($product),
         ];
     }
 }

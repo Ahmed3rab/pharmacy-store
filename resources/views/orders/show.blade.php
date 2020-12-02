@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('header')
-    <div class="flex justify-start">
-        <h1 class="text-2xl font-semibold text-gray-900">
-            {{ $order->reference_number }}
-        </h1>
-    </div>
+<div class="flex justify-start">
+    <h1 class="text-2xl font-semibold text-gray-900">
+        {{ $order->reference_number }}
+    </h1>
+</div>
 @endsection
 @section('content')
 <div class="bg-white shadow overflow-hidden sm:rounded-lg">
@@ -82,7 +82,11 @@
                             </th>
                             <th scope="col"
                                 class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Order Price
+                                Product Price
+                            </th>
+                            <th scope="col"
+                                class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Last Price
                             </th>
                             <th scope="col"
                                 class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -100,7 +104,14 @@
                                 {{ $item->quantity }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                {{ $item->product->price }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 {{ $item->price }}
+                                @if ($item->activeDiscountItem)
+                                <span class="text-xs text-arwad-500">-
+                                    {{ $item->activeDiscountItem->productDiscount->percentage }}% off</span>
+                                @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 {{ $item->total }}
