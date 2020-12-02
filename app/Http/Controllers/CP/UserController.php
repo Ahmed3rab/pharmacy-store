@@ -42,6 +42,13 @@ class UserController extends Controller
         return redirect()->route('users.index');
     }
 
+    public function show(User $user)
+    {
+        $user->loadCount('orders')->load('orders');
+
+        return view('users.show')->with('user', $user);
+    }
+
     public function edit(User $user)
     {
         return view('users.edit')->with('user', $user);

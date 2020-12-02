@@ -2,7 +2,7 @@
 
 @section('header')
 <div class="flex justify-between items-baseline">
-    <h1 class="text-2xl font-semibold text-gray-900">Create User</h1>
+    <h1 class="text-2xl font-semibold text-gray-900">Edit User</h1>
 </div>
 @endsection
 

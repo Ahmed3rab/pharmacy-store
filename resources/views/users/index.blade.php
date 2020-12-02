@@ -12,7 +12,7 @@
     <ul class="divide-y divide-gray-200">
         @foreach ($users as $user)
         <li>
-            <a href="{{ route('users.edit', $user) }}" class="block hover:bg-gray-50">
+            <a href="{{ route('users.show', $user) }}" class="block hover:bg-gray-50">
                 <div class="flex items-center px-4 py-4 sm:px-6">
                     <div class="min-w-0 flex-1 flex items-center">
                         <div class="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
@@ -42,7 +42,7 @@
                             <div class="hidden md:block">
                                 <div>
                                     <p class="text-sm text-gray-900">
-                                        Joined on
+                                        Joined At   
                                         <time datetime="2020-01-07">{{ $user->created_at->toDateString() }}</time>
                                     </p>
                                     <p class="mt-2 flex items-center text-sm text-gray-500">
