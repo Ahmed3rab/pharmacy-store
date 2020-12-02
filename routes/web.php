@@ -52,6 +52,7 @@ Route::group(['prefix' => 'cp', 'middleware' => 'auth'], function () {
     Route::get('products-discounts/create', [ProductDiscountController::class, 'create'])->name('products-discounts.create');
     Route::get('products-discounts/{discount}', [ProductDiscountController::class, 'show'])->name('products-discounts.show');
     Route::post('products-discounts', [ProductDiscountController::class, 'store'])->name('products-discounts.store');
+    Route::delete('products-discounts/{discount}', [ProductDiscountController::class, 'destroy'])->name('products-discounts.destroy');
 
     # Discount Items
     Route::delete('products-discounts/{discount}/items/{item}', [ProductDiscountItemController::class, 'destroy'])->name('products-discounts-items.destroy');
