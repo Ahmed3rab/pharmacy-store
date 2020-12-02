@@ -5,6 +5,7 @@ use App\Http\Controllers\CP\CategoriesController;
 use App\Http\Controllers\CP\CompleteOrderController;
 use App\Http\Controllers\CP\HomeController;
 use App\Http\Controllers\CP\LoginController;
+use App\Http\Controllers\CP\NotificationController;
 use App\Http\Controllers\CP\OrdersController;
 use App\Http\Controllers\CP\ProductDiscountController;
 use App\Http\Controllers\CP\ProductDiscountItemController;
@@ -65,4 +66,8 @@ Route::group(['prefix' => 'cp', 'middleware' => 'auth'], function () {
     Route::get('users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
     Route::get('users/{user}', [UserController::class, 'show'])->name('users.show');
     Route::patch('users/{user}', [UserController::class, 'update'])->name('users.update');
+
+    # Notifications
+    Route::get('notifications/create', [NotificationController::class, 'create'])->name('notifications.create');
+    Route::post('notifications', [NotificationController::class, 'store'])->name('notifications.store');
 });
