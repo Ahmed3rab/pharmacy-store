@@ -10,13 +10,22 @@ class ProductDiscount extends Model
 {
     use HasFactory, HasUuid;
 
-    public function product()
+    protected $guarded = ['id'];
+
+    protected $dates = ['starts_at', 'ends_at'];
+
+    public function items()
     {
-        return $this->belongsTo(Product::class);
+        return $this->hasMany(ProductDiscountItem::class);
     }
 
-    public function getPriceAfterAttribute()
+    public function getSalePriceOfProduct($product)
     {
-        return $this->product->price * (100 - $this->percentage) / 100;
+        return $product->price * (100 - $this->percentage) / 100;
+    }
+
+    public function hasExpired()
+    {
+        return $this->ends_at->lessThan(today());
     }
 }

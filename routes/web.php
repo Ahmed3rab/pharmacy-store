@@ -6,6 +6,8 @@ use App\Http\Controllers\CP\CompleteOrderController;
 use App\Http\Controllers\CP\HomeController;
 use App\Http\Controllers\CP\LoginController;
 use App\Http\Controllers\CP\OrdersController;
+use App\Http\Controllers\CP\ProductDiscountController;
+use App\Http\Controllers\CP\ProductDiscountItemController;
 use App\Http\Controllers\CP\ProductsController;
 use Illuminate\Support\Facades\Route;
 
@@ -44,4 +46,14 @@ Route::group(['prefix' => 'cp', 'middleware' => 'auth'], function () {
     Route::post('advertisements', [AdvertisementController::class, 'store'])->name('advertisements.store');
     Route::get('advertisements/{advertisement}/edit', [AdvertisementController::class, 'edit'])->name('advertisements.edit');
     Route::patch('advertisements/{advertisement}', [AdvertisementController::class, 'update'])->name('advertisements.update');
+
+    # Discounts
+    Route::get('products-discounts', [ProductDiscountController::class, 'index'])->name('products.discounts.index');
+    Route::get('products-discounts/create', [ProductDiscountController::class, 'create'])->name('products-discounts.create');
+    Route::get('products-discounts/{discount}', [ProductDiscountController::class, 'show'])->name('products-discounts.show');
+    Route::post('products-discounts', [ProductDiscountController::class, 'store'])->name('products-discounts.store');
+    Route::delete('products-discounts/{discount}', [ProductDiscountController::class, 'destroy'])->name('products-discounts.destroy');
+
+    # Discount Items
+    Route::delete('products-discounts/{discount}/items/{item}', [ProductDiscountItemController::class, 'destroy'])->name('products-discounts-items.destroy');
 });

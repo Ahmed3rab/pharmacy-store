@@ -16,8 +16,18 @@ class OrderItem extends Model
         return $this->belongsTo(Product::class);
     }
 
+    public function activeDiscountItem()
+    {
+        return $this->belongsTo(ProductDiscountItem::class, 'product_discount_item_id');
+    }
+
     public function getTotalAttribute()
     {
         return $this->quantity * $this->price;
+    }
+
+    public function getPriceAttribute($value)
+    {
+        return ucfirst($value);
     }
 }

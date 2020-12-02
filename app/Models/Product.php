@@ -27,14 +27,30 @@ class Product extends Model
         return asset($this->image_path);
     }
 
-    public function discount()
+    public function discountItems()
     {
-        return $this->hasOne(ProductDiscount::class);
+        return $this->hasMany(ProductDiscountItem::class);
+    }
+
+    public function getPriceAfterAttribute()
+    {
+        if ($this->discount) {
+            return $this->price * (100 - $this->discount->percentage) / 100;
+        }
+
+        return $this->price;
     }
 
     public function decreaseQuantity($amount)
     {
         $this->quantity -= $amount;
         $this->save();
+    }
+
+    public function activeDiscountItem()
+    {
+        return $this->hasOne(ProductDiscountItem::class, 'product_id')->whereHas('productDiscount', function ($query) {
+            return $query->where('ends_at', '>=', today());
+        });
     }
 }
