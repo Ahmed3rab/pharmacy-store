@@ -148,6 +148,10 @@
             <div class="max-w-7xl px-8 md:py-16 mx-auto px-4 py-12">
                 @yield('header')
                 <div class="mt-6">
+                    <div class="my-4">
+                        @include('layouts.partials.alerts')
+                    </div>
+
                     @yield('content')
                 </div>
             </div>
