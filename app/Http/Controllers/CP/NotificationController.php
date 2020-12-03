@@ -21,7 +21,8 @@ class NotificationController extends Controller
         $data = request()->validate([
             'title'   => 'required|string',
             'body'    => 'required|string',
-            'users'   => 'required|array',
+            'scope'   => 'required|in:all,users',
+            'users'   => 'required_if:scope,users|array',
             'users.*' => 'required|exists:users,uuid',
         ]);
 

@@ -11,16 +11,21 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Session;
 
 class SendNotification implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    protected $sendToAllUsers;
 
     protected $recievers;
 
     protected $title;
 
     protected $body;
+
+    protected $pushMessage;
 
     /**
      * Create a new job instance.
@@ -29,9 +34,20 @@ class SendNotification implements ShouldQueue
      */
     public function __construct($data)
     {
-        $this->recievers = $data['users'];
-        $this->title = $data['title'];
-        $this->body = $data['body'];
+        $this->sendToAllUsers = $data['scope'] == 'all' ? true : false;
+        $this->recievers      = isset($data['users']) ? $data['users'] : [];
+        $this->title          = $data['title'];
+        $this->body           = $data['body'];
+
+        $this->pushMessage = new PushNotification('fcm');
+        $this->pushMessage->setMessage([
+            'notification' => [
+                'title' => $this->title,
+                'body'  => $this->body,
+            ],
+        ])
+            ->setApiKey(config('pushnotification.fcm.apiKey'))
+            ->setConfig(['dry_run' => false]);
     }
 
     /**
@@ -41,8 +57,13 @@ class SendNotification implements ShouldQueue
      */
     public function handle()
     {
-        $push = new PushNotification('fcm');
+        $this->sendToAllUsers ? $this->sendToAllUsers() : $this->sendToSelectedUsers();
 
+        $this->deleteUnregisteredDeviceTokens($this->pushMessage->getUnregisteredDeviceTokens());
+    }
+
+    public function sendToSelectedUsers()
+    {
         $devicesTokens = User::whereIn('uuid', $this->recievers)
             ->with('deviceTokens')
             ->get()
@@ -50,19 +71,30 @@ class SendNotification implements ShouldQueue
             ->flatten()
             ->toArray();
 
-        $push->setMessage([
-            'notification' => [
-                'title' => $this->title,
-                'body'  => $this->body,
-            ],
-        ])
-            ->setApiKey(config('pushnotification.fcm.apiKey'))
-            ->setConfig(['dry_run' => false])
+        $this->pushMessage
             ->setDevicesToken(array_column($devicesTokens, 'device_token'))
             ->send();
 
-        $unregisteredDeviceTokens = $push->getUnregisteredDeviceTokens();
+        if ($this->pushMessage->getFeedback()->success == 1) {
+            Session::flash('success', 'Notification has been sent successfully.');
+        } else {
+            Session::flash('error', 'Something went wrong, Notification has not been sent.');
+        }
+    }
 
+    public function sendToAllUsers()
+    {
+        $this->pushMessage->sendByTopic('general');
+
+        if ($this->pushMessage->getFeedback()->message_id) {
+            Session::flash('success', 'Notification has been sent successfully.');
+        } else {
+            Session::flash('error', 'Something went wrong, Notification has not been sent.');
+        }
+    }
+
+    public function deleteUnregisteredDeviceTokens($unregisteredDeviceTokens)
+    {
         array_walk($unregisteredDeviceTokens, function ($token) {
             UserDeviceToken::where('device_token', $token)->first()->delete();
         });
