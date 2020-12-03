@@ -20,7 +20,8 @@
 
                             <div class="flex flex-col items-center relative">
                                 <div class="w-full  svelte-1l8159u">
-                                    <div class="my-2 p-1 flex border border-gray-200 bg-white rounded svelte-1l8159u">
+                                    <div
+                                        class="my-2 p-1 flex border border-gray-200 @error('users') border border-red-400 @enderror bg-white rounded svelte-1l8159u">
                                         <div class="flex flex-auto flex-wrap">
                                             <template x-for="(selectedUser, index) in selectedUsers">
                                                 <div
@@ -96,7 +97,7 @@
                         </label>
                         <div class="my-1 rounded-md shadow-sm">
                             <input type="text" id="title" name="title" value="{{ old('title') }}"
-                                class="form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                                class="form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5 @error('title') border border-red-400 @enderror">
                         </div>
                         @error('title')
                         <div class="text-red-500 text-xs">{{ $message }}</div>
@@ -110,7 +111,7 @@
                         </label>
                         <div class="mt-1 sm:mt-0 sm:col-span-2">
                             <textarea id="body" name="body" rows="3"
-                                class="form-input shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"></textarea>
+                                class="form-input shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md @error('body') border border-red-400 @enderror"></textarea>
                             <p class="mt-2 text-sm text-gray-500">Write the notification content here.</p>
                         </div>
                         @error('body')
