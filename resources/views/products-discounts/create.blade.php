@@ -9,23 +9,13 @@
 @section('content')
 <div class="shadow bg-white p-6">
 
-    @if ($errors->any())
-    <div class="text-sm text-red-500">
-        <ul>
-            @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-    @endif
-
     <form action="{{ route('products-discounts.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         <div class="w-1/2 mb-5">
             <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
             <input type="text" name="title" id="title" value="{{ old('title') }}"
-                class="form-input mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                class="form-input mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm rounded-md @error('title') border border-red-400 @enderror">
 
             @error('title')
             <div class="text-red-500 text-xs">{{ $message }}</div>
@@ -35,7 +25,7 @@
         <div class="w-1/2 mb-5">
             <label for="percentage" class="block text-sm font-medium text-gray-700">Percentage</label>
             <input type="number" min="1" max="100" name="percentage" id="percentage" value="{{ old('percentage') }}"
-                class="form-input mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                class="form-input mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm @error('percentage') border border-red-400 @enderror rounded-md">
 
             @error('percentage')
             <div class="text-red-500 text-xs">{{ $message }}</div>
@@ -45,7 +35,7 @@
         <div class="w-1/2 mb-5">
             <label for="starts_at" class="block text-sm font-medium text-gray-700">Start At</label>
             <input type="date" name="starts_at" id="starts_at" value="{{ old('starts_at') }}"
-                class="form-input mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                class="form-input mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm @error('starts_at') border border-red-400 @enderror rounded-md">
 
             @error('starts_at')
             <div class="text-red-500 text-xs">{{ $message }}</div>
@@ -55,7 +45,7 @@
         <div class="w-1/2 mb-5">
             <label for="ends_at" class="block text-sm font-medium text-gray-700">Ends At</label>
             <input type="date" name="ends_at" id="ends_at" value="{{ old('ends_at') }}"
-                class="form-input mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                class="form-input mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm @error('ends_at') border border-red-400 @enderror rounded-md">
 
             @error('ends_at')
             <div class="text-red-500 text-xs">{{ $message }}</div>
@@ -74,7 +64,7 @@
                             aria-checked="false"
                             class="group relative bg-white rounded-lg shadow-sm cursor-pointer focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-indigo-500">
                             <div
-                                class="rounded-lg border border-gray-300 bg-white px-6 py-4 hover:border-gray-400 sm:flex sm:justify-between">
+                                class="rounded-lg border border-gray-300 bg-white px-6 py-4 hover:border-gray-400 sm:flex sm:justify-between @error('category') border border-red-400 @enderror">
                                 <div class="flex items-center">
                                     <div class="text-sm">
                                         <p class="font-medium text-gray-900">
@@ -95,7 +85,7 @@
                             aria-checked="false"
                             class="group relative bg-white rounded-lg shadow-sm cursor-pointer focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-indigo-500">
                             <d
-                                class="rounded-lg border border-gray-300 bg-white px-6 py-4 hover:border-gray-400 sm:flex sm:justify-between">
+                                class="rounded-lg border border-gray-300 bg-white px-6 py-4 hover:border-gray-400 sm:flex sm:justify-between @error('products') border border-red-400 @enderror">
                                 <div class="flex items-center">
                                     <div class="text-sm">
                                         <p class="font-medium text-gray-900">
@@ -124,7 +114,7 @@
                             </label>
                             <div class="mt-1">
                                 <select id="category" name="category"
-                                    class="form-select shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                                    class="form-select shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm @error('category') border border-red-400 @enderror rounded-md">
                                     <option value="">Select A Category</option>
                                     @foreach ($categories as $category)
                                     <option value="{{ $category->uuid }}"
@@ -166,7 +156,7 @@
                                 <div class="flex flex-col items-center relative">
                                     <div class="w-full  svelte-1l8159u">
                                         <div
-                                            class="my-2 p-1 flex border border-gray-200 bg-white rounded svelte-1l8159u">
+                                            class="my-2 p-1 flex border border-gray-200 @error('products') border border-red-400 @enderror bg-white rounded svelte-1l8159u">
                                             <div class="flex flex-auto flex-wrap">
                                                 <template x-for="(selectedProduct, index) in selectedProducts">
                                                     <div
@@ -231,6 +221,9 @@
                                 </div>
 
                                 @error('products')
+                                <div class="text-red-500 text-xs">{{ $message }}</div>
+                                @enderror
+                                @error('products.*')
                                 <div class="text-red-500 text-xs">{{ $message }}</div>
                                 @enderror
                             </div>
