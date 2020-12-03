@@ -16,6 +16,6 @@ class LoginController extends Controller
             return redirect()->intended('cp');
         }
 
-        return redirect()->route('auth.login');
+        return redirect()->route('login');
     }
 }
