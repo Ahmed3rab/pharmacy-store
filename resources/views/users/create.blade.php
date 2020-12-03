@@ -22,7 +22,7 @@
                                 class="form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5 @error('name') border border-red-400 @enderror">
                         </div>
                         @error('name')
-                            <small class="text-red-600 text-sm">{{ $message }}</small>
+                        <small class="text-red-600 text-sm">{{ $message }}</small>
                         @enderror
                     </div>
 
@@ -35,7 +35,7 @@
                                 class="form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5 @error('email') border border-red-400 @enderror">
                         </div>
                         @error('email')
-                            <small class="text-red-600 text-sm">{{ $message }}</small>
+                        <small class="text-red-600 text-sm">{{ $message }}</small>
                         @enderror
                     </div>
 
@@ -48,7 +48,7 @@
                                 class="form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5 @error('phone_number') border border-red-400 @enderror">
                         </div>
                         @error('phone_number')
-                            <small class="text-red-600 text-sm">{{ $message }}</small>
+                        <small class="text-red-600 text-sm">{{ $message }}</small>
                         @enderror
                     </div>
                 </div>
