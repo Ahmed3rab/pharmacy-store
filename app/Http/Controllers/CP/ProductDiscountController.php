@@ -36,7 +36,7 @@ class ProductDiscountController extends Controller
             'percentage' => 'required|numeric|between:1,99',
             'starts_at'  => 'required|date',
             'ends_at'    => 'required|date',
-            'category'   => ['nullable', 'required_if:products,', 'exists:categories,uuid', new UniqueProduct],
+            'category'   => ['nullable', 'required_without:products', 'exists:categories,uuid', new UniqueProduct],
             'products'   => 'nullable|required_if:category,|array',
             'products.*' => ['nullable', 'exists:products,uuid', new UniqueProduct],
         ]);

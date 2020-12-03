@@ -24,7 +24,7 @@
 
         <div class="w-1/2 mb-5">
             <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
-            <input type="text" name="title" id="title"
+            <input type="text" name="title" id="title" value="{{ old('title') }}"
                 class="form-input mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
 
             @error('title')
@@ -34,7 +34,7 @@
 
         <div class="w-1/2 mb-5">
             <label for="percentage" class="block text-sm font-medium text-gray-700">Percentage</label>
-            <input type="number" min="1" max="100" name="percentage" id="percentage"
+            <input type="number" min="1" max="100" name="percentage" id="percentage" value="{{ old('percentage') }}"
                 class="form-input mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
 
             @error('percentage')
@@ -44,7 +44,7 @@
 
         <div class="w-1/2 mb-5">
             <label for="starts_at" class="block text-sm font-medium text-gray-700">Start At</label>
-            <input type="date" name="starts_at" id="starts_at"
+            <input type="date" name="starts_at" id="starts_at" value="{{ old('starts_at') }}"
                 class="form-input mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
 
             @error('starts_at')
@@ -54,7 +54,7 @@
 
         <div class="w-1/2 mb-5">
             <label for="ends_at" class="block text-sm font-medium text-gray-700">Ends At</label>
-            <input type="date" name="ends_at" id="ends_at"
+            <input type="date" name="ends_at" id="ends_at" value="{{ old('ends_at') }}"
                 class="form-input mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
 
             @error('ends_at')
@@ -62,7 +62,8 @@
             @enderror
         </div>
 
-        <div x-data="{ tab: 'category' }" class="flex flex-col justify-between space-y-5">
+        <div x-data="{ tab: '{{ old('products')? 'product' : 'category' }}' }"
+            class="flex flex-col justify-between space-y-5">
             <div class="">
                 <fieldset>
                     <legend id="radiogroup-label" class="sr-only">
@@ -124,9 +125,11 @@
                             <div class="mt-1">
                                 <select id="category" name="category"
                                     class="form-select shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
-                                    <option>Select A Category</option>
+                                    <option value="">Select A Category</option>
                                     @foreach ($categories as $category)
-                                    <option value="{{ $category->uuid }}">{{ $category->name }}</option>
+                                    <option value="{{ $category->uuid }}"
+                                        {{ old('category') == $category->uuid ? 'selected' : '' }}>
+                                        {{ $category->name }}</option>
                                     @endforeach
                                 </select>
 
