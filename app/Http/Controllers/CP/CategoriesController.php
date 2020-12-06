@@ -47,13 +47,17 @@ class CategoriesController
         return redirect()->route('categories.index');
     }
 
-    public function edit(Category $category)
+    public function edit($uuid)
     {
+        $category = Category::withTrashed()->whereuuid($uuid)->first();
+
         return view('categories.edit')->with('category', $category);
     }
 
-    public function update(Request $request, Category $category)
+    public function update(Request $request, $uuid)
     {
+        $category = Category::withTrashed()->whereuuid($uuid)->first();
+
         $request->validate([
             'name' => ['required', 'string', 'min:3'],
             'icon' => ['image'],
@@ -83,6 +87,15 @@ class CategoriesController
     public function destroy(Category $category)
     {
         $category->delete();
+
+        return redirect()->route('categories.index');
+    }
+
+    public function restore($uuid)
+    {
+        $category = Category::withTrashed()->whereUuid($uuid)->first();
+
+        $category->restore();
 
         return redirect()->route('categories.index');
     }

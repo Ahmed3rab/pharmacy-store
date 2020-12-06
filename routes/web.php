@@ -37,7 +37,8 @@ Route::group(['prefix' => 'cp', 'middleware' => 'auth'], function () {
     Route::post('products', [ProductsController::class, 'store'])->name('products.store');
     Route::get('products/{product}/edit', [ProductsController::class, 'edit'])->name('products.edit');
     Route::put('products/{product}', [ProductsController::class, 'update'])->name('products.update');
-    Route::delete('products/{product}', [ProductsController::class, 'destroy'])->name('products.delete');
+    Route::delete('products/{product}', [ProductsController::class, 'destroy'])->name('products.destroy');
+    Route::post('products/{product}/restore', [ProductsController::class, 'restore'])->name('products.restore');
 
     # Categories
     Route::get('categories', [CategoriesController::class, 'index'])->name('categories.index');
@@ -46,6 +47,7 @@ Route::group(['prefix' => 'cp', 'middleware' => 'auth'], function () {
     Route::get('categories/{category}/edit', [CategoriesController::class, 'edit'])->name('categories.edit');
     Route::patch('categories/{category}', [CategoriesController::class, 'update'])->name('categories.update');
     Route::delete('categories/{category}', [CategoriesController::class, 'destroy'])->name('categories.destroy');
+    Route::post('categories/{category}/restore', [CategoriesController::class, 'restore'])->name('categories.restore');
 
     #advertisements
     Route::get('advertisements', [AdvertisementController::class, 'index'])->name('advertisements.index');

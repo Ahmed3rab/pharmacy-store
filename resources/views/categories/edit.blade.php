@@ -1,18 +1,14 @@
 @extends('layouts.app')
 
 @section('header')
-<div class="flex justify-between items-baseline">
+<div class="flex justify-start items-baseline">
     <h1 class="text-2xl font-semibold text-gray-900">Edit Category: {{ $category->name }}</h1>
+    @if ($category->trashed())
+    <span class="inline-flex items-center mx-2 px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800">
+        Deleted
+    </span>
+    @endif
 
-    <form action="{{ route('categories.destroy', $category) }}" method="post">
-        @method('DELETE')
-        @csrf
-
-        <button type="submit"
-            class="inline-flex items-center px-4 py-2 border border-red-300 shadow-sm text-sm font-medium rounded-md text-red-700 bg-white hover:bg-red-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
-            Delete
-        </button>
-    </form>
 </div>
 @endsection
 
@@ -74,4 +70,32 @@
         </div>
     </form>
 </div>
+
+@if ($category->trashed())
+<div class="my-3 flex justify-end">
+    <form action="{{ route('categories.restore', $category) }}" method="POST">
+        @csrf
+        <span class="inline-flex">
+            <button type="submit"
+                class="py-2 text-sm leading-5 font-medium text-gray-500 hover:text-gray-300 focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800 transition duration-150 ease-in-out">
+                Restore This Category
+            </button>
+        </span>
+    </form>
+</div>
+@else
+<div class="my-3 flex justify-end">
+    <form action="{{ route('categories.destroy', $category) }}" method="POST">
+        @csrf
+        @method('DELETE')
+        <span class="inline-flex">
+            <button type="submit"
+                class="py-2 text-sm leading-5 font-medium text-red-500 hover:text-red-300 focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800 transition duration-150 ease-in-out">
+                Delete This Category
+            </button>
+        </span>
+    </form>
+</div>
+@endif
+
 @endsection

@@ -1,9 +1,15 @@
 @extends('layouts.app')
 
 @section('header')
-    <div class="flex justify-between items-baseline">
-        <h1 class="text-2xl font-semibold text-gray-900">Edit Product: {{ $product->name }}</h1>
-    </div>
+<div class="flex justify-start items-baseline">
+    <h1 class="text-2xl font-semibold text-gray-900">Edit Product: {{ $product->name }}</h1>
+    @if ($product->trashed())
+    <span class="inline-flex items-center mx-2 px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800">
+        Deleted
+    </span>
+    @endif
+
+</div>
 @endsection
 
 @section('content')
@@ -29,7 +35,7 @@
                                 value="{{ old('name', $product->name) }}">
                         </div>
                         @error('name')
-                            <small class="text-red-600 text-sm">{{ $message }}</small>
+                        <small class="text-red-600 text-sm">{{ $message }}</small>
                         @enderror
                     </div>
 
@@ -41,15 +47,15 @@
                             <select id="category" name="category"
                                 class="form-select block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5 @error('category') border border-red-400 @enderror">
                                 @foreach(App\Models\Category::all() as $category)
-                                    <option value="{{ $category->id }}"
-                                        {{ old('category', $product->category_id) == $category->id ? 'selected' : '' }}>
-                                        {{ $category->name }}
-                                    </option>
+                                <option value="{{ $category->id }}"
+                                    {{ old('category', $product->category_id) == $category->id ? 'selected' : '' }}>
+                                    {{ $category->name }}
+                                </option>
                                 @endforeach
                             </select>
                         </div>
                         @error('category')
-                            <small class="text-red-600 text-sm">{{ $message }}</small>
+                        <small class="text-red-600 text-sm">{{ $message }}</small>
                         @enderror
                     </div>
 
@@ -63,7 +69,7 @@
                         </div>
                         <p class="mt-2 text-sm text-gray-500">Write a few sentences about the product.</p>
                         @error('description')
-                            <small class="text-red-600 text-sm">{{ $message }}</small>
+                        <small class="text-red-600 text-sm">{{ $message }}</small>
                         @enderror
                     </div>
 
@@ -76,7 +82,7 @@
                                 class="form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
                         </div>
                         @error('image')
-                            <small class="text-red-600 text-sm">{{ $message }}</small>
+                        <small class="text-red-600 text-sm">{{ $message }}</small>
                         @enderror
                     </div>
 
@@ -116,7 +122,7 @@
                                 value="{{ old('price', $product->price) }}">
                         </div>
                         @error('price')
-                            <small class="text-red-600 text-sm">{{ $message }}</small>
+                        <small class="text-red-600 text-sm">{{ $message }}</small>
                         @enderror
                     </div>
 
@@ -134,7 +140,7 @@
                                 value="{{ old('quantity', $product->quantity) }}">
                         </div>
                         @error('quantity')
-                            <small class="text-red-600 text-sm">{{ $message }}</small>
+                        <small class="text-red-600 text-sm">{{ $message }}</small>
                         @enderror
                     </div>
                 </div>
@@ -144,8 +150,9 @@
         <div class="mt-8 border-t border-gray-200 pt-5">
             <div class="flex justify-end">
                 <span class="inline-flex rounded-md shadow-sm">
-                    <a href="{{ route('products.index') }}" class="py-2 px-4 border border-gray-300 rounded-md text-sm leading-5 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800 transition duration-150 ease-in-out">
-                      Cancel
+                    <a href="{{ route('products.index') }}"
+                        class="py-2 px-4 border border-gray-300 rounded-md text-sm leading-5 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800 transition duration-150 ease-in-out">
+                        Cancel
                     </a>
                 </span>
                 <span class="ml-3 inline-flex rounded-md shadow-sm">
@@ -159,16 +166,31 @@
     </form>
 </div>
 
+@if ($product->trashed())
 <div class="my-3 flex justify-end">
-    <form action="{{ route('products.delete', $product) }}" method="POST">
+    <form action="{{ route('products.restore', $product) }}" method="POST">
+        @csrf
+        <span class="inline-flex">
+            <button type="submit"
+                class="py-2 text-sm leading-5 font-medium text-gray-500 hover:text-gray-300 focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800 transition duration-150 ease-in-out">
+                Restore This Product
+            </button>
+        </span>
+    </form>
+</div>
+@else
+<div class="my-3 flex justify-end">
+    <form action="{{ route('products.destroy', $product) }}" method="POST">
         @csrf
         @method('DELETE')
         <span class="inline-flex">
             <button type="submit"
-                class="py-2 text-sm leading-5 font-medium text-gray-400 hover:text-gray-500 focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800 transition duration-150 ease-in-out">
+                class="py-2 text-sm leading-5 font-medium text-red-500 hover:text-red-300 focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800 transition duration-150 ease-in-out">
                 Delete This Product
             </button>
         </span>
     </form>
 </div>
+@endif
+
 @endsection
