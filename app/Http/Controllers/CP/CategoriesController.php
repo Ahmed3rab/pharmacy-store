@@ -23,12 +23,14 @@ class CategoriesController
     public function store(Request $request)
     {
         $request->validate([
-            'name' => ['required', 'string', 'min:3'],
-            'icon' => ['required', 'image'],
+            'name'     => ['required', 'string', 'min:3'],
+            'position' => ['nullable', 'numeric'],
+            'icon'     => ['required', 'image'],
         ]);
 
         $category = Category::create([
-            'name' => request('name'),
+            'name'     => request('name'),
+            'position' => request('position'),
         ]);
 
         if (request()->has('icon')) {
@@ -59,12 +61,14 @@ class CategoriesController
         $category = Category::withTrashed()->whereuuid($uuid)->first();
 
         $request->validate([
-            'name' => ['required', 'string', 'min:3'],
-            'icon' => ['image'],
+            'name'     => ['required', 'string', 'min:3'],
+            'position' => ['nullable', 'numeric'],
+            'icon'     => ['image'],
         ]);
 
         $category->update([
-            'name' => request('name'),
+            'name'     => request('name'),
+            'position' => request('position'),
         ]);
 
         if (request()->has('icon')) {

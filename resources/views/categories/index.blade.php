@@ -21,6 +21,10 @@
                             </th>
                             <th
                                 class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                Position
+                            </th>
+                            <th
+                                class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                                 Status
                             </th>
                             <th
@@ -42,6 +46,9 @@
                                         {{ $category->name }}
                                     </div>
                                 </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+                                {{ $category->position }}
                             </td>
                             <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
                                 @if ($category->trashed())
