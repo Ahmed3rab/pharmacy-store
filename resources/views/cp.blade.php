@@ -32,7 +32,7 @@
             </div>
             <div class="bg-gray-50 px-4 py-4 sm:px-6">
                 <div class="text-sm leading-5">
-                    <a href="#"
+                    <a href="{{ route('orders.index') }}?status=pending"
                         class="font-medium text-arwad-500 hover:text-arwad-500 transition ease-in-out duration-150">
                         View all
                     </a>
@@ -65,7 +65,7 @@
             </div>
             <div class="bg-gray-50 px-4 py-4 sm:px-6">
                 <div class="text-sm leading-5">
-                    <a href="#"
+                    <a href="{{ route('orders.index') }}?status=completed"
                         class="font-medium text-arwad-500 hover:text-arwad-500 transition ease-in-out duration-150">
                         View all
                     </a>
@@ -98,7 +98,7 @@
             </div>
             <div class="bg-gray-50 px-4 py-4 sm:px-6">
                 <div class="text-sm leading-5">
-                    <a href="#"
+                    <a href="{{ route('orders.index') }}"
                         class="font-medium text-arwad-500 hover:text-arwad-500 transition ease-in-out duration-150">
                         View all
                     </a>
