@@ -17,11 +17,14 @@ class Category extends Model
     {
         parent::boot();
         static::creating(function ($category) {
-            $lastCategoryPosition = static::latest()->first() ? static::latest()->first()->position : 0;
-            $category->position   = $lastCategoryPosition + 1;
+            if ($category->position) {
+                $category->position = $category->position;
+            } else {
+                $lastCategoryPosition = static::latest()->first() ? static::latest()->first()->position : 0;
+                $category->position   = $lastCategoryPosition + 1;
+            }
         });
     }
-
 
     public function products()
     {

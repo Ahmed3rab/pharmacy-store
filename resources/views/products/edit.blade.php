@@ -40,6 +40,20 @@
                     </div>
 
                     <div class="sm:col-span-4">
+                        <label for="position" class="block text-sm font-medium leading-5 text-gray-700">
+                            Product Position
+                        </label>
+                        <div class="mt-1 rounded-md shadow-sm">
+                            <input type="number" id="position" name="position"
+                                value="{{ old('position', $product->position) }}"
+                                class="form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5 @error('position') border border-red-400 @enderror">
+                        </div>
+                        @error('position')
+                        <small class="text-red-600 text-sm">{{ $message }}</small>
+                        @enderror
+                    </div>
+
+                    <div class="sm:col-span-4">
                         <label for="category" class="block text-sm font-medium leading-5 text-gray-700">
                             Category
                         </label>

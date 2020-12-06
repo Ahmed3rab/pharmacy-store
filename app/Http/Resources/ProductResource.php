@@ -18,6 +18,7 @@ class ProductResource extends JsonResource
             'uuid'        => $this->uuid,
             'image_path'  => asset('/storage/' . $this->image_path),
             'name'        => $this->name,
+            'position'    => $this->position,
             'description' => $this->description,
             'quantity'    => $this->quantity,
             'price'       => $this->price,

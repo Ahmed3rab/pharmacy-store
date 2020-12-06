@@ -31,7 +31,7 @@
                             Category Position
                         </label>
                         <div class="mt-1 rounded-md shadow-sm">
-                            <input id="position" name="position" value="{{ old('position') }}"
+                            <input type="number" id="position" name="position" value="{{ old('position') }}"
                                 class="form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5 @error('position') border border-red-400 @enderror">
                         </div>
                         @error('position')
