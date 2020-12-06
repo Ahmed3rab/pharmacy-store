@@ -45,6 +45,7 @@ Route::group(['prefix' => 'cp', 'middleware' => 'auth'], function () {
     Route::post('categories', [CategoriesController::class, 'store'])->name('categories.store');
     Route::get('categories/{category}/edit', [CategoriesController::class, 'edit'])->name('categories.edit');
     Route::patch('categories/{category}', [CategoriesController::class, 'update'])->name('categories.update');
+    Route::delete('categories/{category}', [CategoriesController::class, 'destroy'])->name('categories.destroy');
 
     #advertisements
     Route::get('advertisements', [AdvertisementController::class, 'index'])->name('advertisements.index');

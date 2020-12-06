@@ -10,7 +10,7 @@ class CategoriesController
 {
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::withTrashed()->latest()->get();
 
         return view('categories.index')->with('categories', $categories);
     }
@@ -76,6 +76,13 @@ class CategoriesController
                 'icon_path' => $path
             ]);
         }
+
+        return redirect()->route('categories.index');
+    }
+
+    public function destroy(Category $category)
+    {
+        $category->delete();
 
         return redirect()->route('categories.index');
     }
