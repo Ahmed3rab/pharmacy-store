@@ -47,6 +47,12 @@ class Product extends Model
         $this->save();
     }
 
+    public function increaseQuantity($amount)
+    {
+        $this->quantity += $amount;
+        $this->save();
+    }
+
     public function activeDiscountItem()
     {
         return $this->hasOne(ProductDiscountItem::class, 'product_id')->whereHas('productDiscount', function ($query) {

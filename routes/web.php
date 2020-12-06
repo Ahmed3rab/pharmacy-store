@@ -8,6 +8,7 @@ use App\Http\Controllers\CP\HomeController;
 use App\Http\Controllers\CP\LoginController;
 use App\Http\Controllers\CP\NotificationController;
 use App\Http\Controllers\CP\OrdersController;
+use App\Http\Controllers\CP\PendingOrderController;
 use App\Http\Controllers\CP\ProductDiscountController;
 use App\Http\Controllers\CP\ProductDiscountItemController;
 use App\Http\Controllers\CP\ProductsController;
@@ -27,7 +28,8 @@ Route::group(['prefix' => 'cp', 'middleware' => 'auth'], function () {
     # Orders
     Route::get('orders', [OrdersController::class, 'index'])->name('orders.index');
     Route::get('orders/{order}', [OrdersController::class, 'show'])->name('orders.show');
-    Route::patch('orders/{order}', [CompleteOrderController::class, 'store'])->name('orders.complete.store');
+    Route::post('completed-orders/{order}', [CompleteOrderController::class, 'store'])->name('orders.complete.store');
+    Route::post('pending-orders/{order}', [PendingOrderController::class, 'store'])->name('orders.pending.store');
 
     # Products
     Route::get('products', [ProductsController::class, 'index'])->name('products.index');
