@@ -24,6 +24,10 @@
                                 Category
                             </th>
                             <th
+                                class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                Status
+                            </th>
+                            <th
                                 class="text-center px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                                 Price
                             </th>
@@ -49,6 +53,19 @@
                             </td>
                             <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
                                 {{ $product->category->name }}
+                            </td>
+                            <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+                                @if ($product->trashed())
+                                <span
+                                    class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800">
+                                    Deleted
+                                </span>
+                                @else
+                                <span
+                                    class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">
+                                    Active
+                                </span>
+                                @endif
                             </td>
                             <td class="text-center px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
                                 @if ($product->activeDiscountItem)

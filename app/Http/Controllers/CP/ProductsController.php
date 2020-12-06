@@ -9,7 +9,7 @@ class ProductsController
 {
     public function index()
     {
-        $products = Product::all();
+        $products = Product::withTrashed()->latest()->get();
 
         return view('products.index')->with('products', $products);
     }
@@ -54,13 +54,17 @@ class ProductsController
         return redirect()->route('products.index');
     }
 
-    public function edit(Product $product)
+    public function edit($uuid)
     {
+        $product = Product::withTrashed()->whereUuid($uuid)->first();
+
         return view('products.edit')->with('product', $product);
     }
 
-    public function update(Request $request, Product $product)
+    public function update(Request $request, $uuid)
     {
+        $product = Product::withTrashed()->whereUuid($uuid)->first();
+
         $request->validate([
             'name' => ['required', 'string', 'min:3'],
             'description' => ['required', 'string', 'min:3'],
@@ -88,7 +92,7 @@ class ProductsController
                 );
 
             $product->update([
-                'image_path' => $path
+                'image_path' => $path,
             ]);
         }
 
@@ -98,6 +102,15 @@ class ProductsController
     public function destroy(Product $product)
     {
         $product->delete();
+
+        return redirect()->route('products.index');
+    }
+
+    public function restore($uuid)
+    {
+        $product = Product::withTrashed()->whereUuid($uuid)->first();
+
+        $product->restore();
 
         return redirect()->route('products.index');
     }
