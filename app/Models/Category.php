@@ -13,6 +13,16 @@ class Category extends Model
 
     protected $guarded = ['id'];
 
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function ($category) {
+            $lastCategoryPosition = static::latest()->first() ? static::latest()->first()->position : 0;
+            $category->position   = $lastCategoryPosition + 1;
+        });
+    }
+
+
     public function products()
     {
         return $this->hasMany(Product::class);
