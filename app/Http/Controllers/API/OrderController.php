@@ -16,6 +16,13 @@ class OrderController
 
     public function store()
     {
+        request()->validate([
+            'cart_items'                => 'required|array',
+            'cart_items.*.product_uuid' => 'required|exists:products,uuid',
+            'cart_items.*.quantity'     => 'required|numeric',
+            'notes'                     => 'nullable',
+        ]);
+
         $order = auth()->user()->orders()->create([
             'reference_number' => 'ABCD-1234',
             'notes'            => request('notes'),
