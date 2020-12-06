@@ -18,6 +18,19 @@ class Product extends Model
         return 'uuid';
     }
 
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function ($product) {
+            if ($product->position) {
+                $product->position = $product->position;
+            } else {
+                $lastProductPosition = static::latest()->first() ? static::latest()->first()->position : 0;
+                $product->position   = $lastProductPosition + 1;
+            }
+        });
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class)->withTrashed();

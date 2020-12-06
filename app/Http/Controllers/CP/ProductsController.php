@@ -22,20 +22,22 @@ class ProductsController
     public function store(Request $request)
     {
         $request->validate([
-            'name' => ['required', 'string', 'min:3'],
+            'name'        => ['required', 'string', 'min:3'],
+            'position'    => ['nullable', 'numeric'],
             'description' => ['required', 'string', 'min:3'],
-            'price' => ['required', 'numeric'],
-            'quantity' => ['required', 'numeric'],
-            'category' => ['required', 'exists:categories,id'],
-            'image' => ['required', 'image'],
+            'price'       => ['required', 'numeric'],
+            'quantity'    => ['required', 'numeric'],
+            'category'    => ['required', 'exists:categories,id'],
+            'image'       => ['required', 'image'],
         ]);
 
         $product = Product::create([
             'category_id' => request('category'),
-            'name' => request('name'),
+            'name'        => request('name'),
+            'position'    => request('position'),
             'description' => request('description'),
-            'price' => request('price'),
-            'quantity' => request('quantity'),
+            'price'       => request('price'),
+            'quantity'    => request('quantity'),
         ]);
 
         if (request()->has('image')) {
@@ -66,20 +68,22 @@ class ProductsController
         $product = Product::withTrashed()->whereUuid($uuid)->first();
 
         $request->validate([
-            'name' => ['required', 'string', 'min:3'],
+            'name'        => ['required', 'string', 'min:3'],
+            'position'    => ['nullable', 'numeric'],
             'description' => ['required', 'string', 'min:3'],
-            'price' => ['required', 'numeric'],
-            'quantity' => ['required', 'numeric'],
-            'category' => ['required', 'exists:categories,id'],
-            'image' => ['image'],
+            'price'       => ['required', 'numeric'],
+            'quantity'    => ['required', 'numeric'],
+            'category'    => ['required', 'exists:categories,id'],
+            'image'       => ['image'],
         ]);
 
         $product->update([
             'category_id' => request('category'),
-            'name' => request('name'),
+            'name'        => request('name'),
+            'position'    => request('position'),
             'description' => request('description'),
-            'price' => request('price'),
-            'quantity' => request('quantity'),
+            'price'       => request('price'),
+            'quantity'    => request('quantity'),
         ]);
 
         if (request()->has('image')) {
