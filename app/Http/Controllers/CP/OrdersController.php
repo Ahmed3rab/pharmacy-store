@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\CP;
 
+use App\Filters\OrderFilter;
 use App\Models\Order;
 
 class OrdersController
 {
-    public function index()
+    public function index(OrderFilter $filter)
     {
-        $orders = Order::withCount('items')->get();
+        $orders = Order::filter($filter)->withCount('items')->get();
 
         return view('orders.index')->with('orders', $orders);
     }

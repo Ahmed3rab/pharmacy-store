@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Filters\QueryFilter;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -18,7 +20,7 @@ class Order extends Model
             $month = Str::upper(now()->shortMonthName);
             $year = now()->format('y');
             $count = DB::table('orders')->whereMonth('created_at', now()->month)->count();
-            $orderNumber = sprintf("%'.06d", $count +=1);
+            $orderNumber = sprintf("%'.06d", $count += 1);
             $order->reference_number = $month . "-" . $year . $orderNumber;
         });
     }
@@ -54,5 +56,20 @@ class Order extends Model
     public function getItemsTotalQuantityAttribute()
     {
         return $this->items->sum('quantity');
+    }
+
+    public function scopeFilter(Builder $builder, QueryFilter $filter)
+    {
+        $filter->apply($builder);
+    }
+
+    public function scopePending(Builder $builder)
+    {
+        $builder->whereNull('completed_at');
+    }
+
+    public function scopeCompleted(Builder $builder)
+    {
+        $builder->whereNotNull('completed_at');
     }
 }
