@@ -130,12 +130,23 @@
 @if(!$order->isComplete())
 <div class="mt-5">
     <form action="{{ route('orders.complete.store', $order) }}" method="POST">
-        @method('PATCH')
         @csrf
         <span class="inline-flex rounded-md shadow-sm">
             <button type="submit"
                 class="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-arwad-500 hover:bg-arwad-500 focus:outline-none focus:border-arwad-700 focus:shadow-outline-arwad active:bg-arwad-700 transition ease-in-out duration-150">
                 Mark as Complete
+            </button>
+        </span>
+    </form>
+</div>
+@else
+<div class="mt-5">
+    <form action="{{ route('orders.pending.store', $order) }}" method="POST">
+        @csrf
+        <span class="inline-flex rounded-md shadow-sm">
+            <button type="submit"
+                class="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-arwad-500 bg-white hover:bg-arwad-500 hover:text-white focus:outline-none focus:border-arwad-700 focus:shadow-outline-arwad active:bg-arwad-700 transition ease-in-out duration-150">
+                Mark as Pending
             </button>
         </span>
     </form>

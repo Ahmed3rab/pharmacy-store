@@ -38,6 +38,17 @@ class Order extends Model
         ]);
     }
 
+    public function setAsPending()
+    {
+        $this->items->each(function ($item) {
+            $item->product->increaseQuantity($item->quantity);
+        });
+
+        return $this->update([
+            'completed_at' => null,
+        ]);
+    }
+
     public function isComplete()
     {
         return (bool) $this->completed_at;
