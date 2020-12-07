@@ -27,9 +27,14 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Category::factory()->times(1)->hasProducts(30)->create();
-        Category::factory()->times(5)->hasProducts(6)->create();
+        Category::factory()->times(5)->hasDiscounts(1)->hasProducts(6)->create();
 
-        ProductDiscountItem::factory()->times(5)->create();
+        Product::factory()
+            ->times(3)
+            ->hasDiscounts(1)
+            ->create();
+
+        // ProductDiscountItem::factory()->times(5)->create();
 
         \App\Models\Advertisement::factory()->count(3)->create();
         \App\Models\Order::factory()->count(10)->create();

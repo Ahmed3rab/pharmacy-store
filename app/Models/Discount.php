@@ -6,7 +6,7 @@ use App\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ProductDiscount extends Model
+class Discount extends Model
 {
     use HasFactory, HasUuid;
 
@@ -17,6 +17,16 @@ class ProductDiscount extends Model
     public function items()
     {
         return $this->hasMany(ProductDiscountItem::class);
+    }
+
+    public function categories()
+    {
+        return $this->morphedByMany(Category::class, 'discountable');
+    }
+
+    public function products()
+    {
+        return $this->morphedByMany(Product::class, 'discountable');
     }
 
     public function getSalePriceOfProduct($product)

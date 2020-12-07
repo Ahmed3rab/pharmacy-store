@@ -47,10 +47,15 @@ class Product extends Model
         return $this->hasMany(ProductDiscountItem::class);
     }
 
+    public function discounts()
+    {
+        return $this->morphToMany(Discount::class, 'discountable');
+    }
+
     public function getPriceAfterAttribute()
     {
-        if ($this->discount) {
-            return $this->price * (100 - $this->discount->percentage) / 100;
+        if ($this->activeDiscount) {
+            return $this->price * (100 - $this->activeDiscount->percentage) / 100;
         }
 
         return $this->price;
@@ -66,6 +71,17 @@ class Product extends Model
     {
         $this->quantity += $amount;
         $this->save();
+    }
+
+    public function getActiveDiscountAttribute()
+    {
+        if ($this->discounts->count()) {
+            return $this->discounts()->where('ends_at', '>=', today())->first();
+        }
+
+        if ($this->category->discounts->count()) {
+            return $this->category->discounts()->where('ends_at', '>=', today())->first();
+        }
     }
 
     public function activeDiscountItem()

@@ -31,6 +31,11 @@ class Category extends Model
         return $this->hasMany(Product::class);
     }
 
+    public function discounts()
+    {
+        return $this->morphToMany(Discount::class, 'discountable');
+    }
+
     public function getRouteKeyName()
     {
         return 'uuid';

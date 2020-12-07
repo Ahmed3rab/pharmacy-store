@@ -4,17 +4,18 @@ namespace App\Http\Controllers\CP;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Discount;
 use App\Models\Product;
 use App\Models\ProductDiscount;
 use App\Rules\UniqueProduct;
 
-class ProductDiscountController extends Controller
+class DiscountController extends Controller
 {
     public function index()
     {
-        $discounts = ProductDiscount::latest()->get();
+        $discounts = Discount::latest()->get();
 
-        return view('products-discounts.index')->with('discounts', $discounts);
+        return view('discounts.index')->with('discounts', $discounts);
     }
 
     public function create()
@@ -72,11 +73,11 @@ class ProductDiscountController extends Controller
         return redirect()->route('products.discounts.index');
     }
 
-    public function show(ProductDiscount $discount)
+    public function show(Discount $discount)
     {
-        $discount->load('items');
+        $discount->load(['categories', 'products']);
 
-        return view('products-discounts.show')->with('discount', $discount);
+        return view('discounts.show')->with('discount', $discount);
     }
 
     public function edit(ProductDiscount $discount)
