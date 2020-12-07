@@ -1,10 +1,14 @@
 @extends('layouts.app')
 
 @section('header')
-<div class="flex justify-start">
+<div class="flex justify-between">
     <h1 class="text-2xl font-semibold text-gray-900">
         {{ $discount->title }}
     </h1>
+    <a href="{{ route('products-discounts.edit', $discount) }}"
+        class="inline-flex items-center px-4 py-2 border border-arwad-500 shadow-sm text-sm font-medium rounded-md text-arwad-500 bg-white hover:bg-arwad-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+        Edit
+    </a>
 </div>
 @endsection
 @section('content')

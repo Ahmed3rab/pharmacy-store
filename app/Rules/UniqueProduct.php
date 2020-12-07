@@ -15,9 +15,9 @@ class UniqueProduct implements Rule
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($params = null)
     {
-        //
+        $this->discount = $params;
     }
 
     /**
@@ -37,6 +37,10 @@ class UniqueProduct implements Rule
                     return true;
                 }
 
+                if ($this->discount && $this->discount->items->contains($item)) {
+                    return true;
+                }
+
                 $this->product = $item->product;
                 return false;
             }
@@ -45,6 +49,10 @@ class UniqueProduct implements Rule
 
             if ($item = ProductDiscountItem::where('product_id', $this->product->id)->first()) {
                 if ($item->productDiscount->hasExpired()) {
+                    return true;
+                }
+
+                if ($this->discount && $this->discount->items->contains($item)) {
                     return true;
                 }
 
