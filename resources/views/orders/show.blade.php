@@ -98,7 +98,7 @@
                         @foreach($order->items as $item)
                         <tr class="bg-white">
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                {{ $item->product->name }}
+                                <a href="{{ route('products.edit', $item->product) }}">{{ $item->product->name }}</a>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 {{ $item->quantity }}
