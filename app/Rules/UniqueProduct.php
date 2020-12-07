@@ -6,10 +6,16 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductDiscountItem;
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Str;
 
 class UniqueProduct implements Rule
 {
     public $product;
+
+    public $category;
+
+    public $discount;
+
     /**
      * Create a new rule instance.
      *
@@ -29,7 +35,7 @@ class UniqueProduct implements Rule
      */
     public function passes($attribute, $value)
     {
-        if ($attribute == 'category') {
+        if (Str::contains($attribute, 'categories')) {
             $category = Category::whereUuid($value)->first();
 
             if ($item = ProductDiscountItem::whereIn('product_id', $category->products->pluck('id'))->first()) {
@@ -41,6 +47,7 @@ class UniqueProduct implements Rule
                     return true;
                 }
 
+                $this->category = $category;
                 $this->product = $item->product;
                 return false;
             }
@@ -69,6 +76,10 @@ class UniqueProduct implements Rule
      */
     public function message()
     {
+        if ($this->category) {
+            return "The product {$this->product->name} in {$this->category->name} category already has an active discount.";
+        }
+
         return "The product {$this->product->name} already has an active discount.";
     }
 }

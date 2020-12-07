@@ -16,7 +16,7 @@
         <div class="w-1/2 mb-5">
             <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
             <input type="text" name="title" id="title" value="{{ old('title', $discount->title) }}"
-                class="form-input mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm rounded-md @error('title') border border-red-400 @enderror">
+                class="form-input border border-gray-300 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm rounded-md @error('title') border border-red-400 @enderror">
 
             @error('title')
             <div class="text-red-500 text-xs">{{ $message }}</div>
@@ -27,7 +27,7 @@
             <label for="percentage" class="block text-sm font-medium text-gray-700">Percentage</label>
             <input type="number" min="1" max="100" name="percentage" id="percentage"
                 value="{{ old('percentage', $discount->percentage) }}"
-                class="form-input mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm @error('percentage') border border-red-400 @enderror rounded-md">
+                class="form-input border border-gray-300 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm @error('percentage') border border-red-400 @enderror rounded-md">
 
             @error('percentage')
             <div class="text-red-500 text-xs">{{ $message }}</div>
@@ -38,7 +38,7 @@
             <label for="starts_at" class="block text-sm font-medium text-gray-700">Start At</label>
             <input type="date" name="starts_at" id="starts_at"
                 value="{{ old('starts_at', $discount->starts_at->toDateString()) }}"
-                class="form-input mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm @error('starts_at') border border-red-400 @enderror rounded-md">
+                class="form-input border border-gray-300 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm @error('starts_at') border border-red-400 @enderror rounded-md">
 
             @error('starts_at')
             <div class="text-red-500 text-xs">{{ $message }}</div>
@@ -49,7 +49,7 @@
             <label for="ends_at" class="block text-sm font-medium text-gray-700">Ends At</label>
             <input type="date" name="ends_at" id="ends_at"
                 value="{{ old('ends_at', $discount->ends_at->toDateString()) }}"
-                class="form-input mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm @error('ends_at') border border-red-400 @enderror rounded-md">
+                class="form-input border border-gray-300 mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm @error('ends_at') border border-red-400 @enderror rounded-md">
 
             @error('ends_at')
             <div class="text-red-500 text-xs">{{ $message }}</div>
@@ -118,7 +118,7 @@
                             </label>
                             <div class="mt-1">
                                 <select id="category" name="category"
-                                    class="form-select shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm @error('category') border border-red-400 @enderror rounded-md">
+                                    class="form-select border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm @error('category') border border-red-400 @enderror rounded-md">
                                     <option value="">Select A Category</option>
                                     @foreach ($categories as $category)
                                     <option value="{{ $category->uuid }}"
@@ -137,21 +137,6 @@
 
                 <template x-if="tab == 'product'">
                     <div class="space-y-4">
-                        <!-- component -->
-                        <style>
-                            .top-100 {
-                                top: 100%
-                            }
-
-                            .bottom-100 {
-                                bottom: 100%
-                            }
-
-                            .max-h-select {
-                                max-height: 300px;
-                            }
-
-                        </style>
                         <div x-data="{ open : false, selectedProducts: {{ $selectedProducts }} }"
                             class="flex flex-col items-center mx-auto">
                             <div class="w-full">
@@ -206,7 +191,7 @@
                                     </div>
                                     <template x-if="open">
                                         <div x-on:click.away="open = false"
-                                            class="absolute shadow top-100 bg-white z-40 w-full lef-0 rounded max-h-select overflow-y-auto svelte-5uyqqj">
+                                            class="absolute shadow top-12 bg-white z-40 w-full lef-0 rounded max-h-select overflow-y-auto svelte-5uyqqj">
                                             <div class="flex flex-col w-full">
                                                 @foreach ($products as $product)
                                                 <div

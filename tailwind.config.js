@@ -1,20 +1,23 @@
 module.exports = {
-  future: {
-    // removeDeprecatedGapUtilities: true,
-    // purgeLayersByDefault: true,
-  },
-  purge: [],
-  theme: {
-    extend: {
-      colors: {
-        arwad: {
-          '500': '#AE9F51',
-        }
-      }
+    future: {
+        // removeDeprecatedGapUtilities: true,
+        // purgeLayersByDefault: true,
     },
-  },
-  variants: {},
-  plugins: [
-      require('@tailwindcss/ui')
-  ],
+    purge: [],
+    theme: {
+        extend: {
+            colors: {
+                arwad: {
+                    '500': '#AE9F51',
+                },
+            },
+            inset: {
+                '12': '3rem'
+            }
+        },
+    },
+    variants: {},
+    plugins: [
+        require('@tailwindcss/ui')
+    ],
 }
