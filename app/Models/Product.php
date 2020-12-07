@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\HasUuid;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -77,5 +78,10 @@ class Product extends Model
     public function path()
     {
         return config('app.url') . "/cp/products/{$this->uuid}/edit";
+    }
+
+    public function scopeHasSufficientQuantity(Builder $builder)
+    {
+        $builder->where('quantity', '>', 0);
     }
 }

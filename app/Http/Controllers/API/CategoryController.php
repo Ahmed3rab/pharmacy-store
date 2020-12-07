@@ -17,7 +17,7 @@ class CategoryController
 
     public function show(Category $category)
     {
-        $products = $category->products()->orderBy('position')->paginate(20);
+        $products = $category->products()->hasSufficientQuantity()->orderBy('position')->paginate(20);
 
         return ProductResource::collection($products);
     }
