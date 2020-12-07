@@ -76,14 +76,6 @@ class ProductDiscountController extends Controller
         return view('products-discounts.show')->with('discount', $discount);
     }
 
-    public function destroy(ProductDiscount $discount)
-    {
-        $discount->items()->delete();
-        $discount->delete();
-
-        return redirect()->route('products.discounts.index');
-    }
-
     public function edit(ProductDiscount $discount)
     {
         $categories = Category::all();
@@ -137,6 +129,14 @@ class ProductDiscountController extends Controller
                 ]);
             });
         }
+
+        return redirect()->route('products.discounts.index');
+    }
+
+    public function destroy(ProductDiscount $discount)
+    {
+        $discount->items()->delete();
+        $discount->delete();
 
         return redirect()->route('products.discounts.index');
     }
