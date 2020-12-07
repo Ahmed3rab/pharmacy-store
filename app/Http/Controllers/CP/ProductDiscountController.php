@@ -12,7 +12,7 @@ class ProductDiscountController extends Controller
 {
     public function index()
     {
-        $discounts = ProductDiscount::all();
+        $discounts = ProductDiscount::latest()->get();
 
         return view('products-discounts.index')->with('discounts', $discounts);
     }
@@ -32,13 +32,14 @@ class ProductDiscountController extends Controller
     public function store()
     {
         request()->validate([
-            'title'      => 'required|string',
-            'percentage' => 'required|numeric|between:1,99',
-            'starts_at'  => 'required|date',
-            'ends_at'    => 'required|date|after:today',
-            'category'   => ['nullable', 'required_without:products', 'exists:categories,uuid', new UniqueProduct],
-            'products'   => 'nullable|required_without:category|array',
-            'products.*' => ['nullable', 'exists:products,uuid', new UniqueProduct],
+            'title'        => 'required|string',
+            'percentage'   => 'required|numeric|between:1,99',
+            'starts_at'    => 'required|date',
+            'ends_at'      => 'required|date|after:today',
+            'categories'   => ['nullable', 'required_without:products', 'array'],
+            'categories.*' => ['nullable', 'required_without:products', 'exists:categories,uuid', new UniqueProduct],
+            'products'     => 'nullable|required_without:categories|array',
+            'products.*'   => ['nullable', 'exists:products,uuid', new UniqueProduct],
         ]);
 
         $discount = ProductDiscount::create([
@@ -48,12 +49,14 @@ class ProductDiscountController extends Controller
             'ends_at'    => request('ends_at'),
         ]);
 
-        if ($category = Category::whereUuid(request('category'))->first()) {
-            $category->products->each(function ($product) use ($discount) {
-                $discount->items()->create([
-                    'product_id' => $product->id,
-                    'price_after' => $discount->getSalePriceOfProduct($product),
-                ]);
+        if ($categories = request('categories')) {
+            Category::whereIn('uuid', $categories)->get()->each(function ($category) use ($discount) {
+                $category->products->each(function ($product) use ($discount) {
+                    $discount->items()->create([
+                        'product_id' => $product->id,
+                        'price_after' => $discount->getSalePriceOfProduct($product),
+                    ]);
+                });
             });
         }
 

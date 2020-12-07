@@ -31,7 +31,7 @@
                         </label>
                         <div class="mt-1 rounded-md shadow-sm">
                             <input id="name" name="name" type="text"
-                                class="form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5 @error('name') border border-red-400 @enderror"
+                                class="form-input border border-gray-300 block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5 @error('name') border border-red-400 @enderror"
                                 value="{{ old('name', $product->name) }}">
                         </div>
                         @error('name')
@@ -46,7 +46,7 @@
                         <div class="mt-1 rounded-md shadow-sm">
                             <input type="number" id="position" name="position"
                                 value="{{ old('position', $product->position) }}"
-                                class="form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5 @error('position') border border-red-400 @enderror">
+                                class="form-input border border-gray-300 block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5 @error('position') border border-red-400 @enderror">
                         </div>
                         @error('position')
                         <small class="text-red-600 text-sm">{{ $message }}</small>
@@ -59,7 +59,7 @@
                         </label>
                         <div class="mt-1 rounded-md shadow-sm">
                             <select id="category" name="category"
-                                class="form-select block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5 @error('category') border border-red-400 @enderror">
+                                class="form-select border border-gray-300 block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5 @error('category') border border-red-400 @enderror">
                                 @foreach(App\Models\Category::all() as $category)
                                 <option value="{{ $category->id }}"
                                     {{ old('category', $product->category_id) == $category->id ? 'selected' : '' }}>
@@ -79,7 +79,7 @@
                         </label>
                         <div class="mt-1 rounded-md shadow-sm">
                             <textarea id="description" name="description" rows="3"
-                                class="form-textarea block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5 @error('description') border border-red-400 @enderror">{{ old('description', $product->description) }}</textarea>
+                                class="form-textarea border border-gray-300 block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5 @error('description') border border-red-400 @enderror">{{ old('description', $product->description) }}</textarea>
                         </div>
                         <p class="mt-2 text-sm text-gray-500">Write a few sentences about the product.</p>
                         @error('description')
@@ -93,7 +93,7 @@
                         </label>
                         <div class="mt-1 rounded-md shadow-sm">
                             <input id="name" type="file" name="image"
-                                class="form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                                class="form-input border border-gray-300 block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
                         </div>
                         @error('image')
                         <small class="text-red-600 text-sm">{{ $message }}</small>
@@ -132,7 +132,7 @@
                                 LYD
                             </span>
                             <input type="number" step="0.25" id="price" name="price"
-                                class="flex-1 form-input block w-full min-w-0 rounded-none rounded-r-md transition duration-150 ease-in-out sm:text-sm sm:leading-5"
+                                class="flex-1 form-input border border-gray-300 block w-full min-w-0 rounded-none rounded-r-md transition duration-150 ease-in-out sm:text-sm sm:leading-5"
                                 value="{{ old('price', $product->price) }}">
                         </div>
                         @error('price')
@@ -150,7 +150,7 @@
                                 Box(s)
                             </span>
                             <input type="number" step="1" id="quantity" name="quantity"
-                                class="flex-1 form-input block w-full min-w-0 rounded-none rounded-r-md transition duration-150 ease-in-out sm:text-sm sm:leading-5"
+                                class="flex-1 form-input border border-gray-300 block w-full min-w-0 rounded-none rounded-r-md transition duration-150 ease-in-out sm:text-sm sm:leading-5"
                                 value="{{ old('quantity', $product->quantity) }}">
                         </div>
                         @error('quantity')

@@ -19,7 +19,7 @@
                         </label>
                         <div class="mt-1 rounded-md shadow-sm">
                             <input id="name" name="name" value="{{ old('name') }}"
-                                class="form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5 @error('name') border border-red-400 @enderror">
+                                class="form-input border border-gray-300 block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5 @error('name') border border-red-400 @enderror">
                         </div>
                         @error('name')
                         <small class="text-red-600 text-sm">{{ $message }}</small>
@@ -32,7 +32,7 @@
                         </label>
                         <div class="mt-1 rounded-md shadow-sm">
                             <input type="number" id="position" name="position" value="{{ old('position') }}"
-                                class="form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5 @error('position') border border-red-400 @enderror">
+                                class="form-input border border-gray-300 block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5 @error('position') border border-red-400 @enderror">
                         </div>
                         @error('position')
                         <small class="text-red-600 text-sm">{{ $message }}</small>
@@ -45,7 +45,7 @@
                         </label>
                         <div class="mt-1 rounded-md shadow-sm">
                             <input id="name" type="file" name="icon"
-                                class="form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5 @error('icon') border border-red-400 @enderror">
+                                class="form-input border border-gray-300 block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5 @error('icon') border border-red-400 @enderror">
                         </div>
                         @error('icon')
                         <small class="text-red-600 text-sm">{{ $message }}</small>

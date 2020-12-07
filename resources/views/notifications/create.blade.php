@@ -74,22 +74,6 @@
                         <template x-if="tab == 'users'">
                             <div class="sm:col-span-4">
                                 <div class="space-y-4">
-                                    <!-- component -->
-                                    <style>
-                                        .top-100 {
-                                            top: 100%
-                                        }
-
-                                        .bottom-100 {
-                                            bottom: 100%
-                                        }
-
-                                        .max-h-select {
-                                            max-height: 300px;
-                                        }
-
-                                    </style>
-
                                     <div x-data="{ open : false, selectedUsers: [] }" class="sm:col-span-4">
                                         <div class="w-full">
                                             <label for="users"
@@ -148,7 +132,7 @@
                                                 </div>
                                                 <template x-if="open">
                                                     <div x-on:click.away="open = false"
-                                                        class="absolute shadow top-100 bg-white z-40 w-full left-0 mt-10 rounded max-h-select overflow-y-auto svelte-5uyqqj">
+                                                        class="absolute shadow top-12 bg-white z-40 w-full left-0 mt-10 rounded max-h-select overflow-y-auto svelte-5uyqqj">
                                                         <div class="flex flex-col w-full">
                                                             @foreach ($users as $user)
                                                             <div
@@ -185,7 +169,7 @@
                         </label>
                         <div class="my-1 rounded-md shadow-sm">
                             <input type="text" id="title" name="title" value="{{ old('title') }}"
-                                class="form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5 @error('title') border border-red-400 @enderror">
+                                class="form-input border border-gray-300 block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5 @error('title') border border-red-400 @enderror">
                         </div>
                         @error('title')
                         <div class="text-red-500 text-xs">{{ $message }}</div>
@@ -199,7 +183,7 @@
                         </label>
                         <div class="mt-1 sm:mt-0 sm:col-span-2">
                             <textarea id="body" name="body" rows="3"
-                                class="form-input shadow-sm block w-full focus:ring-arwad-500 focus:border-arwad-500 sm:text-sm border-gray-300 rounded-md @error('body') border border-red-400 @enderror"></textarea>
+                                class="form-input border border-gray-300 shadow-sm block w-full focus:ring-arwad-500 focus:border-arwad-500 sm:text-sm border-gray-300 rounded-md @error('body') border border-red-400 @enderror"></textarea>
                             <p class="mt-2 text-sm text-gray-500">Write the notification content here.</p>
                         </div>
                         @error('body')
