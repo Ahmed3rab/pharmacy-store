@@ -56,7 +56,8 @@
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-                                {{ $product->category->name }}
+                                <a
+                                    href="{{ route('categories.edit', $product->category) }}">{{ $product->category->name }}</a>
                             </td>
                             <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
                                 {{ $product->position }}
