@@ -76,9 +76,19 @@
                                 @endif
                             </td>
                             <td class="text-center px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-                                @if ($product->activeDiscountItem)
-                                <span class="line-through">{{ $product->price }}</span> -
-                                {{ $product->activeDiscountItem->price_after }}
+                                @if ($product->activeDiscount)
+                                <div>
+                                    <span class="line-through">{{ $product->price }} </span>
+                                    &nbsp;
+                                    <span>
+                                        {{ $product->price_after }}
+                                    </span>
+                                </div>
+                                <div>
+                                    <a class="text-xs text-arwad-500 hover:text-gray-500"
+                                        href="{{ route('discounts.show', $product->activeDiscount) }}">
+                                        {{ $product->activeDiscount->title }}</a>
+                                </div>
                                 @else
                                 {{ $product->price }}
                                 @endif

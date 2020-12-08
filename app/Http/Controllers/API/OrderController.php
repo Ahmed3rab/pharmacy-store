@@ -32,10 +32,10 @@ class OrderController
             $product = Product::where('uuid', $item['product_uuid'])->firstOrFail();
 
             $order->items()->create([
-                'product_id'               => $product->id,
-                'product_discount_item_id' => $product->activeDiscountItem ? $product->activeDiscountItem->id : null,
-                'quantity'                 => $item['quantity'],
-                'price'                    => $product->activeDiscountItem ? $product->activeDiscountItem->price_after : $product->price,
+                'product_id'  => $product->id,
+                'discount_id' => $product->activeDiscount ? $product->activeDiscount->id : null,
+                'quantity'    => $item['quantity'],
+                'price'       => $product->activeDiscount ? $product->price_after : $product->price,
             ]);
         }
 
