@@ -79,13 +79,6 @@ class Product extends Model
         }
     }
 
-    public function activeDiscountItem()
-    {
-        return $this->hasOne(ProductDiscountItem::class, 'product_id')->whereHas('productDiscount', function ($query) {
-            return $query->where('ends_at', '>=', today());
-        });
-    }
-
     public function path()
     {
         return config('app.url') . "/cp/products/{$this->uuid}/edit";

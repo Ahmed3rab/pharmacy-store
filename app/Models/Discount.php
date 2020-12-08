@@ -29,11 +29,6 @@ class Discount extends Model
         return $this->morphedByMany(Product::class, 'discountable')->withPivot('id');
     }
 
-    public function getSalePriceOfProduct($product)
-    {
-        return $product->price * (100 - $this->percentage) / 100;
-    }
-
     public function hasExpired()
     {
         return $this->ends_at->lessThan(today());

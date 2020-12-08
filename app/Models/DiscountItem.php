@@ -15,14 +15,4 @@ class DiscountItem extends Model
     {
         return $this->belongsTo(Discount::class);
     }
-
-    public function product()
-    {
-        return $this->belongsTo(Product::class)->where(['discountable_type' => 'products']);
-    }
-
-    public function category()
-    {
-        return $this->belongsTo(Category::class)->where(['discountable_type' => 'categories']);
-    }
 }
