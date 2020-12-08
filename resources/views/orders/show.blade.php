@@ -86,7 +86,7 @@
                             </th>
                             <th scope="col"
                                 class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Last Price
+                                Last Price / Discount Applied
                             </th>
                             <th scope="col"
                                 class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -108,13 +108,15 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 {{ $item->price }}
-                                @if ($item->activeDiscountItem)
-                                <span class="text-xs text-arwad-500">-
-                                    {{ $item->activeDiscountItem->productDiscount->percentage }}% off</span>
-                                @endif
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {{ $item->total }}
+                                @if ($item->discount)
+                                <div class="text-xs text-arwad-500">-
+                                    {{ $item->discount->percentage }}% -
+                                    <a class="hover:text-gray-500"
+                                        href="{{ route('discounts.show', $item->discount) }}">
+                                        {{ $item->discount->title }}</a>
+                                </div>
+                                <K/span> @endif </td> <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    {{ $item->total }}
                             </td>
                         </tr>
                         @endforeach

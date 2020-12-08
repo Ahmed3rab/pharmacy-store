@@ -6,7 +6,7 @@ use App\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ProductDiscount extends Model
+class Discount extends Model
 {
     use HasFactory, HasUuid;
 
@@ -16,12 +16,17 @@ class ProductDiscount extends Model
 
     public function items()
     {
-        return $this->hasMany(ProductDiscountItem::class);
+        return $this->hasMany(DiscountItem::class);
     }
 
-    public function getSalePriceOfProduct($product)
+    public function categories()
     {
-        return $product->price * (100 - $this->percentage) / 100;
+        return $this->morphedByMany(Category::class, 'discountable')->withPivot('id');
+    }
+
+    public function products()
+    {
+        return $this->morphedByMany(Product::class, 'discountable')->withPivot('id');
     }
 
     public function hasExpired()

@@ -16,9 +16,9 @@ class OrderItem extends Model
         return $this->belongsTo(Product::class);
     }
 
-    public function activeDiscountItem()
+    public function k()
     {
-        return $this->belongsTo(ProductDiscountItem::class, 'product_discount_item_id');
+        return $this->belongsTo(Discount::class, 'discount_id');
     }
 
     public function getTotalAttribute()

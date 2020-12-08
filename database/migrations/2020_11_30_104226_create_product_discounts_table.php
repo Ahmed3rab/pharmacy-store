@@ -16,7 +16,7 @@ class CreateProductDiscountsTable extends Migration
         Schema::create('product_discounts', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid');
-            $table->string('title');
+            $table->string('title');    
             $table->float('percentage');
             $table->dateTime('starts_at');
             $table->dateTime('ends_at');

@@ -42,15 +42,15 @@ class Product extends Model
         return asset($this->image_path);
     }
 
-    public function discountItems()
+    public function discounts()
     {
-        return $this->hasMany(ProductDiscountItem::class);
+        return $this->morphToMany(Discount::class, 'discountable');
     }
 
     public function getPriceAfterAttribute()
     {
-        if ($this->discount) {
-            return $this->price * (100 - $this->discount->percentage) / 100;
+        if ($this->activeDiscount) {
+            return $this->price * (100 - $this->activeDiscount->percentage) / 100;
         }
 
         return $this->price;
@@ -68,11 +68,15 @@ class Product extends Model
         $this->save();
     }
 
-    public function activeDiscountItem()
+    public function getActiveDiscountAttribute()
     {
-        return $this->hasOne(ProductDiscountItem::class, 'product_id')->whereHas('productDiscount', function ($query) {
-            return $query->where('ends_at', '>=', today());
-        });
+        if ($this->discounts->count()) {
+            return $this->discounts()->where('ends_at', '>=', today())->first();
+        }
+
+        if ($this->category->discounts->count()) {
+            return $this->category->discounts()->where('ends_at', '>=', today())->first();
+        }
     }
 
     public function path()

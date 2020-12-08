@@ -3,7 +3,7 @@
 @section('header')
 <div class="flex justify-between items-baseline">
     <h1 class="text-2xl font-semibold text-gray-900">Products Discounts</h1>
-    <a href="{{ route('products-discounts.create') }}" class="text-arwad-500 font-bold text-sm">+ New Discount</a>
+    <a href="{{ route('discounts.create') }}" class="text-arwad-500 font-bold text-sm">+ New Discount</a>
 </div>
 @endsection
 
@@ -24,6 +24,10 @@
                                 Precentage
                             </th>
                             <th
+                                class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                On
+                            </th>
+                            <th
                                 class="text-center px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                                 Starts At
                             </th>
@@ -38,10 +42,13 @@
                         @foreach($discounts as $discount)
                         <tr class="{{ $loop->even ? 'bg-gray-50' :  'bg-white'}}">
                             <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
-                                <a href="{{ route('products-discounts.show', $discount) }}">{{ $discount->title }}</a>
+                                <a href="{{ route('discounts.show', $discount) }}">{{ $discount->title }}</a>
                             </td>
                             <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
                                 {{ $discount->percentage }}%
+                            </td>
+                            <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+                                {{ $discount->categories->count()? 'Categories' : 'Products' }}
                             </td>
                             <td class="text-center px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
                                 {{ $discount->starts_at }}
@@ -50,7 +57,7 @@
                                 {{ $discount->ends_at }}
                             </td>
                             <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
-                                <a href="{{ route('products-discounts.edit', $discount) }}"
+                                <a href="{{ route('discounts.edit', $discount) }}"
                                     class="text-arwad-500 hover:text-indigo-900">Edit</a>
                             </td>
                         </tr>

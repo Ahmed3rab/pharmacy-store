@@ -3,6 +3,7 @@
 namespace App\Rules;
 
 use App\Models\Category;
+use App\Models\DiscountItem;
 use App\Models\Product;
 use App\Models\ProductDiscountItem;
 use Illuminate\Contracts\Validation\Rule;
@@ -38,8 +39,13 @@ class UniqueProduct implements Rule
         if (Str::contains($attribute, 'categories')) {
             $category = Category::whereUuid($value)->first();
 
-            if ($item = ProductDiscountItem::whereIn('product_id', $category->products->pluck('id'))->first()) {
-                if ($item->productDiscount->hasExpired()) {
+            $item = DiscountItem::where([
+                'discountable_id'   => $category->id,
+                'discountable_type' => 'categories',
+            ])->first();
+
+            if ($item) {
+                if ($item->discount->hasExpired()) {
                     return true;
                 }
 
@@ -48,14 +54,18 @@ class UniqueProduct implements Rule
                 }
 
                 $this->category = $category;
-                $this->product = $item->product;
                 return false;
             }
         } else {
             $this->product = Product::whereUuid($value)->first();
 
-            if ($item = ProductDiscountItem::where('product_id', $this->product->id)->first()) {
-                if ($item->productDiscount->hasExpired()) {
+            $item = DiscountItem::where([
+                'discountable_id'   => $this->product->id,
+                'discountable_type' => 'products',
+            ])->first();
+
+            if ($item) {
+                if ($item->discount->hasExpired()) {
                     return true;
                 }
 
@@ -77,7 +87,7 @@ class UniqueProduct implements Rule
     public function message()
     {
         if ($this->category) {
-            return "The product {$this->product->name} in {$this->category->name} category already has an active discount.";
+            return "A Product in {$this->category->name} category already has an active discount.";
         }
 
         return "The product {$this->product->name} already has an active discount.";
