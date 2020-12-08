@@ -13,6 +13,7 @@ class CategoryResource extends JsonResource
             'icon_path' => $this->icon_path,
             'position'  => $this->position,
             'name'      => $this->name,
+            'discount'  => new DiscountResource($this->activeDiscount),
         ];
     }
 }
