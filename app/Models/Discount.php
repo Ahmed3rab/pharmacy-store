@@ -16,17 +16,17 @@ class Discount extends Model
 
     public function items()
     {
-        return $this->hasMany(ProductDiscountItem::class);
+        return $this->hasMany(DiscountItem::class);
     }
 
     public function categories()
     {
-        return $this->morphedByMany(Category::class, 'discountable');
+        return $this->morphedByMany(Category::class, 'discountable')->withPivot('id');
     }
 
     public function products()
     {
-        return $this->morphedByMany(Product::class, 'discountable');
+        return $this->morphedByMany(Product::class, 'discountable')->withPivot('id');
     }
 
     public function getSalePriceOfProduct($product)

@@ -3,7 +3,7 @@
 @section('header')
 <div class="flex justify-between items-baseline">
     <h1 class="text-2xl font-semibold text-gray-900">Products Discounts</h1>
-    <a href="{{ route('products-discounts.create') }}" class="text-arwad-500 font-bold text-sm">+ New Discount</a>
+    <a href="{{ route('discounts.create') }}" class="text-arwad-500 font-bold text-sm">+ New Discount</a>
 </div>
 @endsection
 
@@ -42,7 +42,7 @@
                         @foreach($discounts as $discount)
                         <tr class="{{ $loop->even ? 'bg-gray-50' :  'bg-white'}}">
                             <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
-                                <a href="{{ route('products-discounts.show', $discount) }}">{{ $discount->title }}</a>
+                                <a href="{{ route('discounts.show', $discount) }}">{{ $discount->title }}</a>
                             </td>
                             <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
                                 {{ $discount->percentage }}%
@@ -57,7 +57,7 @@
                                 {{ $discount->ends_at }}
                             </td>
                             <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
-                                <a href="{{ route('products-discounts.edit', $discount) }}"
+                                <a href="{{ route('discounts.edit', $discount) }}"
                                     class="text-arwad-500 hover:text-indigo-900">Edit</a>
                             </td>
                         </tr>

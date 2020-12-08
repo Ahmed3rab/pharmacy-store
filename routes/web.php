@@ -5,12 +5,12 @@ use App\Http\Controllers\CP\AdvertisementController;
 use App\Http\Controllers\CP\CategoriesController;
 use App\Http\Controllers\CP\CompleteOrderController;
 use App\Http\Controllers\CP\DiscountController;
+use App\Http\Controllers\CP\DiscountItemController;
 use App\Http\Controllers\CP\HomeController;
 use App\Http\Controllers\CP\LoginController;
 use App\Http\Controllers\CP\NotificationController;
 use App\Http\Controllers\CP\OrdersController;
 use App\Http\Controllers\CP\PendingOrderController;
-use App\Http\Controllers\CP\ProductDiscountItemController;
 use App\Http\Controllers\CP\ProductsController;
 use App\Http\Controllers\CP\UserActivityController;
 use App\Http\Controllers\CP\UserController;
@@ -57,16 +57,16 @@ Route::group(['prefix' => 'cp', 'middleware' => 'auth'], function () {
     Route::patch('advertisements/{advertisement}', [AdvertisementController::class, 'update'])->name('advertisements.update');
 
     # Discounts
-    Route::get('products-discounts', [DiscountController::class, 'index'])->name('products.discounts.index');
-    Route::get('products-discounts/create', [DiscountController::class, 'create'])->name('products-discounts.create');
-    Route::post('products-discounts', [DiscountController::class, 'store'])->name('products-discounts.store');
-    Route::get('products-discounts/{discount}', [DiscountController::class, 'show'])->name('products-discounts.show');
-    Route::get('products-discounts/{discount}/edit', [DiscountController::class, 'edit'])->name('products-discounts.edit');
-    Route::patch('products-discounts/{discount}', [DiscountController::class, 'update'])->name('products-discounts.update');
-    Route::delete('products-discounts/{discount}', [DiscountController::class, 'destroy'])->name('products-discounts.destroy');
+    Route::get('products-discounts', [DiscountController::class, 'index'])->name('discounts.index');
+    Route::get('products-discounts/create', [DiscountController::class, 'create'])->name('discounts.create');
+    Route::post('products-discounts', [DiscountController::class, 'store'])->name('discounts.store');
+    Route::get('products-discounts/{discount}', [DiscountController::class, 'show'])->name('discounts.show');
+    Route::get('products-discounts/{discount}/edit', [DiscountController::class, 'edit'])->name('discounts.edit');
+    Route::patch('products-discounts/{discount}', [DiscountController::class, 'update'])->name('discounts.update');
+    Route::delete('products-discounts/{discount}', [DiscountController::class, 'destroy'])->name('discounts.destroy');
 
     # Discount Items
-    Route::delete('products-discounts/{discount}/items/{item}', [ProductDiscountItemController::class, 'destroy'])->name('products-discounts-items.destroy');
+    Route::delete('discounts/{discount}/items/{item}', [DiscountItemController::class, 'destroy'])->name('discounts-items.destroy');
 
     # Users
     Route::get('users', [UserController::class, 'index'])->name('users.index');

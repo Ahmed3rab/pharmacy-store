@@ -42,11 +42,6 @@ class Product extends Model
         return asset($this->image_path);
     }
 
-    public function discountItems()
-    {
-        return $this->hasMany(ProductDiscountItem::class);
-    }
-
     public function discounts()
     {
         return $this->morphToMany(Discount::class, 'discountable');

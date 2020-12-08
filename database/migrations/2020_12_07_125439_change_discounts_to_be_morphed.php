@@ -14,8 +14,10 @@ class ChangeDiscountsToBeMorphed extends Migration
     public function up()
     {
         Schema::rename('product_discounts', 'discounts');
+        Schema::drop('product_discount_items');
 
         Schema::create('discountables', function (Blueprint $table) {
+            $table->bigIncrements('id');
             $table->foreignId('discount_id');
             $table->morphs('discountable');
         });

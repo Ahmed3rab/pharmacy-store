@@ -9,7 +9,7 @@
 @section('content')
 <div class="shadow bg-white p-6">
 
-    <form action="{{ route('products-discounts.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('discounts.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         <div class="w-1/2 mb-5">
@@ -108,214 +108,196 @@
             <div class="w-1/2 border border-gray-200 rounded p-8">
                 <template x-if="tab == 'category'">
                     <div class="space-y-4">
-                        {{-- <div>
-                            <label for="category" class="block text-sm font-medium text-gray-700">
-                                Category
-                            </label>
-                            <div class="mt-1">
-                                <select id="category" name="category"
-                                    class="form-select border border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm @error('category') border border-red-400 @enderror rounded-md">
-                                    <option value="">Select A Category</option>
-                                    @foreach ($categories as $category)
-                                    <option value="{{ $category->uuid }}"
-                        {{ old('category') == $category->uuid ? 'selected' : '' }}>
-                        {{ $category->name }}</option>
-                        @endforeach
-                        </select>
+                        <div x-data="{ open : false, selectedCategories: {{ old('categories')? \App\Models\Category::whereIn('uuid', old('categories'))->get() : '[]' }} }"
+                            class="flex flex-col items-center mx-auto">
+                            <div class="w-full">
+                                <label for="categories"
+                                    class="block text-sm font-medium text-gray-700">Categories</label>
 
-                        @error('category')
-                        <div class="text-red-500 text-xs">{{ $message }}</div>
-                        @enderror
-                    </div>
-            </div> --}}
-            <div x-data="{ open : false, selectedCategories: {{ old('categories')? \App\Models\Category::whereIn('uuid', old('categories'))->get() : '[]' }} }"
-                class="flex flex-col items-center mx-auto">
-                <div class="w-full">
-                    <label for="categories" class="block text-sm font-medium text-gray-700">Categories</label>
-
-                    <div class="flex flex-col items-center relative">
-                        <div class="w-full  svelte-1l8159u">
-                            <div
-                                class="my-2 p-1 flex border border-gray-200 @error('categories') border border-red-400 @enderror bg-white rounded svelte-1l8159u">
-                                <div class="flex flex-auto flex-wrap">
-                                    <template x-for="(selectedCategory, index) in selectedCategories">
+                                <div class="flex flex-col items-center relative">
+                                    <div class="w-full  svelte-1l8159u">
                                         <div
-                                            class="flex justify-center items-center m-1 font-medium py-1 px-2 bg-white rounded-full text-white bg-arwad-500">
-                                            <div class="text-xs font-normal leading-none max-w-full flex-initial"
-                                                x-text="selectedCategory.name"></div>
+                                            class="my-2 p-1 flex border border-gray-200 @error('categories') border border-red-400 @enderror bg-white rounded svelte-1l8159u">
+                                            <div class="flex flex-auto flex-wrap">
+                                                <template x-for="(selectedCategory, index) in selectedCategories">
+                                                    <div
+                                                        class="flex justify-center items-center m-1 font-medium py-1 px-2 bg-white rounded-full text-white bg-arwad-500">
+                                                        <div class="text-xs font-normal leading-none max-w-full flex-initial"
+                                                            x-text="selectedCategory.name"></div>
 
-                                            <input type="hidden" name="categories[]"
-                                                x-bind:value="selectedCategory.uuid">
+                                                        <input type="hidden" name="categories[]"
+                                                            x-bind:value="selectedCategory.uuid">
 
-                                            <div class="flex flex-auto flex-row-reverse">
-                                                <div @click="selectedCategories.splice(index, 1)">
+                                                        <div class="flex flex-auto flex-row-reverse">
+                                                            <div @click="selectedCategories.splice(index, 1)">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="100%"
+                                                                    height="100%" fill="none" viewBox="0 0 24 24"
+                                                                    stroke="currentColor" stroke-width="2"
+                                                                    stroke-linecap="round" stroke-linejoin="round"
+                                                                    class="feather feather-x cursor-pointer hover:text-arwad-400 rounded-full w-4 h-4 ml-2">
+                                                                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                                                                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                                                                </svg>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </template>
+
+                                                <div class="flex-1">
+                                                    <input x-on:keydown="open = true"
+                                                        class="bg-transparent p-1 px-2 appearance-none outline-none h-full w-full text-gray-800">
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="text-gray-300 w-8 py-1 pl-2 pr-1 border-l flex items-center border-gray-200 svelte-1l8159u">
+                                                <button type="button"
+                                                    class="cursor-pointer w-6 h-6 text-gray-600 outline-none focus:outline-none">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"
                                                         fill="none" viewBox="0 0 24 24" stroke="currentColor"
                                                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                        class="feather feather-x cursor-pointer hover:text-arwad-400 rounded-full w-4 h-4 ml-2">
-                                                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                                                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                                                        class="feather feather-chevron-up w-4 h-4">
+                                                        <polyline points="18 15 12 9 6 15"></polyline>
                                                     </svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <template x-if="open">
+                                        <div x-on:click.away="open = false"
+                                            class="absolute shadow top-12 bg-white z-40 w-full lef-0 rounded max-h-52 overflow-y-auto svelte-5uyqqj">
+                                            <div class="flex flex-col w-full">
+                                                @foreach ($categories as $category)
+                                                <div
+                                                    class="cursor-pointer w-full border-gray-100 rounded-t border-b hover:text-arwad-500">
+                                                    <div
+                                                        class="flex w-full items-center p-2 pl-2 border-transparent border-l-2 relative hover:border-gray-200">
+                                                        <div class="w-full items-center flex">
+                                                            <div @click="selectedCategories.push({{ $category }})"
+                                                                class="mx-2 leading-6">{{ $category->name }}</div>
+                                                        </div>
+                                                    </div>
                                                 </div>
+                                                @endforeach
                                             </div>
                                         </div>
                                     </template>
+                                </div>
 
-                                    <div class="flex-1">
-                                        <input x-on:keydown="open = true"
-                                            class="bg-transparent p-1 px-2 appearance-none outline-none h-full w-full text-gray-800">
-                                    </div>
-                                </div>
-                                <div
-                                    class="text-gray-300 w-8 py-1 pl-2 pr-1 border-l flex items-center border-gray-200 svelte-1l8159u">
-                                    <button type="button"
-                                        class="cursor-pointer w-6 h-6 text-gray-600 outline-none focus:outline-none">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="none"
-                                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round"
-                                            class="feather feather-chevron-up w-4 h-4">
-                                            <polyline points="18 15 12 9 6 15"></polyline>
-                                        </svg>
-                                    </button>
-                                </div>
+                                @error('categories')
+                                <div class="text-red-500 text-xs">{{ $message }}</div>
+                                @enderror
+                                @error('categories.*')
+                                <div class="text-red-500 text-xs">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
-                        <template x-if="open">
-                            <div x-on:click.away="open = false"
-                                class="absolute shadow top-12 bg-white z-40 w-full lef-0 rounded max-h-52 overflow-y-auto svelte-5uyqqj">
-                                <div class="flex flex-col w-full">
-                                    @foreach ($categories as $category)
-                                    <div
-                                        class="cursor-pointer w-full border-gray-100 rounded-t border-b hover:text-arwad-500">
+                    </div>
+                </template>
+
+                <template x-if="tab == 'product'">
+                    <div class="space-y-4">
+
+                        <div x-data="{ open : false, selectedProducts: {{ old('products')? \App\Models\Product::whereIn('uuid', old('products'))->get() : '[]' }} }"
+                            class="flex flex-col items-center mx-auto">
+                            <div class="w-full">
+                                <label for="products" class="block text-sm font-medium text-gray-700">Products</label>
+
+                                <div class="flex flex-col items-center relative">
+                                    <div class="w-full  svelte-1l8159u">
                                         <div
-                                            class="flex w-full items-center p-2 pl-2 border-transparent border-l-2 relative hover:border-gray-200">
-                                            <div class="w-full items-center flex">
-                                                <div @click="selectedCategories.push({{ $category }})"
-                                                    class="mx-2 leading-6">{{ $category->name }}</div>
+                                            class="my-2 p-1 flex border border-gray-200 @error('products') border border-red-400 @enderror bg-white rounded svelte-1l8159u">
+                                            <div class="flex flex-auto flex-wrap">
+                                                <template x-for="(selectedProduct, index) in selectedProducts">
+                                                    <div
+                                                        class="flex justify-center items-center m-1 font-medium py-1 px-2 bg-white rounded-full text-white bg-arwad-500">
+                                                        <div class="text-xs font-normal leading-none max-w-full flex-initial"
+                                                            x-text="selectedProduct.name"></div>
+                                                        <input type="hidden" name="products[]"
+                                                            x-bind:value="selectedProduct.uuid">
+                                                        <div class="flex flex-auto flex-row-reverse">
+                                                            <div @click="selectedProducts.splice(index, 1)">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="100%"
+                                                                    height="100%" fill="none" viewBox="0 0 24 24"
+                                                                    stroke="currentColor" stroke-width="2"
+                                                                    stroke-linecap="round" stroke-linejoin="round"
+                                                                    class="feather feather-x cursor-pointer hover:text-arwad-400 rounded-full w-4 h-4 ml-2">
+                                                                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                                                                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                                                                </svg>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </template>
+
+                                                <div class="flex-1">
+                                                    <input x-on:keydown="open = true"
+                                                        class="bg-transparent p-1 px-2 appearance-none outline-none h-full w-full text-gray-800">
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="text-gray-300 w-8 py-1 pl-2 pr-1 border-l flex items-center border-gray-200 svelte-1l8159u">
+                                                <button type="button"
+                                                    class="cursor-pointer w-6 h-6 text-gray-600 outline-none focus:outline-none">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"
+                                                        fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                        class="feather feather-chevron-up w-4 h-4">
+                                                        <polyline points="18 15 12 9 6 15"></polyline>
+                                                    </svg>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </template>
-                    </div>
-
-                    @error('categories')
-                    <div class="text-red-500 text-xs">{{ $message }}</div>
-                    @enderror
-                    @error('categories.*')
-                    <div class="text-red-500 text-xs">{{ $message }}</div>
-                    @enderror
-                </div>
-            </div>
-        </div>
-        </template>
-
-        <template x-if="tab == 'product'">
-            <div class="space-y-4">
-
-                <div x-data="{ open : false, selectedProducts: {{ old('products')? \App\Models\Product::whereIn('uuid', old('products'))->get() : '[]' }} }"
-                    class="flex flex-col items-center mx-auto">
-                    <div class="w-full">
-                        <label for="products" class="block text-sm font-medium text-gray-700">Products</label>
-
-                        <div class="flex flex-col items-center relative">
-                            <div class="w-full  svelte-1l8159u">
-                                <div
-                                    class="my-2 p-1 flex border border-gray-200 @error('products') border border-red-400 @enderror bg-white rounded svelte-1l8159u">
-                                    <div class="flex flex-auto flex-wrap">
-                                        <template x-for="(selectedProduct, index) in selectedProducts">
-                                            <div
-                                                class="flex justify-center items-center m-1 font-medium py-1 px-2 bg-white rounded-full text-white bg-arwad-500">
-                                                <div class="text-xs font-normal leading-none max-w-full flex-initial"
-                                                    x-text="selectedProduct.name"></div>
-                                                <input type="hidden" name="products[]"
-                                                    x-bind:value="selectedProduct.uuid">
-                                                <div class="flex flex-auto flex-row-reverse">
-                                                    <div @click="selectedProducts.splice(index, 1)">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="100%"
-                                                            height="100%" fill="none" viewBox="0 0 24 24"
-                                                            stroke="currentColor" stroke-width="2"
-                                                            stroke-linecap="round" stroke-linejoin="round"
-                                                            class="feather feather-x cursor-pointer hover:text-arwad-400 rounded-full w-4 h-4 ml-2">
-                                                            <line x1="18" y1="6" x2="6" y2="18"></line>
-                                                            <line x1="6" y1="6" x2="18" y2="18"></line>
-                                                        </svg>
+                                    <template x-if="open">
+                                        <div x-on:click.away="open = false"
+                                            class="absolute shadow top-12 bg-white z-40 w-full lef-0 rounded max-h-52 overflow-y-auto svelte-5uyqqj">
+                                            <div class="flex flex-col w-full">
+                                                @foreach ($products as $product)
+                                                <div
+                                                    class="cursor-pointer w-full border-gray-100 rounded-t border-b hover:text-arwad-500">
+                                                    <div
+                                                        class="flex w-full items-center p-2 pl-2 border-transparent border-l-2 relative hover:border-gray-200">
+                                                        <div class="w-full items-center flex">
+                                                            <div @click="selectedProducts.push({{ $product }})"
+                                                                class="mx-2 leading-6">{{ $product->name }}</div>
+                                                        </div>
                                                     </div>
                                                 </div>
+                                                @endforeach
                                             </div>
-                                        </template>
-
-                                        <div class="flex-1">
-                                            <input x-on:keydown="open = true"
-                                                class="bg-transparent p-1 px-2 appearance-none outline-none h-full w-full text-gray-800">
                                         </div>
-                                    </div>
-                                    <div
-                                        class="text-gray-300 w-8 py-1 pl-2 pr-1 border-l flex items-center border-gray-200 svelte-1l8159u">
-                                        <button type="button"
-                                            class="cursor-pointer w-6 h-6 text-gray-600 outline-none focus:outline-none">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"
-                                                fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round"
-                                                class="feather feather-chevron-up w-4 h-4">
-                                                <polyline points="18 15 12 9 6 15"></polyline>
-                                            </svg>
-                                        </button>
-                                    </div>
+                                    </template>
                                 </div>
+
+                                @error('products')
+                                <div class="text-red-500 text-xs">{{ $message }}</div>
+                                @enderror
+                                @error('products.*')
+                                <div class="text-red-500 text-xs">{{ $message }}</div>
+                                @enderror
                             </div>
-                            <template x-if="open">
-                                <div x-on:click.away="open = false"
-                                    class="absolute shadow top-12 bg-white z-40 w-full lef-0 rounded max-h-52 overflow-y-auto svelte-5uyqqj">
-                                    <div class="flex flex-col w-full">
-                                        @foreach ($products as $product)
-                                        <div
-                                            class="cursor-pointer w-full border-gray-100 rounded-t border-b hover:text-arwad-500">
-                                            <div
-                                                class="flex w-full items-center p-2 pl-2 border-transparent border-l-2 relative hover:border-gray-200">
-                                                <div class="w-full items-center flex">
-                                                    <div @click="selectedProducts.push({{ $product }})"
-                                                        class="mx-2 leading-6">{{ $product->name }}</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        @endforeach
-                                    </div>
-                                </div>
-                            </template>
                         </div>
-
-                        @error('products')
-                        <div class="text-red-500 text-xs">{{ $message }}</div>
-                        @enderror
-                        @error('products.*')
-                        <div class="text-red-500 text-xs">{{ $message }}</div>
-                        @enderror
                     </div>
-                </div>
+                </template>
             </div>
-        </template>
-</div>
-</div>
+        </div>
 
-<div class="mt-8 border-t border-gray-200 pt-5">
-    <div class="flex justify-end">
-        <span class="inline-flex rounded-md shadow-sm">
-            <button type="button"
-                class="py-2 px-4 border border-gray-300 rounded-md text-sm leading-5 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800 transition duration-150 ease-in-out">
-                Cancel
-            </button>
-        </span>
-        <span class="ml-3 inline-flex rounded-md shadow-sm">
-            <button type="submit"
-                class="inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-arwad-500 hover:bg-arwad-500 focus:outline-none focus:border-arwad-500 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out">
-                Create
-            </button>
-        </span>
-    </div>
-</div>
-</form>
+        <div class="mt-8 border-t border-gray-200 pt-5">
+            <div class="flex justify-end">
+                <span class="inline-flex rounded-md shadow-sm">
+                    <button type="button"
+                        class="py-2 px-4 border border-gray-300 rounded-md text-sm leading-5 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800 transition duration-150 ease-in-out">
+                        Cancel
+                    </button>
+                </span>
+                <span class="ml-3 inline-flex rounded-md shadow-sm">
+                    <button type="submit"
+                        class="inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-arwad-500 hover:bg-arwad-500 focus:outline-none focus:border-arwad-500 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out">
+                        Create
+                    </button>
+                </span>
+            </div>
+        </div>
+    </form>
 </div>
 @endsection

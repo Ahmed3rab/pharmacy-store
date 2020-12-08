@@ -5,7 +5,7 @@
     <h1 class="text-2xl font-semibold text-gray-900">
         {{ $discount->title }}
     </h1>
-    <a href="{{ route('products-discounts.edit', $discount) }}"
+    <a href="{{ route('discounts.edit', $discount) }}"
         class="inline-flex items-center px-4 py-2 border border-arwad-500 shadow-sm text-sm font-medium rounded-md text-arwad-500 bg-white hover:bg-arwad-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
         Edit
     </a>
@@ -50,7 +50,6 @@
         </dl>
     </div>
 </div>
-
 @if ($discount->products->count())
 <div class="mt-5 flex flex-col">
     <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -98,7 +97,7 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 <form
-                                    action="{{ route('products-discounts-items.destroy', ['discount' => $discount, 'item' => $product]) }}"
+                                    action="{{ route('discounts-items.destroy', ['discount' => $discount, 'item' => $product->pivot->id]) }}"
                                     method="post">
                                     @method('DELETE')
                                     @csrf
@@ -121,8 +120,19 @@
 @if ($discount->categories->count())
 @foreach ($discount->categories as $category)
 <div class="mt-5 flex flex-col">
-    <div class="my-4 text-xl font-semibold">
-        {{ $category->name }}:
+    <div class="flex justify-between items-center">
+        <div class="my-4 text-xl font-semibold">
+            {{ $category->name }}:
+        </div>
+        <form action="{{ route('discounts-items.destroy', ['discount' => $discount, 'item' => $category->pivot->id]) }}"
+            method="post">
+            @method('DELETE')
+            @csrf
+
+            <button type="submit" class="text-red-500 text-xs hover:text-red-600">Remove
+                Discount
+            </button>
+        </form>
     </div>
     <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -146,10 +156,6 @@
                                 class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Saving
                             </th>
-                            <th scope="col"
-                                class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Options
-                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -162,24 +168,10 @@
                                 {{ $product->price }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {{-- //TODO:: get price after --}}
                                 {{ $product->price_after }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 {{ $product ->price - $product->price_after }}
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {{-- //TODO:: delete discountable item instead --}}
-                                <form
-                                    action="{{ route('products-discounts-items.destroy', ['discount' => $discount, 'item' => $product]) }}"
-                                    method="post">
-                                    @method('DELETE')
-                                    @csrf
-
-                                    <button type="submit" class="text-red-500 text-xs hover:text-red-600">Remove
-                                        Discount
-                                    </button>
-                                </form>
                             </td>
                         </tr>
                         @endforeach

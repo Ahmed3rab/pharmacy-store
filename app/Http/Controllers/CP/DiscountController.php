@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Discount;
 use App\Models\Product;
-use App\Models\ProductDiscount;
 use App\Rules\UniqueProduct;
 
 class DiscountController extends Controller
@@ -23,7 +22,7 @@ class DiscountController extends Controller
         $categories = Category::all();
         $products = Product::all();
 
-        return view('products-discounts.create')
+        return view('discounts.create')
             ->with([
                 'categories' => $categories,
                 'products'   => $products,
@@ -43,7 +42,7 @@ class DiscountController extends Controller
             'products.*'   => ['nullable', 'exists:products,uuid', new UniqueProduct],
         ]);
 
-        $discount = ProductDiscount::create([
+        $discount = Discount::create([
             'title'      => request('title'),
             'percentage' => request('percentage'),
             'starts_at'  => request('starts_at'),
@@ -51,26 +50,14 @@ class DiscountController extends Controller
         ]);
 
         if ($categories = request('categories')) {
-            Category::whereIn('uuid', $categories)->get()->each(function ($category) use ($discount) {
-                $category->products->each(function ($product) use ($discount) {
-                    $discount->items()->create([
-                        'product_id' => $product->id,
-                        'price_after' => $discount->getSalePriceOfProduct($product),
-                    ]);
-                });
-            });
+            $discount->categories()->attach(Category::whereIn('uuid', $categories)->get());
         }
 
         if ($products = request('products')) {
-            Product::whereIn('uuid', $products)->get()->each(function ($product) use ($discount) {
-                $discount->items()->create([
-                    'product_id' => $product->id,
-                    'price_after' => $discount->getSalePriceOfProduct($product),
-                ]);
-            });
+            $discount->products()->attach(Product::whereIn('uuid', $products)->get());
         }
 
-        return redirect()->route('products.discounts.index');
+        return redirect()->route('discounts.index');
     }
 
     public function show(Discount $discount)
@@ -80,31 +67,34 @@ class DiscountController extends Controller
         return view('discounts.show')->with('discount', $discount);
     }
 
-    public function edit(ProductDiscount $discount)
+    public function edit(Discount $discount)
     {
         $categories = Category::all();
         $products = Product::all();
-        $selectedProducts = $discount->items()->with('product')->get()->pluck('product');
+        $selectedProducts = $discount->products;
+        $selectedCategories = $discount->categories;
 
-        return view('products-discounts.edit')
+        return view('discounts.edit')
             ->with([
-                'categories'       => $categories,
-                'products'         => $products,
-                'discount'         => $discount,
-                'selectedProducts' => $selectedProducts,
+                'categories'         => $categories,
+                'products'           => $products,
+                'discount'           => $discount,
+                'selectedProducts'   => $selectedProducts,
+                'selectedCategories' => $selectedCategories,
             ]);;
     }
 
-    public function update(ProductDiscount $discount)
+    public function update(Discount $discount)
     {
         request()->validate([
-            'title'      => 'required|string',
-            'percentage' => 'required|numeric|between:1,99',
-            'starts_at'  => 'required|date',
-            'ends_at'    => 'required|date|after:today',
-            'category'   => ['nullable', 'required_without:products', 'exists:categories,uuid', new UniqueProduct($discount)],
-            'products'   => 'nullable|required_without:category|array',
-            'products.*' => ['nullable', 'exists:products,uuid', new UniqueProduct($discount)],
+            'title'        => 'required|string',
+            'percentage'   => 'required|numeric|between:1,99',
+            'starts_at'    => 'required|date',
+            'ends_at'      => 'required|date|after:today',
+            'categories'   => ['nullable', 'required_without:products', 'array'],
+            'categories.*' => ['nullable', 'required_without:products', 'exists:categories,uuid', new UniqueProduct($discount)],
+            'products'     => 'nullable|required_without:categories|array',
+            'products.*'   => ['nullable', 'exists:products,uuid', new UniqueProduct($discount)],
         ]);
 
         $discount->update([
@@ -114,34 +104,27 @@ class DiscountController extends Controller
             'ends_at'    => request('ends_at'),
         ]);
 
-        $discount->items()->delete();
+        $discount->categories()->detach();
+        $discount->products()->detach();
 
-        if ($category = Category::whereUuid(request('category'))->first()) {
-            $category->products->each(function ($product) use ($discount) {
-                $discount->items()->create([
-                    'product_id' => $product->id,
-                    'price_after' => $discount->getSalePriceOfProduct($product),
-                ]);
-            });
+        if ($categories = request('categories')) {
+            $discount->categories()->sync(Category::whereIn('uuid', $categories)->get());
         }
 
         if ($products = request('products')) {
-            Product::whereIn('uuid', $products)->get()->each(function ($product) use ($discount) {
-                $discount->items()->create([
-                    'product_id' => $product->id,
-                    'price_after' => $discount->getSalePriceOfProduct($product),
-                ]);
-            });
+            $discount->products()->sync(Product::whereIn('uuid', $products)->get());
         }
 
-        return redirect()->route('products.discounts.index');
+        return redirect()->route('discounts.index');
     }
 
-    public function destroy(ProductDiscount $discount)
+    public function destroy(Discount $discount)
     {
-        $discount->items()->delete();
+        $discount->categories()->detach();
+        $discount->products()->detach();
+
         $discount->delete();
 
-        return redirect()->route('products.discounts.index');
+        return redirect()->route('discounts.index');
     }
 }
