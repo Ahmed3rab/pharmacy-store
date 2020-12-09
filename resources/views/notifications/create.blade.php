@@ -74,7 +74,8 @@
                         <template x-if="tab == 'users'">
                             <div class="sm:col-span-4">
                                 <div class="space-y-4">
-                                    <div x-data="{ open : false, selectedUsers: [] }" class="sm:col-span-4">
+                                    <div x-data="component({{ old('users')? \App\Models\User::whereIn('uuid', old('users'))->get() : '[]' }})"
+                                        class="sm:col-span-4">
                                         <div class="w-full">
                                             <label for="users"
                                                 class="block text-sm font-medium text-gray-700">Users</label>
@@ -88,9 +89,9 @@
                                                                 <div
                                                                     class="flex justify-center items-center m-1 font-medium py-1 px-2 rounded-full text-white bg-arwad-500">
                                                                     <div class="text-xs font-normal leading-none max-w-full flex-initial"
-                                                                        x-text="JSON.parse(selectedUser).name"></div>
+                                                                        x-text="selectedUser.name"></div>
                                                                     <input type="hidden" name="users[]"
-                                                                        x-bind:value="JSON.parse(selectedUser).uuid">
+                                                                        x-bind:value="selectedUser.uuid">
                                                                     <div class="flex flex-auto flex-row-reverse">
                                                                         <div @click="selectedUsers.splice(index, 1)">
                                                                             <svg xmlns="http://www.w3.org/2000/svg"
@@ -132,7 +133,7 @@
                                                 </div>
                                                 <template x-if="open">
                                                     <div x-on:click.away="open = false"
-                                                        class="absolute shadow top-12 bg-white z-40 w-full left-0 mt-10 rounded max-h-select overflow-y-auto svelte-5uyqqj">
+                                                        class="absolute shadow top-12 bg-white z-40 w-full left-0 rounded max-h-select overflow-y-auto svelte-5uyqqj">
                                                         <div class="flex flex-col w-full">
                                                             @foreach ($users as $user)
                                                             <div
@@ -140,7 +141,7 @@
                                                                 <div
                                                                     class="flex w-full items-center p-2 pl-2 border-transparent border-l-2 relative hover:border-gray-200">
                                                                     <div class="w-full items-center flex">
-                                                                        <div @click="selectedUsers.push('{{ $user }}')"
+                                                                        <div @click="addUser({{ $user }})"
                                                                             class="mx-2 leading-6">{{ $user->name }}
                                                                         </div>
                                                                     </div>
@@ -151,7 +152,27 @@
                                                     </div>
                                                 </template>
                                             </div>
+                                            <script>
+                                                function component(intialUsers) {
+                                                  return {
+                                                    open: false,
+                                                    selectedUsers: intialUsers,
+                                                    addUser(user){
+                                                        if(JSON.parse(JSON.stringify(this.selectedUsers)).length > 0) {
+                                                            var found = JSON.parse(JSON.stringify(this.selectedUsers)).filter(function (selectedUser) {
+                                                                return selectedUser.uuid == user.uuid;
+                                                              });
 
+                                                              if(found.length == 0){
+                                                                this.selectedUsers.push(user);
+                                                              }
+                                                        }else{
+                                                            this.selectedUsers.push(user);
+                                                        }
+                                                    }
+                                                  }
+                                                }
+                                            </script>
                                             @error('users')
                                             <div class="text-red-500 text-xs">{{ $message }}</div>
                                             @enderror
