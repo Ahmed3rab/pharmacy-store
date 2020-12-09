@@ -112,7 +112,7 @@
             <div class="w-1/2 border border-gray-200 rounded p-8">
                 <template x-if="tab == 'category'">
                     <div class="space-y-4">
-                        <div x-data="{ open : false, selectedCategories: {{ old('categories')? \App\Models\Category::whereIn('uuid', old('categories'))->get() : $selectedCategories }} }"
+                        <div x-data="component({{ old('categories')? \App\Models\Category::whereIn('uuid', old('categories'))->get() : $selectedCategories }})"
                             class="flex flex-col items-center mx-auto">
                             <div class="w-full">
                                 <label for="categories"
@@ -176,7 +176,7 @@
                                                     <div
                                                         class="flex w-full items-center p-2 pl-2 border-transparent border-l-2 relative hover:border-gray-200">
                                                         <div class="w-full items-center flex">
-                                                            <div @click="selectedCategories.push({{ $category }})"
+                                                            <div @click="addCategory({{ $category }})"
                                                                 class="mx-2 leading-6">{{ $category->name }}</div>
                                                         </div>
                                                     </div>
@@ -186,6 +186,28 @@
                                         </div>
                                     </template>
                                 </div>
+
+                                <script>
+                                    function component(intialCategories) {
+                                      return {
+                                        open: false,
+                                        selectedCategories: intialCategories,
+                                        addCategory(category){
+                                            if(JSON.parse(JSON.stringify(this.selectedCategories)).length > 0) {
+                                                var found = JSON.parse(JSON.stringify(this.selectedCategories)).filter(function (selectedCategory) {
+                                                    return selectedCategory.uuid == category.uuid;
+                                                  });
+
+                                                  if(found.length == 0){
+                                                    this.selectedCategories.push(category);
+                                                  }
+                                            }else{
+                                                this.selectedCategories.push(category);
+                                            }
+                                        }
+                                      }
+                                    }
+                                </script>
 
                                 @error('categories')
                                 <div class="text-red-500 text-xs">{{ $message }}</div>
@@ -200,7 +222,7 @@
 
                 <template x-if="tab == 'product'">
                     <div class="space-y-4">
-                        <div x-data="{ open : false, selectedProducts: {{ $selectedProducts }} }"
+                        <div x-data="component({{ old('products')? \App\Models\Product::whereIn('uuid', old('products'))->get() : $selectedProducts }})"
                             class="flex flex-col items-center mx-auto">
                             <div class="w-full">
                                 <label for="products" class="block text-sm font-medium text-gray-700"
@@ -262,7 +284,7 @@
                                                     <div
                                                         class="flex w-full items-center p-2 pl-2 border-transparent border-l-2 relative hover:border-gray-200">
                                                         <div class="w-full items-center flex">
-                                                            <div @click="selectedProducts.push({{ $product }})"
+                                                            <div @click="addProduct({{ $product }})"
                                                                 class="mx-2 leading-6">{{ $product->name }}</div>
                                                         </div>
                                                     </div>
@@ -273,6 +295,27 @@
                                     </template>
                                 </div>
 
+                                <script>
+                                    function component(intialProducts) {
+                                      return {
+                                        open: false,
+                                        selectedProducts: intialProducts,
+                                        addProduct(product){
+                                            if(JSON.parse(JSON.stringify(this.selectedProducts)).length > 0) {
+                                                var found = JSON.parse(JSON.stringify(this.selectedProducts)).filter(function (selectedProduct) {
+                                                    return selectedProduct.uuid == product.uuid;
+                                                  });
+
+                                                  if(found.length == 0){
+                                                    this.selectedProducts.push(product);
+                                                  }
+                                            }else{
+                                                this.selectedProducts.push(product);
+                                            }
+                                        }
+                                      }
+                                    }
+                                </script>
                                 @error('products')
                                 <div class="text-red-500 text-xs">{{ $message }}</div>
                                 @enderror
