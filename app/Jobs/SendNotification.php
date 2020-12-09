@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\Notification;
 use App\Models\User;
 use App\Models\UserDeviceToken;
 use Edujugon\PushNotification\PushNotification;
@@ -64,9 +65,11 @@ class SendNotification implements ShouldQueue
 
     public function sendToSelectedUsers()
     {
-        $devicesTokens = User::whereIn('uuid', $this->recievers)
+        $users = User::whereIn('uuid', $this->recievers)
             ->with('deviceTokens')
-            ->get()
+            ->get();
+
+        $devicesTokens = $users
             ->pluck('deviceTokens')
             ->flatten()
             ->toArray();
@@ -75,7 +78,14 @@ class SendNotification implements ShouldQueue
             ->setDevicesToken(array_column($devicesTokens, 'device_token'))
             ->send();
 
-        if ($this->pushMessage->getFeedback()->success == 1) {
+        if ($this->pushMessage->getFeedback()->success) {
+            Notification::create([
+                'title'   => $this->title,
+                'body'    => $this->body,
+                'sent_at' => now(),
+                'users'   => $users->pluck('id')->toArray(),
+            ]);
+
             Session::flash('success', 'Notification has been sent successfully.');
         } else {
             Session::flash('error', 'Something went wrong, Notification has not been sent.');
@@ -86,7 +96,13 @@ class SendNotification implements ShouldQueue
     {
         $this->pushMessage->sendByTopic('general');
 
-        if ($this->pushMessage->getFeedback()->message_id) {
+        if (isset($this->pushMessage->getFeedback()->success) && $this->pushMessage->getFeedback()->success) {
+            Notification::create([
+                'title'       => $this->title,
+                'body'        => $this->body,
+                'sent_at'     => now(),
+                'sent_to_all' => true,
+            ]);
             Session::flash('success', 'Notification has been sent successfully.');
         } else {
             Session::flash('error', 'Something went wrong, Notification has not been sent.');

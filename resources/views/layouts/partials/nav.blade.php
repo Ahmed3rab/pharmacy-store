@@ -82,7 +82,7 @@
         </svg>
         Activities
     </a>
-    <a href="{{ route('notifications.create') }}"
+    <a href="{{ route('notifications.index') }}"
         class="group flex items-center px-2 py-2 text-sm leading-5 font-medium text-gray-300 rounded-md hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700 transition ease-in-out duration-150 {{ request()->routeIs('notifications.*') ? 'bg-gray-900' : ''}}">
         <svg class="mr-3 h-6 w-6 text-gray-400 group-hover:text-gray-300 group-focus:text-gray-300 transition ease-in-out duration-150"
             fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
