@@ -113,6 +113,7 @@
 
                                                             <div class="flex-1">
                                                                 <input x-on:keydown="open = true"
+                                                                    x-on:input.debounce.750="searchForUser($event)"
                                                                     class="bg-transparent p-1 px-2 appearance-none outline-none h-full w-full text-gray-800">
                                                             </div>
                                                         </div>
@@ -135,19 +136,20 @@
                                                     <div x-on:click.away="open = false"
                                                         class="absolute shadow top-12 bg-white z-40 w-full left-0 rounded max-h-select overflow-y-auto svelte-5uyqqj">
                                                         <div class="flex flex-col w-full">
-                                                            @foreach ($users as $user)
-                                                            <div
-                                                                class="cursor-pointer w-full border-gray-100 rounded-t border-b hover:text-arwad-500">
+                                                            <template x-for="(user, index) in users">
                                                                 <div
-                                                                    class="flex w-full items-center p-2 pl-2 border-transparent border-l-2 relative hover:border-gray-200">
-                                                                    <div class="w-full items-center flex">
-                                                                        <div @click="addUser({{ $user }})"
-                                                                            class="mx-2 leading-6">{{ $user->name }}
+                                                                    class="cursor-pointer w-full border-gray-100 rounded-t border-b hover:text-arwad-500">
+                                                                    <div
+                                                                        class="flex w-full items-center p-2 pl-2 border-transparent border-l-2 relative hover:border-gray-200">
+                                                                        <div class="w-full items-center flex">
+                                                                            <div @click="addUser(user)"
+                                                                                class="mx-2 leading-6"
+                                                                                x-text="user.name">
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                            @endforeach
+                                                            </template>
                                                         </div>
                                                     </div>
                                                 </template>
@@ -156,6 +158,8 @@
                                                 function component(intialUsers) {
                                                   return {
                                                     open: false,
+                                                    allUsers:  {!! json_encode($users->toArray()) !!},
+                                                    users:  {!! json_encode($users->toArray()) !!},
                                                     selectedUsers: intialUsers,
                                                     addUser(user){
                                                         if(JSON.parse(JSON.stringify(this.selectedUsers)).length > 0) {
@@ -169,6 +173,11 @@
                                                         }else{
                                                             this.selectedUsers.push(user);
                                                         }
+                                                    },
+                                                    searchForUser(e){
+                                                        this.users = this.allUsers.filter(function (user) {
+                                                            return user.name.includes(e.target.value);
+                                                          });
                                                     }
                                                   }
                                                 }
