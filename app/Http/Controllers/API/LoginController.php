@@ -21,9 +21,7 @@ class LoginController
         ]);
 
         try {
-
             FirebaseUserToken::tokenVerified($data['firebase_user_token']);
-
 
             $user = User::firstOrNew(['phone_number' => str_replace('+218', '', FirebaseUserToken::getFirebaseUserPhoneNumber())]);
 

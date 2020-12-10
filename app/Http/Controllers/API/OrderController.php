@@ -25,8 +25,7 @@ class OrderController
         ]);
 
         $order = auth()->user()->orders()->create([
-            'reference_number' => 'ABCD-1234',
-            'notes'            => request('notes'),
+            'notes' => request('notes'),
         ]);
 
         foreach (request('cart_items') as $item) {
