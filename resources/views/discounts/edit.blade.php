@@ -148,7 +148,8 @@
                                                 </template>
 
                                                 <div class="flex-1">
-                                                    <input x-on:keydown="open = true"
+                                                    <input x-on:keydown="open = true" x-ref="searchText"
+                                                        x-on:input.debounce.750="searchForCategory($event)"
                                                         class="bg-transparent p-1 px-2 appearance-none outline-none h-full w-full text-gray-800">
                                                 </div>
                                             </div>
@@ -170,18 +171,19 @@
                                         <div x-on:click.away="open = false"
                                             class="absolute shadow top-12 bg-white z-40 w-full lef-0 rounded max-h-52 overflow-y-auto svelte-5uyqqj">
                                             <div class="flex flex-col w-full">
-                                                @foreach ($categories as $category)
-                                                <div
-                                                    class="cursor-pointer w-full border-gray-100 rounded-t border-b hover:text-arwad-500">
+                                                <template x-for="(category, index) in categories">
                                                     <div
-                                                        class="flex w-full items-center p-2 pl-2 border-transparent border-l-2 relative hover:border-gray-200">
-                                                        <div class="w-full items-center flex">
-                                                            <div @click="addCategory({{ $category }})"
-                                                                class="mx-2 leading-6">{{ $category->name }}</div>
+                                                        class="cursor-pointer w-full border-gray-100 rounded-t border-b hover:text-arwad-500">
+                                                        <div
+                                                            class="flex w-full items-center p-2 pl-2 border-transparent border-l-2 relative hover:border-gray-200">
+                                                            <div class="w-full items-center flex">
+                                                                <div @click="addCategory(category)"
+                                                                    class="mx-2 leading-6" x-text="category.name">
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                @endforeach
+                                                </template>
                                             </div>
                                         </div>
                                     </template>
@@ -190,7 +192,9 @@
                                 <script>
                                     function component(intialCategories) {
                                       return {
-                                        open: false,
+                                        open              : false,
+                                        allCategories     : {!! json_encode($categories->toArray()) !!},
+                                        categories        : {!! json_encode($categories->toArray()) !!},
                                         selectedCategories: intialCategories,
                                         addCategory(category){
                                             if(JSON.parse(JSON.stringify(this.selectedCategories)).length > 0) {
@@ -204,6 +208,14 @@
                                             }else{
                                                 this.selectedCategories.push(category);
                                             }
+
+                                            this.$refs.searchText.value = '';
+                                            this.$refs.searchText.focus();
+                                        },
+                                        searchForCategory(e){
+                                            this.categories = this.allCategories.filter(function (category) {
+                                                return category.name.includes(e.target.value);
+                                            });
                                         }
                                       }
                                     }
@@ -256,7 +268,8 @@
                                                 </template>
 
                                                 <div class="flex-1">
-                                                    <input x-on:keydown="open = true"
+                                                    <input x-on:keydown="open = true" x-ref="searchText"
+                                                        x-on:input.debounce.750="searchForProduct($event)"
                                                         class="bg-transparent p-1 px-2 appearance-none outline-none h-full w-full text-gray-800">
                                                 </div>
                                             </div>
@@ -278,18 +291,18 @@
                                         <div x-on:click.away="open = false"
                                             class="absolute shadow top-12 bg-white z-40 w-full lef-0 rounded max-h-select overflow-y-auto svelte-5uyqqj">
                                             <div class="flex flex-col w-full">
-                                                @foreach ($products as $product)
-                                                <div
-                                                    class="cursor-pointer w-full border-gray-100 rounded-t border-b hover:text-arwad-500">
+                                                <template x-for="(product, index) in products">
                                                     <div
-                                                        class="flex w-full items-center p-2 pl-2 border-transparent border-l-2 relative hover:border-gray-200">
-                                                        <div class="w-full items-center flex">
-                                                            <div @click="addProduct({{ $product }})"
-                                                                class="mx-2 leading-6">{{ $product->name }}</div>
+                                                        class="cursor-pointer w-full border-gray-100 rounded-t border-b hover:text-arwad-500">
+                                                        <div
+                                                            class="flex w-full items-center p-2 pl-2 border-transparent border-l-2 relative hover:border-gray-200">
+                                                            <div class="w-full items-center flex">
+                                                                <div @click="addProduct(product)" class="mx-2 leading-6"
+                                                                    x-text="product.name"></div>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                @endforeach
+                                                </template>
                                             </div>
                                         </div>
                                     </template>
@@ -298,7 +311,9 @@
                                 <script>
                                     function component(intialProducts) {
                                       return {
-                                        open: false,
+                                        open            : false,
+                                        allProducts     : {!! json_encode($products->toArray()) !!},
+                                        products        : {!! json_encode($products->toArray()) !!},
                                         selectedProducts: intialProducts,
                                         addProduct(product){
                                             if(JSON.parse(JSON.stringify(this.selectedProducts)).length > 0) {
@@ -312,6 +327,14 @@
                                             }else{
                                                 this.selectedProducts.push(product);
                                             }
+
+                                            this.$refs.searchText.value = '';
+                                            this.$refs.searchText.focus();
+                                        },
+                                        searchForProduct(e){
+                                            this.products = this.allProducts.filter(function (product) {
+                                                return product.name.includes(e.target.value);
+                                              });
                                         }
                                       }
                                     }
