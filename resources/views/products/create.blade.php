@@ -140,6 +140,41 @@
                         <small class="text-red-600 text-sm">{{ $message }}</small>
                         @enderror
                     </div>
+
+                    <div class="sm:col-span-4">
+                        <div role="group" aria-labelledby="label-notifications">
+                            <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-baseline">
+                                <div>
+                                    <div class="text-base font-medium text-gray-900 sm:text-sm sm:text-gray-700"
+                                        id="label-notifications">
+                                        Publish Status
+                                    </div>
+                                </div>
+                                <div class="sm:col-span-2">
+                                    <div class="max-w-lg">
+                                        <p class="text-sm text-gray-500">Only products categories will appear in the
+                                            store.
+                                        </p>
+                                        <div class="mt-4 space-y-4">
+                                            <div class="flex items-center">
+                                                <input id="published" name="published" type="checkbox" value="1"
+                                                    class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 @error('published') border border-red-400 @enderror"
+                                                    checked>
+                                                <label for="published"
+                                                    class="ml-3 block text-sm font-medium text-gray-700 @error('published') text-red-400 @enderror">
+                                                    Published
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        @error('published')
+                                        <small class="text-red-600 text-sm">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

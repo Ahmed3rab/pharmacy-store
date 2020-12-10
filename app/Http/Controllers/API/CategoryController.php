@@ -10,14 +10,14 @@ class CategoryController
 {
     public function index()
     {
-        $categories = Category::orderBy('position')->paginate(20);
+        $categories = Category::published()->orderBy('position')->paginate(20);
 
         return CategoryResource::collection($categories);
     }
 
     public function show(Category $category)
     {
-        $products = $category->products()->orderBy('position')->paginate(20);
+        $products = $category->products()->published()->orderBy('position')->paginate(20);
 
         return ProductResource::collection($products);
     }

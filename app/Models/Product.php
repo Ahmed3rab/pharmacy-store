@@ -88,4 +88,9 @@ class Product extends Model
     {
         $builder->where('quantity', '>', 0);
     }
+
+    public function scopePublished(Builder $builder)
+    {
+        $builder->where('published', true);
+    }
 }

@@ -50,18 +50,33 @@
                             <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
                                 {{ $category->position }}
                             </td>
-                            <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-                                @if ($category->trashed())
-                                <span
-                                    class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800">
-                                    Deleted
-                                </span>
-                                @else
-                                <span
-                                    class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">
-                                    Active
-                                </span>
-                                @endif
+                            <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500 space-y-2">
+                                <div>
+                                    @if ($category->trashed())
+                                    <span
+                                        class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800">
+                                        Deleted
+                                    </span>
+                                    @else
+                                    <span
+                                        class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">
+                                        Active
+                                    </span>
+                                    @endif
+                                </div>
+                                <div>
+                                    @if ($category->published)
+                                    <span
+                                        class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">
+                                        Published
+                                    </span>
+                                    @else
+                                    <span
+                                        class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800">
+                                        Unpublished
+                                    </span>
+                                    @endif
+                                </div>
                             </td>
                             <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
                                 {{ $category->products->count() }}

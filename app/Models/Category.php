@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\HasUuid;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -54,5 +55,10 @@ class Category extends Model
     public function getActiveDiscountAttribute()
     {
         return $this->discounts()->where('ends_at', '>=', today())->first();
+    }
+
+    public function scopePublished(Builder $builder)
+    {
+        $builder->where('published', true);
     }
 }

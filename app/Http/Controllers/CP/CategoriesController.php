@@ -23,14 +23,16 @@ class CategoriesController
     public function store(Request $request)
     {
         $request->validate([
-            'name'     => ['required', 'string', 'min:3'],
-            'position' => ['nullable', 'numeric'],
-            'icon'     => ['required', 'image'],
+            'name'      => ['required', 'string', 'min:3'],
+            'position'  => ['nullable', 'numeric'],
+            'icon'      => ['required', 'image'],
+            'published' => ['nullable', 'boolean'],
         ]);
 
         $category = Category::create([
-            'name'     => request('name'),
-            'position' => request('position'),
+            'name'      => request('name'),
+            'position'  => request('position'),
+            'published' => request('published') ? true : false,
         ]);
 
         if (request()->has('icon')) {
@@ -42,7 +44,7 @@ class CategoriesController
                 );
 
             $category->update([
-                'icon_path' => $path
+                'icon_path' => $path,
             ]);
         }
 
@@ -61,14 +63,16 @@ class CategoriesController
         $category = Category::withTrashed()->whereuuid($uuid)->first();
 
         $request->validate([
-            'name'     => ['required', 'string', 'min:3'],
-            'position' => ['nullable', 'numeric'],
-            'icon'     => ['image'],
+            'name'      => ['required', 'string', 'min:3'],
+            'position'  => ['nullable', 'numeric'],
+            'icon'      => ['image'],
+            'published' => ['nullable', 'boolean'],
         ]);
 
         $category->update([
-            'name'     => request('name'),
-            'position' => request('position'),
+            'name'      => request('name'),
+            'position'  => request('position'),
+            'published' => request('published') ? true : false,
         ]);
 
         if (request()->has('icon')) {
@@ -81,7 +85,7 @@ class CategoriesController
                 );
 
             $category->update([
-                'icon_path' => $path
+                'icon_path' => $path,
             ]);
         }
 
