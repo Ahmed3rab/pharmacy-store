@@ -17,6 +17,7 @@ Route::get('advertisements', [AdvertisementController::class, 'index']);
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('orders', [OrderController::class, 'store']);
     Route::get('orders', [OrderController::class, 'index']);
+    Route::get('orders/{order}', [OrderController::class, 'show']);
     Route::post('auth/logout', [LoginController::class, 'logout']);
     Route::post('activities', ActivityLogController::class);
 });

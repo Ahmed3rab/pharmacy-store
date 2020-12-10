@@ -15,10 +15,12 @@ class OrderResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'reference_number' => $this->reference_number,
-            'order_items_count' => $this->items->count(),
-            'order_items_quantity_count' => $this->items->sum('quantity'),
-            'created_at' => $this->created_at,
+            'uuid'                       => $this->uuid,
+            'reference_number'           => $this->reference_number,
+            'order_items_count'          => $this->items()->count(),
+            'order_items_quantity_count' => $this->items()->sum('quantity'),
+            'created_at'                 => $this->created_at,
+            'items'                      => OrderItemResource::collection($this->whenLoaded('items')),
         ];
     }
 }
