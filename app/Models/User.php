@@ -59,4 +59,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(UserDeviceToken::class);
     }
+
+    public static function getAdmins()
+    {
+        return collect(config('admins.admins'));
+    }
+
+    public static function isAdmin($email)
+    {
+        return self::getAdmins()->contains($email);
+    }
 }

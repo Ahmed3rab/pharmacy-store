@@ -25,19 +25,24 @@ class UserController extends Controller
     {
         request()->validate([
             'name'         => 'required|string',
-            'email'        => 'nullable|required_if:phone_number,',
-            'phone_number' => 'nullable|required_if:email,|numeric|digits_between:9,10|unique:users,phone_number',
+            'type'         => 'required|in:admin,app_user',
+            'email'        => 'nullable|required_if:type,admin|unique:users,email',
+            'phone_number' => 'nullable|required_if:type,app_user|numeric|digits_between:9,10|unique:users,phone_number',
         ], [
-            'email.required_if'        => 'The email field is required when phone number is empty.',
-            'phone_number.required_if' => 'The phone number field is required when email is empty.',
+            'email.required_if'        => 'The email field is required if user is an admin.',
+            'phone_number.required_if' => 'The phone number field is required if user is an app user.',
         ]);
 
-        User::create([
-            'name'         => request('name'),
-            'email'        => request('email'),
-            'phone_number' => request('phone_number'),
-            'password'     => bcrypt(Str::random(6)),
-        ]);
+        if (request('type') == 'email') {
+            $contactType = ['email' => request('email')];
+        } else {
+            $contactType = ['phone_number' => request('phone_number')];
+        }
+
+        User::create(array_merge($contactType, [
+            'name'     => request('name'),
+            'password' => bcrypt(Str::random(6)),
+        ]));
 
         return redirect()->route('users.index');
     }
@@ -51,18 +56,21 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-        return view('users.edit')->with('user', $user);
+        $type = $user->phone_number ? 'app_user' : 'admin';
+
+        return view('users.edit')->with(['user' => $user, 'type' => $type]);
     }
 
     public function update(User $user)
     {
         request()->validate([
             'name'         => 'required|string',
-            'email'        => 'nullable|required_if:phone_number,',
-            'phone_number' => ['nullable', 'required_if:email,', 'numeric', 'digits_between:9,10',  Rule::unique('users', 'phone_number')->ignore($user->id)],
+            'type'         => 'required|in:admin,app_user',
+            'email'        => ['nullable', 'required_if:type,admin', Rule::unique('users', 'email')->ignore($user->id)],
+            'phone_number' => ['nullable', 'required_if:type,app_user', 'numeric', 'digits_between:9,10',  Rule::unique('users', 'phone_number')->ignore($user->id)],
         ], [
-            'email.required_if'        => 'The email field is required when phone number is empty.',
-            'phone_number.required_if' => 'The phone number field is required when email is empty.',
+            'email.required_if'        => 'The email field is required if user is an admin.',
+            'phone_number.required_if' => 'The phone number field is required if user is an app user.',
         ]);
 
         $user->update([

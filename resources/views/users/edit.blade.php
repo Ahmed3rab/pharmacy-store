@@ -28,31 +28,92 @@
                         @enderror
                     </div>
 
-                    <div class="sm:col-span-4">
-                        <label for="email" class="block text-sm font-medium leading-5 text-gray-700">
-                            Email
-                        </label>
-                        <div class="my-1 rounded-md shadow-sm">
-                            <input type="email" id="email" name="email" value="{{ old('email', $user->email) }}"
-                                class="form-input border border-gray-300 block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5 @error('email') border border-red-400 @enderror">
-                        </div>
-                        @error('email')
-                        <small class="text-red-600 text-sm">{{ $message }}</small>
-                        @enderror
-                    </div>
+                    <div class="sm:col-span-4" x-data="{ tab: '{{ old('type', $type)?: 'app_user' }}' }"
+                        class="flex flex-col justify-between space-y-5">
+                        <input type="hidden" name="type" x-model="tab">
+                        <div class="mb-4">
+                            <fieldset>
+                                <legend id="radiogroup-label" class="sr-only">
+                                    User Type
+                                </legend>
+                                <ul class="flex space-x-4" role="radiogroup" aria-labelledby="radiogroup-label">
+                                    <li @click="tab = 'app_user'" id="radiogroup-option-1" tabindex="-1" role="radio"
+                                        aria-checked="false"
+                                        class="w-1/2 group relative bg-white rounded-lg shadow-sm cursor-pointer focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-arwad-500">
+                                        <div
+                                            class="rounded-lg border border-gray-300 bg-white px-6 py-4 hover:border-gray-400 sm:flex sm:justify-between  @error('phone_number') border border-red-400 @enderror">
+                                            <div class="flex items-center">
+                                                <div class="text-sm">
+                                                    <p class="font-medium text-gray-900">
+                                                        App User
+                                                    </p>
+                                                    <div class="text-gray-500">
+                                                        <p class="sm:inline">
+                                                            Has Acess to mobile app store.
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="border-transparent absolute inset-0 rounded-lg border-2 pointer-events-none"
+                                            :class="{ 'border-arwad-500': tab === 'app_user', 'border-transparent': tab != 'app_user' }"
+                                            aria-hidden="true"></div>
+                                    </li>
 
-                    <div class="sm:col-span-4">
-                        <label for="phone_number" class="block text-sm font-medium leading-5 text-gray-700">
-                            Phone Number
-                        </label>
-                        <div class="my-1 rounded-md shadow-sm">
-                            <input type="text" id="phone_number" name="phone_number"
-                                value="{{ old('phone_number', $user->phone_number) }}"
-                                class="form-input border border-gray-300 block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5 @error('phone_number') border border-red-400 @enderror">
+                                    <li @click="tab = 'admin'" id="radiogroup-option-2" tabindex="-1" role="radio"
+                                        aria-checked="false"
+                                        class="w-1/2 group relative bg-white rounded-lg shadow-sm cursor-pointer focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-arwad-500">
+                                        <d
+                                            class="rounded-lg border border-gray-300 bg-white px-6 py-4 hover:border-gray-400 sm:flex sm:justify-between @error('email') border border-red-400 @enderror">
+                                            <div class="flex items-center">
+                                                <div class="text-sm">
+                                                    <p class="font-medium text-gray-900">
+                                                        Admin
+                                                    </p>
+                                                    <div class="text-gray-500">
+                                                        <p class="sm:inline">
+                                                            Has Access to Dashboard
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </d iv>
+                                        <div class="border-transparent absolute inset-0 rounded-lg border-2 pointer-events-none"
+                                            :class="{ 'border-arwad-500': tab === 'admin', 'border-transparent': tab != 'admin' }"
+                                            aria-hidden="true"></div>
+                                    </li>
+                                </ul>
+                            </fieldset>
                         </div>
-                        @error('phone_number')
-                        <small class="text-red-600 text-sm">{{ $message }}</small>
-                        @enderror
+                        <template x-if="tab == 'admin'">
+                            <div class="sm:col-span-4">
+                                <label for="email" class="block text-sm font-medium leading-5 text-gray-700">
+                                    Email
+                                </label>
+                                <div class="my-1 rounded-md shadow-sm">
+                                    <input type="email" id="email" name="email" value="{{ old('email', $user->email) }}"
+                                        class="form-input border border-gray-300 block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5 @error('email') border border-red-400 @enderror">
+                                </div>
+                                @error('email')
+                                <small class="text-red-600 text-sm">{{ $message }}</small>
+                                @enderror
+                            </div>
+                        </template>
+                        <template x-if="tab == 'app_user'">
+                            <div class="sm:col-span-4">
+                                <label for="phone_number" class="block text-sm font-medium leading-5 text-gray-700">
+                                    Phone Number
+                                </label>
+                                <div class="my-1 rounded-md shadow-sm">
+                                    <input type="text" id="phone_number" name="phone_number"
+                                        value="{{ old('phone_number', $user->phone_number) }}"
+                                        class="form-input border border-gray-300 block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5 @error('phone_number') border border-red-400 @enderror">
+                                </div>
+                                @error('phone_number')
+                                <small class="text-red-600 text-sm">{{ $message }}</small>
+                                @enderror
+                            </div>
+                        </template>
                     </div>
                 </div>
             </div>
