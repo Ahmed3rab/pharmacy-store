@@ -182,6 +182,7 @@
                                         </div>
                                     </template>
                                 </div>
+                                {{--  TODO:: search in categories  --}}
                                 <script>
                                     function component(intialCategories) {
                                       return {
@@ -290,6 +291,7 @@
                                     </template>
                                 </div>
 
+                                {{--  TODO:: search in products  --}}
                                 <script>
                                     function component(intialProducts) {
                                       return {
