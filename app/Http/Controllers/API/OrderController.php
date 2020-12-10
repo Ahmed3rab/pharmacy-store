@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Resources\OrderResource;
+use App\Models\Order;
 use App\Models\Product;
 
 class OrderController
@@ -40,5 +41,12 @@ class OrderController
         }
 
         return response()->json([], 201);
+    }
+
+    public function show(Order $order)
+    {
+        $order->load('items');
+
+        return new OrderResource($order);
     }
 }

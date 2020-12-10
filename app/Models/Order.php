@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Filters\QueryFilter;
+use App\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,7 +12,7 @@ use Illuminate\Support\Str;
 
 class Order extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUuid;
 
     protected static function boot()
     {
@@ -26,6 +27,11 @@ class Order extends Model
     }
 
     protected $guarded = ['id'];
+
+    public function getRouteKeyName()
+    {
+        return 'uuid';
+    }
 
     public function complete()
     {

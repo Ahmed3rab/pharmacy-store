@@ -16,7 +16,7 @@ class OrderItem extends Model
         return $this->belongsTo(Product::class);
     }
 
-    public function k()
+    public function discount()
     {
         return $this->belongsTo(Discount::class, 'discount_id');
     }
