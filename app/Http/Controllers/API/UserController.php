@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rule; 
 
 class UserController extends Controller
 {
