@@ -112,7 +112,7 @@
                                                             </template>
 
                                                             <div class="flex-1">
-                                                                <input x-on:keydown="open = true"
+                                                                <input x-on:keydown="open = true" x-ref="searchText"
                                                                     x-on:input.debounce.750="searchForUser($event)"
                                                                     class="bg-transparent p-1 px-2 appearance-none outline-none h-full w-full text-gray-800">
                                                             </div>
@@ -157,9 +157,9 @@
                                             <script>
                                                 function component(intialUsers) {
                                                   return {
-                                                    open: false,
-                                                    allUsers:  {!! json_encode($users->toArray()) !!},
-                                                    users:  {!! json_encode($users->toArray()) !!},
+                                                    open         : false,
+                                                    allUsers     : {!! json_encode($users->toArray()) !!},
+                                                    users        : {!! json_encode($users->toArray()) !!},
                                                     selectedUsers: intialUsers,
                                                     addUser(user){
                                                         if(JSON.parse(JSON.stringify(this.selectedUsers)).length > 0) {
@@ -173,6 +173,9 @@
                                                         }else{
                                                             this.selectedUsers.push(user);
                                                         }
+
+                                                        this.$refs.searchText.value = '';
+                                                        this.$refs.searchText.focus();
                                                     },
                                                     searchForUser(e){
                                                         this.users = this.allUsers.filter(function (user) {
