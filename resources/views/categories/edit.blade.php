@@ -75,7 +75,7 @@
                                 <div class="sm:col-span-2">
                                     <div class="max-w-lg">
                                         <p class="text-sm text-gray-500">Only published categories will appear in the
-                                            applications</p>
+                                            store</p>
                                         <div class="mt-4 space-y-4">
                                             <div class="flex items-center">
                                                 <input id="published" name="published" type="checkbox" value="1"

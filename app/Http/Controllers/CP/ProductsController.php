@@ -4,6 +4,7 @@ namespace App\Http\Controllers\CP;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductsController
 {
@@ -29,6 +30,7 @@ class ProductsController
             'quantity'    => ['required', 'numeric'],
             'category'    => ['required', 'exists:categories,id'],
             'image'       => ['required', 'image'],
+            'published'   => ['nullable', 'boolean'],
         ]);
 
         $product = Product::create([
@@ -38,6 +40,7 @@ class ProductsController
             'description' => request('description'),
             'price'       => request('price'),
             'quantity'    => request('quantity'),
+            'published'   => request('published') ? true : false,
         ]);
 
         if (request()->has('image')) {
@@ -75,6 +78,7 @@ class ProductsController
             'quantity'    => ['required', 'numeric'],
             'category'    => ['required', 'exists:categories,id'],
             'image'       => ['image'],
+            'published'   => ['nullable', 'boolean'],
         ]);
 
         $product->update([
@@ -84,6 +88,7 @@ class ProductsController
             'description' => request('description'),
             'price'       => request('price'),
             'quantity'    => request('quantity'),
+            'published'   => request('published') ? true : false,
         ]);
 
         if (request()->has('image')) {
