@@ -57,6 +57,8 @@ class DiscountController extends Controller
             $discount->products()->attach(Product::whereIn('uuid', $products)->get());
         }
 
+        flash(__('messages.discount.create'));
+
         return redirect()->route('discounts.index');
     }
 
@@ -115,6 +117,8 @@ class DiscountController extends Controller
             $discount->products()->sync(Product::whereIn('uuid', $products)->get());
         }
 
+        flash(__('messages.discount.update'));
+
         return redirect()->route('discounts.index');
     }
 
@@ -124,6 +128,8 @@ class DiscountController extends Controller
         $discount->products()->detach();
 
         $discount->delete();
+
+        flash(__('messages.discount.delete'));
 
         return redirect()->route('discounts.index');
     }

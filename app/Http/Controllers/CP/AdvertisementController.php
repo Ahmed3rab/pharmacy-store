@@ -33,14 +33,18 @@ class AdvertisementController extends Controller
         ]);
 
         $path = request()->file('image')
-                ->storeAs(
-                    'advertisements',
-                    $advertisement->id . '-' . time() . '.' . request()->file('image')->extension(),
-                    ['disk' => 'public']
-                );
+            ->storeAs(
+                'advertisements',
+                $advertisement->id . '-' . time() . '.' . request()->file('image')->extension(),
+                ['disk' => 'public']
+            );
+
         $advertisement->update([
-                'image_path' => $path
-            ]);
+            'image_path' => $path
+        ]);
+
+        flash(__('messages.advertisement.create'));
+
         return redirect()->route('advertisements.index');
     }
 
@@ -63,6 +67,7 @@ class AdvertisementController extends Controller
         ]);
         if ($request->hasFile('image')) {
             Storage::disk('public')->delete($advertisement->image_path);
+
             $path = request()->file('image')
                 ->storeAs(
                     'advertisements',
@@ -70,9 +75,12 @@ class AdvertisementController extends Controller
                     ['disk' => 'public']
                 );
             $advertisement->update([
-                'image_path' => $path
+                'image_path' => $path,
             ]);
         }
+
+        flash(__('messages.advertisement.update'));
+
         return redirect()->route('advertisements.index');
     }
 }

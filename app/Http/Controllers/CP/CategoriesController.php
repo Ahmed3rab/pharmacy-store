@@ -48,6 +48,8 @@ class CategoriesController
             ]);
         }
 
+        flash(__('messages.category.create'));
+
         return redirect()->route('categories.index');
     }
 
@@ -89,12 +91,16 @@ class CategoriesController
             ]);
         }
 
+        flash(__('messages.category.update'));
+
         return redirect()->route('categories.index');
     }
 
     public function destroy(Category $category)
     {
         $category->delete();
+
+        flash(__('messages.category.delete'));
 
         return redirect()->route('categories.index');
     }
@@ -104,6 +110,8 @@ class CategoriesController
         $category = Category::withTrashed()->whereUuid($uuid)->first();
 
         $category->restore();
+
+        flash(__('messages.category.restore'));
 
         return redirect()->route('categories.index');
     }

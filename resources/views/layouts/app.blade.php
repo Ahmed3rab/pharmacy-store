@@ -149,15 +149,19 @@
             <div class="max-w-7xl px-8 md:py-16 mx-auto px-4 py-12">
                 @yield('header')
                 <div class="mt-6">
+
+                    @if(flash()->message)
                     <div class="my-4">
-                        @include('layouts.partials.alerts')
+                        @include('layouts.partials.alert')
                     </div>
+                    @endif
 
                     @yield('content')
                 </div>
             </div>
         </div>
     </main>
+    @stack('scripts')
 </body>
 
 </html>

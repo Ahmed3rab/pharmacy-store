@@ -86,9 +86,9 @@ class SendNotification implements ShouldQueue
                 'users'   => $users->pluck('id')->toArray(),
             ]);
 
-            Session::flash('success', 'Notification has been sent successfully.');
+            flash(__('messages.notification.sent'));
         } else {
-            Session::flash('error', 'Something went wrong, Notification has not been sent.');
+            flash(__('messages.notification.not_sent'), 'danger');
         }
     }
 
@@ -103,9 +103,9 @@ class SendNotification implements ShouldQueue
                 'sent_at'     => now(),
                 'sent_to_all' => true,
             ]);
-            Session::flash('success', 'Notification has been sent successfully.');
+            flash(__('messages.notification.sent'));
         } else {
-            Session::flash('error', 'Something went wrong, Notification has not been sent.');
+            flash(__('messages.notification.not_sent'), 'danger');
         }
     }
 
