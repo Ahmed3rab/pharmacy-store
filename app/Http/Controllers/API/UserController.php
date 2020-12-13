@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Validation\Rule; 
+use App\Http\Resources\UserResource;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -19,6 +20,6 @@ class UserController extends Controller
             'phone_number' => $data['phone_number'],
         ]);
 
-        return response()->json([], 204);
+        return new UserResource(auth()->user());
     }
 }
