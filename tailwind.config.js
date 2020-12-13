@@ -13,6 +13,9 @@ module.exports = {
             },
             inset: {
                 '12': '3rem'
+            },
+            spacing: {
+                '70': '20rem',
             }
         },
     },

@@ -44,6 +44,8 @@ class UserController extends Controller
             'password' => bcrypt(Str::random(6)),
         ]));
 
+        flash(__('messages.user.create'));
+
         return redirect()->route('users.index');
     }
 
@@ -79,6 +81,8 @@ class UserController extends Controller
             'phone_number' => request('phone_number'),
             'password'     => bcrypt(Str::random(6)),
         ]);
+
+        flash(__('messages.user.update'));
 
         return redirect()->route('users.index');
     }

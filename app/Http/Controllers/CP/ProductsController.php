@@ -52,9 +52,11 @@ class ProductsController
                 );
 
             $product->update([
-                'image_path' => $path
+                'image_path' => $path,
             ]);
         }
+
+        flash(__('messages.product.create'));
 
         return redirect()->route('products.index');
     }
@@ -105,12 +107,16 @@ class ProductsController
             ]);
         }
 
+        flash(__('messages.product.update'));
+
         return redirect()->route('products.edit', $product);
     }
 
     public function destroy(Product $product)
     {
         $product->delete();
+
+        flash(__('messages.product.delete'));
 
         return redirect()->route('products.index');
     }
@@ -120,6 +126,8 @@ class ProductsController
         $product = Product::withTrashed()->whereUuid($uuid)->first();
 
         $product->restore();
+
+        flash(__('messages.product.restore'));
 
         return redirect()->route('products.index');
     }
