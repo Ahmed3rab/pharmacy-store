@@ -39,7 +39,7 @@ Route::group(['prefix' => 'cp', 'middleware' => 'auth'], function () {
     Route::get('products/create', [ProductsController::class, 'create'])->name('products.create');
     Route::post('products', [ProductsController::class, 'store'])->name('products.store');
     Route::get('products/{product}/edit', [ProductsController::class, 'edit'])->name('products.edit');
-    Route::put('products/{product}', [ProductsController::class, 'update'])->name('products.update');
+    Route::patch('products/{product}', [ProductsController::class, 'update'])->name('products.update');
     Route::delete('products/{product}', [ProductsController::class, 'destroy'])->name('products.destroy');
     Route::post('products/{product}/restore', [ProductsController::class, 'restore'])->name('products.restore');
 

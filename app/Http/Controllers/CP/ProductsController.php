@@ -43,18 +43,7 @@ class ProductsController
             'published'   => request('published') ? true : false,
         ]);
 
-        if (request()->has('image')) {
-            $path = request()->file('image')
-                ->storeAs(
-                    'products',
-                    $product->uuid . '-' . time() . '.' . request()->file('image')->extension(),
-                    ['disk' => 'public']
-                );
-
-            $product->update([
-                'image_path' => $path,
-            ]);
-        }
+        $product->setImage(request()->file('image'));
 
         flash(__('messages.product.create'));
 
@@ -95,16 +84,7 @@ class ProductsController
 
         if (request()->has('image')) {
             Storage::disk('public')->delete($product->image_path);
-            $path = request()->file('image')
-                ->storeAs(
-                    'products',
-                    $product->uuid . '-' . time() . '.' . request()->file('image')->extension(),
-                    ['disk' => 'public']
-                );
-
-            $product->update([
-                'image_path' => $path,
-            ]);
+            $product->setImage(request()->file('image'));
         }
 
         flash(__('messages.product.update'));
