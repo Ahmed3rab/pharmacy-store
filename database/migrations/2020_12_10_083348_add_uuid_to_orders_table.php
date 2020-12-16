@@ -14,7 +14,7 @@ class AddUuidToOrdersTable extends Migration
     public function up()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->uuid('uuid')->after('id');
+            $table->uuid('uuid')->nullable()->after('id');
         });
     }
 

@@ -11,7 +11,7 @@ class CategoryResource extends JsonResource
         return [
             'uuid'      => $this->uuid,
             'icon_path' => $this->icon_path,
-            'position'  => $this->position,
+            'position'  => (int) $this->position,
             'name'      => $this->name,
             'discount'  => new DiscountResource($this->activeDiscount),
         ];

@@ -16,6 +16,9 @@ class CreateUserDeviceTokenTable extends Migration
 
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('device_name');
+        });
+
+        Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('device_token');
         });
 

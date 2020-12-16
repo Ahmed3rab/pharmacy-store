@@ -15,7 +15,7 @@ class AddFieldsToAdvertisementsTable extends Migration
     {
         Schema::table('advertisements', function (Blueprint $table) {
             $table->string('image_path')->nullable()->change();
-            $table->string('title')->after('id');
+            $table->string('title')->nullable()->after('id');
             $table->string('url')->nullable()->after('image_path');
         });
     }
