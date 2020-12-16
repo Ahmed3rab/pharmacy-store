@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 
 class Category extends Model
 {
@@ -44,7 +45,7 @@ class Category extends Model
 
     public function iconPath()
     {
-        return asset($this->icon_path);
+        return Storage::disk('categories')->url($this->icon_path);
     }
 
     public function path()
@@ -60,5 +61,15 @@ class Category extends Model
     public function scopePublished(Builder $builder)
     {
         $builder->where('published', true);
+    }
+
+    public function setIcon($icon)
+    {
+        if ($icon) {
+            Storage::disk('categories')->put($path = $this->uuid . '-' . time() . '.' . $icon->extension(), file_get_contents($icon));
+
+            $this->icon_path =  $path;
+            $this->save();
+        }
     }
 }

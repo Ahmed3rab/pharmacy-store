@@ -35,18 +35,7 @@ class CategoriesController
             'published' => request('published') ? true : false,
         ]);
 
-        if (request()->has('icon')) {
-            $path = request()->file('icon')
-                ->storeAs(
-                    'categories',
-                    $category->uuid . '-' . time() . '.' . request()->file('icon')->extension(),
-                    ['disk' => 'public']
-                );
-
-            $category->update([
-                'icon_path' => $path,
-            ]);
-        }
+        $category->setIcon(request()->file('icon'));
 
         flash(__('messages.category.create'));
 
@@ -79,16 +68,7 @@ class CategoriesController
 
         if (request()->has('icon')) {
             Storage::disk('public')->delete($category->icon_path);
-            $path = request()->file('icon')
-                ->storeAs(
-                    'categories',
-                    $category->uuid . '-' . time() . '.' . request()->file('icon')->extension(),
-                    ['disk' => 'public']
-                );
-
-            $category->update([
-                'icon_path' => $path,
-            ]);
+            $category->setIcon(request()->file('icon'));
         }
 
         flash(__('messages.category.update'));
