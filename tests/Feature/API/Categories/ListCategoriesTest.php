@@ -14,10 +14,11 @@ class ListCategoriesTest extends TestCase
     /**
      *@test
      */
-    function guestsCanListCategories()
+    function guestsCanListPublishedCategories()
     {
         $category = Category::factory()->create();
         $categoryWithDiscount = Category::factory()->hasDiscounts(1)->create();
+        $unpublishedCategory = Category::factory()->create(['published' => false]);
 
         $this->get("/api/categories")
             ->assertStatus(200)
@@ -25,14 +26,14 @@ class ListCategoriesTest extends TestCase
                 'data' => [
                     [
                         'uuid'      => $category->uuid,
-                        'icon_path' => $category->icon_path,
+                        'icon_path' => $category->iconPath(),
                         'position'  => $category->position,
                         'name'      => $category->name,
                         'discount'  => null,
                     ],
                     [
                         'uuid'      => $categoryWithDiscount->uuid,
-                        'icon_path' => $categoryWithDiscount->icon_path,
+                        'icon_path' => $categoryWithDiscount->iconPath(),
                         'position'  => $categoryWithDiscount->position,
                         'name'      => $categoryWithDiscount->name,
                         'discount'  => [
@@ -43,6 +44,8 @@ class ListCategoriesTest extends TestCase
                         ],
                     ],
                 ],
-            ]);
+            ])
+            ->assertDontSee($unpublishedCategory->uuid)
+            ->assertDontSee($unpublishedCategory->name);
     }
 }
