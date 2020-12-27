@@ -89,4 +89,11 @@ class Order extends Model
     {
         $builder->whereNotNull('completed_at');
     }
+
+    public function scopeHasProduct(Builder $builder, $product)
+    {
+        $builder->whereHas('items', function ($query) use ($product) {
+            $query->where('product_id', $product->id);
+        });
+    }
 }

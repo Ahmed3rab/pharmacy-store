@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\CP\Products;
 
+use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
 use App\Models\User;
@@ -52,7 +53,12 @@ class DeleteProductTest extends TestCase
         $this->actingAs(User::factory()->create());
 
         $product = Product::factory()->create();
-        OrderItem::factory()->create(['product_id' => $product->id]);
+
+        OrderItem::factory()
+            ->for(Order::factory()->state([
+                'completed_at' => null,
+            ]))
+            ->create(['product_id' => $product->id]);
 
         $this->get(route('products.edit',  $product))
             ->assertStatus(200)

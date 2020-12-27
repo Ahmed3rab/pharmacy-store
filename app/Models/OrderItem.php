@@ -30,4 +30,9 @@ class OrderItem extends Model
     {
         return ucfirst($value);
     }
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
 }
