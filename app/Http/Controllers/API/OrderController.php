@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Resources\OrderResource;
+use App\Mail\OrderCreatedMail;
 use App\Models\Order;
 use App\Models\Product;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController
 {
@@ -37,6 +39,10 @@ class OrderController
                 'quantity'    => $item['quantity'],
                 'price'       => $product->activeDiscount ? $product->price_after : $product->price,
             ]);
+        }
+
+        foreach (config('arwad.notifications_emails', []) as $recipient) {
+            Mail::to($recipient)->send(new OrderCreatedMail($order));
         }
 
         return response()->json([], 201);
