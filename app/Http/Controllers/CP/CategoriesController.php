@@ -67,7 +67,7 @@ class CategoriesController
         ]);
 
         if (request()->has('icon')) {
-            Storage::disk('public')->delete($category->icon_path);
+            Storage::disk('categories')->delete($category->icon_path);
             $category->setIcon(request()->file('icon'));
         }
 

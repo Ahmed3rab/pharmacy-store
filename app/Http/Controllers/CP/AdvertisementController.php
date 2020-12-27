@@ -22,26 +22,19 @@ class AdvertisementController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => ['required', 'string', 'min:6'],
-            'url' => ['nullable', 'url', 'active_url'],
-            'image' => ['required', 'image']
+            'title'     => ['required', 'string', 'min:6'],
+            'url'       => ['nullable', 'url', 'active_url'],
+            'image'     => ['required', 'image'],
+            'published' => ['nullable', 'boolean'],
         ]);
 
         $advertisement = Advertisement::create([
-            'title' => $request->title,
-            'url' => $request->url,
+            'title'     => $request->title,
+            'url'       => $request->url,
+            'published' => $request->published ? true : false,
         ]);
 
-        $path = request()->file('image')
-            ->storeAs(
-                'advertisements',
-                $advertisement->id . '-' . time() . '.' . request()->file('image')->extension(),
-                ['disk' => 'public']
-            );
-
-        $advertisement->update([
-            'image_path' => $path
-        ]);
+        $advertisement->setImage($request->file('image'));
 
         flash(__('messages.advertisement.create'));
 
@@ -56,27 +49,21 @@ class AdvertisementController extends Controller
     public function update(Advertisement $advertisement, Request $request)
     {
         $request->validate([
-            'title' => ['required', 'string', 'min:6'],
-            'url' => ['nullable', 'url', 'active_url'],
-            'image' => ['image']
+            'title'     => ['required', 'string', 'min:6'],
+            'url'       => ['nullable', 'url', 'active_url'],
+            'image'     => ['image'],
+            'published' => ['nullable', 'boolean'],
         ]);
 
         $advertisement->update([
-            'title' => $request->title,
-            'url' => $request->url,
+            'title'     => $request->title,
+            'url'       => $request->url,
+            'published' => $request->published ? true : false,
         ]);
-        if ($request->hasFile('image')) {
-            Storage::disk('public')->delete($advertisement->image_path);
 
-            $path = request()->file('image')
-                ->storeAs(
-                    'advertisements',
-                    $advertisement->id . '-' . time() . '.' . request()->file('image')->extension(),
-                    ['disk' => 'public']
-                );
-            $advertisement->update([
-                'image_path' => $path,
-            ]);
+        if (request()->has('image')) {
+            Storage::disk('advertisements')->delete($advertisement->image_path);
+            $advertisement->setImage(request()->file('image'));
         }
 
         flash(__('messages.advertisement.update'));

@@ -15,7 +15,10 @@ class AdvertisementResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'image_path' => $this->image_path
+            'image_path' => $this->imagePath(),
+            'title'      => $this->title,
+            'url'        => $this->url,
+
         ];
     }
 }

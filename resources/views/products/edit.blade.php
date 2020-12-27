@@ -16,7 +16,7 @@
 <div class="shadow bg-white p-6">
     <form action="{{ route('products.update', $product) }}" method="POST" enctype="multipart/form-data">
         @csrf
-        @method('PUT')
+        @method('PATCH')
 
         <div>
             <div>
