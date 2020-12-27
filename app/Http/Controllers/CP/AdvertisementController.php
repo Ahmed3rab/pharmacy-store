@@ -70,4 +70,13 @@ class AdvertisementController extends Controller
 
         return redirect()->route('advertisements.index');
     }
+
+    public function destroy(Advertisement $advertisement)
+    {
+        $advertisement->delete();
+
+        flash(__('messages.advertisement.delete'));
+
+        return redirect()->route('advertisements.index');
+    }
 }
