@@ -124,7 +124,7 @@
 
                     <div class="sm:col-span-4">
                         <label for="price" class="block text-sm font-medium leading-5 text-gray-700">
-                            Product Price
+                            Product Wholesale Price
                         </label>
                         <div class="mt-1 flex rounded-md shadow-sm @error('price') border border-red-400 @enderror">
                             <span
@@ -139,6 +139,26 @@
                         <small class="text-red-600 text-sm">{{ $message }}</small>
                         @enderror
                     </div>
+
+                    <div class="sm:col-span-4">
+                        <label for="itemPrice" class="block text-sm font-medium leading-5 text-gray-700">
+                            Product Item Price
+                        </label>
+                        <div
+                            class="mt-1 flex rounded-md shadow-sm @error('item_price') border border-red-400 @enderror">
+                            <span
+                                class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
+                                LYD
+                            </span>
+                            <input type="number" step="0.25" id="itemPrice" name="item_price"
+                                class="flex-1 form-input border border-gray-300 block w-full min-w-0 rounded-none rounded-r-md transition duration-150 ease-in-out sm:text-sm sm:leading-5"
+                                value="{{ old('item_price', $product->item_price) }}">
+                        </div>
+                        @error('item_price')
+                        <small class="text-red-600 text-sm">{{ $message }}</small>
+                        @enderror
+                    </div>
+
 
                     <div class="sm:col-span-4">
                         <label for="quantity" class="block text-sm font-medium leading-5 text-gray-700">

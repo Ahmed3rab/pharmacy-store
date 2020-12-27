@@ -16,6 +16,7 @@ class UpdateProduct
             'position'    => ['nullable', 'numeric'],
             'description' => ['required', 'string', 'min:3'],
             'price'       => ['required', 'numeric'],
+            'item_price'  => ['required', 'numeric'],
             'quantity'    => ['required', 'numeric'],
             'category'    => ['required', 'exists:categories,id'],
             'image'       => ['image'],
@@ -28,6 +29,7 @@ class UpdateProduct
             'position'    => request('position'),
             'description' => request('description'),
             'price'       => request('price'),
+            'item_price'  => request('item_price'),
             'quantity'    => request('quantity'),
             'published'   => request('published') ? true : false,
         ]);

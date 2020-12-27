@@ -41,14 +41,15 @@ class UpdateProductTest extends TestCase
             ->assertViewIs('products.edit');
 
         $this->patch(route('products.update',  $product), [
-            'name'        => $name = 'Car Oil',
-            'position'    => $position = 1,
+            'name'        => $name        = 'Car Oil',
+            'position'    => $position    = 1,
             'description' => $description = 'Car Oils',
-            'price'       => $price = 50,
-            'quantity'    => $quantity = 120,
-            'category'    => $categoryId = Category::factory()->create()->id,
-            'image'       => $image = UploadedFile::fake()->image('image.jpg'),
-            'published'   => $published = true,
+            'price'       => $price       = 50,
+            'item_price'  => $itemPrice   = 20,
+            'quantity'    => $quantity    = 120,
+            'category'    => $categoryId  = Category::factory()->create()->id,
+            'image'       => $image       = UploadedFile::fake()->image('image.jpg'),
+            'published'   => $published   = true,
         ]);
 
         $this->assertDatabaseHas('products', [
@@ -57,6 +58,7 @@ class UpdateProductTest extends TestCase
             'position'    => $position,
             'description' => $description,
             'price'       => $price,
+            'item_price'  => $itemPrice,
             'quantity'    => $quantity,
             'category_id' => $categoryId,
             'published'   => $published,
