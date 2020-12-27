@@ -111,4 +111,17 @@
         </div>
     </form>
 </div>
+
+<div class="my-3 flex justify-end">
+    <form action="{{ route('advertisements.destroy', $advertisement) }}" method="POST">
+        @csrf
+        @method('DELETE')
+        <span class="inline-flex">
+            <button type="submit"
+                class="py-2 text-sm leading-5 font-medium text-red-500 hover:text-red-300 focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800 transition duration-150 ease-in-out">
+                Delete This Advertisement
+            </button>
+        </span>
+    </form>
+</div>
 @endsection
