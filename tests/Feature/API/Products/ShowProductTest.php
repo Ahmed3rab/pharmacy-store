@@ -21,7 +21,7 @@ class ShowProductTest extends TestCase
             ->assertStatus(200)
             ->assertJson(['data' => [
                 'uuid'        => $product->uuid,
-                'image_path'  => asset('/storage/' . $product->image_path),
+                'image_path'  => $product->imagePath(),
                 'name'        => $product->name,
                 'position'    => $product->position,
                 'description' => $product->description,
@@ -43,7 +43,7 @@ class ShowProductTest extends TestCase
             ->assertStatus(200)
             ->assertJson(['data' => [
                 'uuid'        => $product->uuid,
-                'image_path'  => asset('/storage/' . $product->image_path),
+                'image_path'  => $product->imagePath(),
                 'name'        => $product->name,
                 'position'    => $product->position,
                 'description' => $product->description,
