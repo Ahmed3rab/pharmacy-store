@@ -33,7 +33,7 @@ class UpdateProduct
         ]);
 
         if (request()->has('image')) {
-            Storage::disk('public')->delete($product->image_path);
+            Storage::disk('products')->delete($product->image_path);
             $product->setImage(request()->file('image'));
         }
 

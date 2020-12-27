@@ -9,7 +9,7 @@ class AdvertisementController
 {
     public function index()
     {
-        $ads = Advertisement::paginate(20);
+        $ads = Advertisement::published()->paginate(20);
 
         return AdvertisementResource::collection($ads);
     }
