@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\CP;
 
+use App\Actions\Products\CreateProduct;
+use App\Actions\Products\UpdateProduct;
+use App\Models\Order;
 use App\Models\Product;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class ProductsController
 {
@@ -20,41 +21,9 @@ class ProductsController
         return view('products.create');
     }
 
-    public function store(Request $request)
+    public function store()
     {
-        $request->validate([
-            'name'        => ['required', 'string', 'min:3'],
-            'position'    => ['nullable', 'numeric'],
-            'description' => ['required', 'string', 'min:3'],
-            'price'       => ['required', 'numeric'],
-            'quantity'    => ['required', 'numeric'],
-            'category'    => ['required', 'exists:categories,id'],
-            'image'       => ['required', 'image'],
-            'published'   => ['nullable', 'boolean'],
-        ]);
-
-        $product = Product::create([
-            'category_id' => request('category'),
-            'name'        => request('name'),
-            'position'    => request('position'),
-            'description' => request('description'),
-            'price'       => request('price'),
-            'quantity'    => request('quantity'),
-            'published'   => request('published') ? true : false,
-        ]);
-
-        if (request()->has('image')) {
-            $path = request()->file('image')
-                ->storeAs(
-                    'products',
-                    $product->uuid . '-' . time() . '.' . request()->file('image')->extension(),
-                    ['disk' => 'public']
-                );
-
-            $product->update([
-                'image_path' => $path,
-            ]);
-        }
+        (new CreateProduct)->create();
 
         flash(__('messages.product.create'));
 
@@ -68,44 +37,9 @@ class ProductsController
         return view('products.edit')->with('product', $product);
     }
 
-    public function update(Request $request, $uuid)
+    public function update($uuid)
     {
-        $product = Product::withTrashed()->whereUuid($uuid)->first();
-
-        $request->validate([
-            'name'        => ['required', 'string', 'min:3'],
-            'position'    => ['nullable', 'numeric'],
-            'description' => ['required', 'string', 'min:3'],
-            'price'       => ['required', 'numeric'],
-            'quantity'    => ['required', 'numeric'],
-            'category'    => ['required', 'exists:categories,id'],
-            'image'       => ['image'],
-            'published'   => ['nullable', 'boolean'],
-        ]);
-
-        $product->update([
-            'category_id' => request('category'),
-            'name'        => request('name'),
-            'position'    => request('position'),
-            'description' => request('description'),
-            'price'       => request('price'),
-            'quantity'    => request('quantity'),
-            'published'   => request('published') ? true : false,
-        ]);
-
-        if (request()->has('image')) {
-            Storage::disk('public')->delete($product->image_path);
-            $path = request()->file('image')
-                ->storeAs(
-                    'products',
-                    $product->uuid . '-' . time() . '.' . request()->file('image')->extension(),
-                    ['disk' => 'public']
-                );
-
-            $product->update([
-                'image_path' => $path,
-            ]);
-        }
+        $product = (new UpdateProduct)->update($uuid);
 
         flash(__('messages.product.update'));
 
@@ -114,8 +48,12 @@ class ProductsController
 
     public function destroy(Product $product)
     {
-        $product->delete();
+        if (Order::pending()->hasProduct($product)->count()) {
+            flash(__('messages.product.delete'));
+            return redirect()->back();
+        }
 
+        $product->delete();
         flash(__('messages.product.delete'));
 
         return redirect()->route('products.index');

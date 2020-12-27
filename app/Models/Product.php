@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 
 class Product extends Model
 {
@@ -39,7 +40,7 @@ class Product extends Model
 
     public function imagePath()
     {
-        return asset($this->image_path);
+        return Storage::disk('products')->url($this->image_path);
     }
 
     public function discounts()
@@ -92,5 +93,15 @@ class Product extends Model
     public function scopePublished(Builder $builder)
     {
         $builder->where('published', true);
+    }
+
+    public function setImage($image)
+    {
+        if ($image) {
+            Storage::disk('products')->put($path = $this->uuid . '-' . time() . '.' . $image->extension(), file_get_contents($image));
+
+            $this->image_path =  $path;
+            $this->save();
+        }
     }
 }

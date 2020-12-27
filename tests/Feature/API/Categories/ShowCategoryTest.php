@@ -28,7 +28,7 @@ class ShowCategoryTest extends TestCase
             ->assertJson(['data' => [
                 [
                     'uuid'        => $categoryWithProducts->products->first()->uuid,
-                    'image_path'  => asset('/storage/' . $categoryWithProducts->products->first()->image_path),
+                    'image_path'  => $categoryWithProducts->products->first()->imagePath(),
                     'name'        => $categoryWithProducts->products->first()->name,
                     'position'    => $categoryWithProducts->products->first()->position,
                     'description' => $categoryWithProducts->products->first()->description,
@@ -39,7 +39,7 @@ class ShowCategoryTest extends TestCase
                 ],
                 [
                     'uuid'        => $categoryWithProducts->products->last()->uuid,
-                    'image_path'  => asset('/storage/' . $categoryWithProducts->products->last()->image_path),
+                    'image_path'  => $categoryWithProducts->products->last()->imagePath(),
                     'name'        => $categoryWithProducts->products->last()->name,
                     'position'    => $categoryWithProducts->products->last()->position,
                     'description' => $categoryWithProducts->products->last()->description,
