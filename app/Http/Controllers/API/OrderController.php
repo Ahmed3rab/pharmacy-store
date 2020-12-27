@@ -41,8 +41,10 @@ class OrderController
             ]);
         }
 
-        foreach (config('arwad.notifications_emails', []) as $recipient) {
-            Mail::to($recipient)->send(new OrderCreatedMail($order));
+        foreach (config('arwad.notifications_emails') as $recipient) {
+            if ($recipient) {
+                Mail::to($recipient)->send(new OrderCreatedMail($order));
+            }
         }
 
         return response()->json([], 201);
