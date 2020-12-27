@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\CP;
 
+use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -94,8 +95,12 @@ class ProductsController
 
     public function destroy(Product $product)
     {
-        $product->delete();
+        if (Order::pending()->items->has($product)) {
+            flash(__('messages.product.delete'));
+            return redirect()->back();
+        }
 
+        $product->delete();
         flash(__('messages.product.delete'));
 
         return redirect()->route('products.index');
