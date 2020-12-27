@@ -37,14 +37,15 @@ class CreateProductTest extends TestCase
             ->assertViewIs('products.create');
 
         $this->post(route('products.store'), [
-            'name'        => $name = 'Car Oil',
-            'position'    => $position = 1,
+            'name'        => $name        = 'Car Oil',
+            'position'    => $position    = 1,
             'description' => $description = 'Car Oils',
-            'price'       => $price = 50,
-            'quantity'    => $quantity = 120,
-            'category'    => $categoryId = Category::factory()->create()->id,
-            'image'       => $image = UploadedFile::fake()->image('image.jpg'),
-            'published'   => $published = true,
+            'price'       => $price       = 50,
+            'item_price'  => $itemPrice   = 20,
+            'quantity'    => $quantity    = 120,
+            'category'    => $categoryId  = Category::factory()->create()->id,
+            'image'       => $image       = UploadedFile::fake()->image('image.jpg'),
+            'published'   => $published   = true,
         ])
             ->assertRedirect(route('products.index'));
 
@@ -53,6 +54,7 @@ class CreateProductTest extends TestCase
             'position'    => $position,
             'description' => $description,
             'price'       => $price,
+            'item_price'  => $itemPrice,
             'quantity'    => $quantity,
             'category_id' => $categoryId,
             'published'   => $published,
@@ -68,13 +70,14 @@ class CreateProductTest extends TestCase
         $this->actingAs(User::factory()->create());
 
         $this->post(route('products.store'), [
-            'name'        => $name = 'Car Oil',
-            'position'    => $position = 1,
+            'name'        => $name        = 'Car Oil',
+            'position'    => $position    = 1,
             'description' => $description = 'Car Oils',
-            'price'       => $price = 50,
-            'quantity'    => $quantity = 120,
-            'category'    => $categoryId = Category::factory()->create()->id,
-            'image'       => $image = UploadedFile::fake()->image('image.jpg'),
+            'price'       => $price       = 50,
+            'item_price'  => $itemPrice   = 20,
+            'quantity'    => $quantity    = 120,
+            'category'    => $categoryId  = Category::factory()->create()->id,
+            'image'       => $image       = UploadedFile::fake()->image('image.jpg'),
             // 'published' => ''
         ])
             ->assertRedirect(route('products.index'));
@@ -97,10 +100,11 @@ class CreateProductTest extends TestCase
             'position'    => '',
             'description' => '',
             'price'       => '',
+            'item_price'  => '',
             'quantity'    => '',
             'category'    => '',
             'image'       => '',
         ])
-            ->assertSessionHasErrors(['name', 'description', 'price', 'quantity', 'category', 'image']);
+            ->assertSessionHasErrors(['name', 'description', 'price', 'item_price', 'quantity', 'category', 'image']);
     }
 }
