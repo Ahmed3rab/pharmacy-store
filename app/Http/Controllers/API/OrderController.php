@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderResource;
 use App\Mail\OrderCreatedMail;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Support\Facades\Mail;
 
-class OrderController
+class OrderController extends Controller
 {
     public function index()
     {
@@ -52,6 +53,8 @@ class OrderController
 
     public function show(Order $order)
     {
+        $this->authorize('view', $order);
+
         $order->load('items');
 
         return new OrderResource($order);

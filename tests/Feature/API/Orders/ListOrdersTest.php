@@ -23,12 +23,14 @@ class ListOrdersTest extends TestCase
     /**
      *@test
      */
-    function authenticatedUsersCanListTheirOwnItems()
+    function authenticatedUsersCanListTheirOwnOrders()
     {
         $this->actingAs($user = User::factory()->create());
 
         $orders = Order::factory()->count(2)->hasItems(2)
             ->create(['user_id' => $user->id]);
+
+        $anotherUserOrder = Order::factory()->create();
 
         $this->get('/api/orders')
             ->assertStatus(200)
@@ -53,6 +55,7 @@ class ListOrdersTest extends TestCase
                         'notes'                      => $orders->last()->notes,
                     ],
                 ],
-            ]);
+            ])
+            ->assertDontSee($anotherUserOrder->uuid);
     }
 }
