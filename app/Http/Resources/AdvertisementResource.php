@@ -18,7 +18,6 @@ class AdvertisementResource extends JsonResource
             'image_path' => $this->imagePath(),
             'title'      => $this->title,
             'url'        => $this->url,
-
         ];
     }
 }
