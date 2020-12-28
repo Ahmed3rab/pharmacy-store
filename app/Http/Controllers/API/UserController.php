@@ -12,7 +12,7 @@ class UserController extends Controller
     {
         $data = request()->validate([
             'name'         => 'required|string',
-            'phone_number' => ['required', 'numeric', 'digits_between:9,10', Rule::unique('users', 'phone_number')->ignore(auth()->id())],
+            'phone_number' => ['required', 'numeric', 'regex:/^09[1245][0-9]{7}$/', 'digits:10', Rule::unique('users', 'phone_number')->ignore(auth()->id())],
         ]);
 
         auth()->user()->update([
