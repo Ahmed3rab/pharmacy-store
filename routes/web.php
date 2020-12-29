@@ -17,14 +17,12 @@ use App\Http\Controllers\CP\UserController;
 use App\Http\Controllers\LogoutController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/login', function () {
-    return view('auth.login');
-})->name('login');
-
+Route::get('login', [LoginController::class, 'create'])->name('login');
+Route::post('auth/authenticate', [LoginController::class, 'authenticate'])->name('auth.authenticate');
 Route::post('logout', [LogoutController::class, 'logout'])->name('logout');
 
-Route::post('auth/authenticate', [LoginController::class, 'authenticate'])->name('auth.authenticate');
 Route::redirect('/', 'cp');
+
 Route::group(['prefix' => 'cp', 'middleware' => 'auth'], function () {
     Route::get('/', [HomeController::class, 'show'])->name('cp');
 
