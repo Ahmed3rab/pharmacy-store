@@ -39,4 +39,35 @@ class ListUsersActivitiesTest extends TestCase
             ->assertSee($product->name)
             ->assertSee(auth()->user()->name);
     }
+
+    /**
+     *@test
+     */
+    function authenticatedUserCanListSpecificUserActivities()
+    {
+        $this->actingAs($user = User::factory()->create());
+
+        $product = Product::factory()->create();
+
+        $this->post('/api/activities', [
+            'activity' => 'remove_from_cart',
+            'uuid'     => $product->uuid,
+        ])->assertStatus(201);
+
+        $this->actingAs($anotherUser = User::factory()->create());
+
+        $anotherProduct = Product::factory()->create();
+
+        $this->post('/api/activities', [
+            'activity' => 'remove_from_cart',
+            'uuid'     => $anotherProduct->uuid,
+        ])->assertStatus(201);
+
+        $this->get(route('users.activities.show', $anotherUser))
+            ->assertOk()
+            ->assertSee($anotherProduct->name)
+            ->assertSee($anotherUser->name)
+            ->assertDontSee($product->name)
+            ->assertDontSee($user->name);
+    }
 }
