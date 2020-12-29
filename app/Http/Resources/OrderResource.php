@@ -22,6 +22,7 @@ class OrderResource extends JsonResource
             'created_at'                 => $this->created_at,
             'is_complete'                => $this->isComplete(),
             'notes'                      => $this->notes,
+            'total'                      => $this->items->sum('total'),
             'items'                      => OrderItemResource::collection($this->whenLoaded('items')),
         ];
     }
