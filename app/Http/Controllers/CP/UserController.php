@@ -33,7 +33,7 @@ class UserController extends Controller
             'phone_number.required_if' => 'The phone number field is required if user is an app user.',
         ]);
 
-        if (request('type') == 'email') {
+        if (request('type') == 'admin') {
             $contactType = ['email' => request('email')];
         } else {
             $contactType = ['phone_number' => request('phone_number')];
@@ -51,9 +51,13 @@ class UserController extends Controller
 
     public function show(User $user)
     {
-        $user->loadCount('orders')->load('orders');
+        $user->loadCount('orders');
+        $orders = $user->orders()->paginate(8);
 
-        return view('users.show')->with('user', $user);
+        return view('users.show')->with([
+            'user'   => $user,
+            'orders' => $orders,
+        ]);
     }
 
     public function edit(User $user)
@@ -83,6 +87,19 @@ class UserController extends Controller
         ]);
 
         flash(__('messages.user.update'));
+
+        return redirect()->route('users.index');
+    }
+
+    public function destroy(User $user)
+    {
+        $user->orders()->delete();
+        $user->deviceTokens()->delete();
+        $user->activities()->delete();
+
+        $user->delete();
+
+        flash(__('messages.user.delete'));
 
         return redirect()->route('users.index');
     }

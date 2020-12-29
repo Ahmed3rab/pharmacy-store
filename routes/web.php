@@ -68,12 +68,8 @@ Route::group(['prefix' => 'cp', 'middleware' => 'auth'], function () {
     Route::delete('discounts/{discount}/items/{item}', [DiscountItemController::class, 'destroy'])->name('discounts-items.destroy');
 
     # Users
-    Route::get('users', [UserController::class, 'index'])->name('users.index');
-    Route::get('users/create', [UserController::class, 'create'])->name('users.create');
-    Route::post('users', [UserController::class, 'store'])->name('users.store');
-    Route::get('users/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
-    Route::get('users/{user}', [UserController::class, 'show'])->name('users.show');
-    Route::patch('users/{user}', [UserController::class, 'update'])->name('users.update');
+    Route::resource('users', UserController::class);
+
 
     #activities
     Route::get('activities', [ActivityLogController::class, 'index'])->name('activities.index');

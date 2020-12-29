@@ -26,6 +26,7 @@ return [
     'user' => [
         'create' => 'User Created Successfully.',
         'update' => 'User Updated Successfully.',
+        'delete' => 'User Deleted Successfully.',
     ],
     'notification' => [
         'sent'     => 'Notification Sent Successfully.',
