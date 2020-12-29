@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Activitylog\Models\Activity;
 use Spatie\Activitylog\Traits\CausesActivity;
 
 class User extends Authenticatable
@@ -68,5 +69,10 @@ class User extends Authenticatable
     public static function isAdmin($email)
     {
         return self::getAdmins()->contains($email);
+    }
+
+    public function activities()
+    {
+        return $this->hasMany(Activity::class, 'causer_id');
     }
 }

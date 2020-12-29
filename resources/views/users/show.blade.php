@@ -60,7 +60,7 @@
     </div>
 </div>
 
-@if($user->orders->count())
+@if($user->orders_count)
 <div class="mt-5 flex flex-col">
     <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -91,7 +91,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($user->orders as $order)
+                        @foreach($orders as $order)
                         <tr class="bg-white">
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                 <a href="{{ route('orders.show', $order) }}">{{ $order->reference_number }}</a>
@@ -125,55 +125,60 @@
             </div>
         </div>
     </div>
+
+    <div class="px-5 py-3 border-t border-gray-200">{{ $orders->links() }} </div>
 </div>
 
 @else
-<div class="bg-white p-5 my-5 shadow overflow-hidden border-b border-gray-200 sm:rounded-lg text-gray-500 font-semibold">
+<div
+    class="bg-white p-5 my-5 shadow overflow-hidden border-b border-gray-200 sm:rounded-lg text-gray-500 font-semibold">
     No Order Made.
 </div>
 @endempty
 
 @if($user->actions->count() > 0)
-    <div class="mt-5">
-        <div class="bg-white shadow overflow-hidden sm:rounded-md">
-            <ul class="divide-y divide-gray-200">
-                @foreach ($user->actions()->latest()->take(5)->get() as $activity)
-                    <li>
-                        <button onclick="window.location = '{{ route('activities.show', $activity) }}'" class="w-full block hover:bg-gray-50">
-                            <div class="flex items-center px-4 py-4 sm:px-6">
-                                <div class="min-w-0 flex-1 flex items-center">
-                                    <div class="min-w-0 flex-1 md:grid md:grid-cols-2 md:gap-4">
-                                        <div class="text-sm text-left font-medium text-gray-500 truncate">
-                                            @include("activities.partials._{$activity->getExtraProperty('activity_type')}")
-                                        </div>
-                                        <div class="hidden md:block text-right">
-                                            <div>
-                                                <p class="text-sm text-gray-900">
-                                                    <time datetime="2020-01-07">{{ $activity->created_at->diffForHumans() }}</time>
-                                                </p>
-                                            </div>
-                                        </div>
+<div class="mt-5">
+    <div class="bg-white shadow overflow-hidden sm:rounded-md">
+        <ul class="divide-y divide-gray-200">
+            @foreach ($user->actions()->latest()->take(5)->get() as $activity)
+            <li>
+                <button onclick="window.location = '{{ route('activities.show', $activity) }}'"
+                    class="w-full block hover:bg-gray-50">
+                    <div class="flex items-center px-4 py-4 sm:px-6">
+                        <div class="min-w-0 flex-1 flex items-center">
+                            <div class="min-w-0 flex-1 md:grid md:grid-cols-2 md:gap-4">
+                                <div class="text-sm text-left font-medium text-gray-500 truncate">
+                                    @include("activities.partials._{$activity->getExtraProperty('activity_type')}")
+                                </div>
+                                <div class="hidden md:block text-right">
+                                    <div>
+                                        <p class="text-sm text-gray-900">
+                                            <time
+                                                datetime="2020-01-07">{{ $activity->created_at->diffForHumans() }}</time>
+                                        </p>
                                     </div>
                                 </div>
-                                <div>
-                                    <!-- Heroicon name: chevron-right -->
-                                    <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                        fill="currentColor" aria-hidden="true">
-                                        <path fill-rule="evenodd"
-                                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                </div>
                             </div>
-                        </button>
-                    </li>
-                @endforeach
-            </ul>
-        </div>
-        <a href="{{ route('users.activities.show', $user) }}" class="flex justify-end text-indigo-600 mt-4 hover:underline">
-            View All Activities
-        </a>
+                        </div>
+                        <div>
+                            <!-- Heroicon name: chevron-right -->
+                            <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd"
+                                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                    </div>
+                </button>
+            </li>
+            @endforeach
+        </ul>
     </div>
+    <a href="{{ route('users.activities.show', $user) }}" class="flex justify-end text-indigo-600 mt-4 hover:underline">
+        View All Activities
+    </a>
+</div>
 
 @endif
 @endsection
