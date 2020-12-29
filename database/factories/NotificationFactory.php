@@ -22,7 +22,10 @@ class NotificationFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'title'       => $this->faker->sentence,
+            'body'        => $this->faker->paragraph,
+            'sent_at'     => $this->faker->dateTimeBetween('-10days', 'now'),
+            'sent_to_all' => true,
         ];
     }
 }
