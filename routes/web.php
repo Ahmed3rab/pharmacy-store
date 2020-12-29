@@ -35,34 +35,18 @@ Route::group(['prefix' => 'cp', 'middleware' => 'auth'], function () {
     Route::post('pending-orders/{order}', [PendingOrderController::class, 'store'])->name('orders.pending.store');
 
     # Products
-    Route::get('products', [ProductsController::class, 'index'])->name('products.index');
-    Route::get('products/create', [ProductsController::class, 'create'])->name('products.create');
-    Route::post('products', [ProductsController::class, 'store'])->name('products.store');
-    Route::get('products/{product}/edit', [ProductsController::class, 'edit'])->name('products.edit');
-    Route::patch('products/{product}', [ProductsController::class, 'update'])->name('products.update');
-    Route::delete('products/{product}', [ProductsController::class, 'destroy'])->name('products.destroy');
+    Route::resource('products', ProductsController::class)->except('show');
     Route::post('products/{product}/restore', [ProductsController::class, 'restore'])->name('products.restore');
 
     # Categories
-    Route::get('categories', [CategoriesController::class, 'index'])->name('categories.index');
-    Route::get('categories/create', [CategoriesController::class, 'create'])->name('categories.create');
-    Route::post('categories', [CategoriesController::class, 'store'])->name('categories.store');
-    Route::get('categories/{category}/edit', [CategoriesController::class, 'edit'])->name('categories.edit');
-    Route::patch('categories/{category}', [CategoriesController::class, 'update'])->name('categories.update');
-    Route::delete('categories/{category}', [CategoriesController::class, 'destroy'])->name('categories.destroy');
+    Route::resource('categories', CategoriesController::class)->except('show');
     Route::post('categories/{category}/restore', [CategoriesController::class, 'restore'])->name('categories.restore');
 
     #advertisements
     Route::resource('advertisements', AdvertisementController::class)->except('show');
 
     # Discounts
-    Route::get('products-discounts', [DiscountController::class, 'index'])->name('discounts.index');
-    Route::get('products-discounts/create', [DiscountController::class, 'create'])->name('discounts.create');
-    Route::post('products-discounts', [DiscountController::class, 'store'])->name('discounts.store');
-    Route::get('products-discounts/{discount}', [DiscountController::class, 'show'])->name('discounts.show');
-    Route::get('products-discounts/{discount}/edit', [DiscountController::class, 'edit'])->name('discounts.edit');
-    Route::patch('products-discounts/{discount}', [DiscountController::class, 'update'])->name('discounts.update');
-    Route::delete('products-discounts/{discount}', [DiscountController::class, 'destroy'])->name('discounts.destroy');
+    Route::resource('discounts', DiscountController::class);
 
     # Discount Items
     Route::delete('discounts/{discount}/items/{item}', [DiscountItemController::class, 'destroy'])->name('discounts-items.destroy');
