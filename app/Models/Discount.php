@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Discount extends Model
 {
@@ -32,5 +33,19 @@ class Discount extends Model
     public function hasExpired()
     {
         return $this->ends_at->lessThan(today());
+    }
+
+    public function imagePath()
+    {
+        return Storage::disk('discounts')->url($this->cover_image_path);
+    }
+
+    public function setImage($image)
+    {
+        if ($image) {
+            Storage::disk('discounts')->put($path = $this->uuid . '-' . time() . '.' . $image->extension(), file_get_contents($image));
+            $this->cover_image_path =  $path;
+            $this->save();
+        }
     }
 }

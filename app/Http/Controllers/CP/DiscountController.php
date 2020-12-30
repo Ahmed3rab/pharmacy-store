@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Discount;
 use App\Models\Product;
 use App\Rules\UniqueProduct;
+use Illuminate\Support\Facades\Storage;
 
 class DiscountController extends Controller
 {
@@ -36,6 +37,7 @@ class DiscountController extends Controller
             'percentage'   => 'required|numeric|between:1,99',
             'starts_at'    => 'required|date',
             'ends_at'      => 'required|date|after:today',
+            'cover_image'  => ['nullable', 'image'],
             'categories'   => ['nullable', 'required_without:products', 'array'],
             'categories.*' => ['nullable', 'required_without:products', 'exists:categories,uuid', new UniqueProduct],
             'products'     => 'nullable|required_without:categories|array',
@@ -56,6 +58,8 @@ class DiscountController extends Controller
         if ($products = request('products')) {
             $discount->products()->attach(Product::whereIn('uuid', $products)->get());
         }
+
+        $discount->setImage(request()->file('cover_image'));
 
         flash(__('messages.discount.create'));
 
@@ -93,6 +97,7 @@ class DiscountController extends Controller
             'percentage'   => 'required|numeric|between:1,99',
             'starts_at'    => 'required|date',
             'ends_at'      => 'required|date|after:today',
+            'image'        => ['nullable', 'image'],
             'categories'   => ['nullable', 'required_without:products', 'array'],
             'categories.*' => ['nullable', 'required_without:products', 'exists:categories,uuid', new UniqueProduct($discount)],
             'products'     => 'nullable|required_without:categories|array',
@@ -115,6 +120,11 @@ class DiscountController extends Controller
 
         if ($products = request('products')) {
             $discount->products()->sync(Product::whereIn('uuid', $products)->get());
+        }
+
+        if (request()->has('cover_image')) {
+            Storage::disk('discounts')->delete($discount->cover_image_path);
+            $discount->setImage(request()->file('cover_image'));
         }
 
         flash(__('messages.discount.update'));

@@ -12,6 +12,8 @@
 </div>
 @endsection
 @section('content')
+<img class="w-80 mb-5" src="{{ $discount->imagePath() }}" alt="{{ $discount->title }}">
+
 <div class="bg-white shadow overflow-hidden sm:rounded-lg">
     <div class="px-4 py-3 sm:p-0">
         <dl>

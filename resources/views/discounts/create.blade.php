@@ -52,6 +52,19 @@
             @enderror
         </div>
 
+        <div class="w-1/2 mb-5">
+            <label for="cover_image" class="block text-sm font-medium leading-5 text-gray-700">
+                Discount Cover Image
+            </label>
+            <div class="mt-1 rounded-md shadow-sm">
+                <input id="cover_image" type="file" name="cover_image"
+                    class="form-input border border-gray-300 block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5 @error('cover_image') border border-red-400 @enderror">
+            </div>
+            @error('cover_image')
+            <small class="text-red-600 text-sm">{{ $message }}</small>
+            @enderror
+        </div>
+
         <div x-data="{ tab: '{{ old('products')? 'product' : 'category' }}' }"
             class="flex flex-col justify-between space-y-5">
             <div class="">

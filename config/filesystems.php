@@ -75,6 +75,13 @@ return [
             'visibility' => 'public',
         ],
 
+        'discounts' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/discounts'),
+            'url' => env('APP_URL') . '/storage/discounts',
+            'visibility' => 'public',
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
@@ -103,6 +110,7 @@ return [
         public_path('products') => storage_path('app/public/products'),
         public_path('categories') => storage_path('app/public/categories'),
         public_path('advertisements') => storage_path('app/public/advertisements'),
+        public_path('discounts') => storage_path('app/public/discounts'),
     ],
 
 ];
