@@ -16,6 +16,7 @@ Route::get('categories/{category}', [CategoryController::class, 'show']);
 Route::get('products/{product}', [ProductController::class, 'show']);
 Route::get('advertisements', [AdvertisementController::class, 'index']);
 Route::get('discounts', [DiscountController::class, 'index']);
+Route::get('discounts/{discount}', [DiscountController::class, 'show']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('orders', [OrderController::class, 'store']);

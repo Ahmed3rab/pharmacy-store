@@ -15,6 +15,11 @@ class Discount extends Model
 
     protected $dates = ['starts_at', 'ends_at'];
 
+    public function getRouteKeyName()
+    {
+        return 'uuid';
+    }
+
     public function items()
     {
         return $this->hasMany(DiscountItem::class);
