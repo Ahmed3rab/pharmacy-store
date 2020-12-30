@@ -1,12 +1,14 @@
 @extends('layouts.app')
 
 @section('header')
-<div class="flex justify-between items-baseline">
+<div class="flex justify-start items-center">
+    <img class="w-32 mx-5" src="{{ $discount->coverImagePath() }}" alt="{{ $discount->title }}">
     <h1 class="text-2xl font-semibold text-gray-900">Product Discount: {{ $discount->title }}</h1>
 </div>
 @endsection
 
 @section('content')
+
 <div class="shadow bg-white p-6">
 
     <form action="{{ route('discounts.update', $discount) }}" method="POST" enctype="multipart/form-data">

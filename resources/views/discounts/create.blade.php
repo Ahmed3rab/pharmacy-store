@@ -81,7 +81,8 @@
                             <div class="mt-4 space-y-4">
                                 <div class="flex items-center">
                                     <input id="featured" name="featured" type="checkbox" value="1"
-                                        class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 @error('featured') border border-red-400 @enderror">
+                                        {{ old('featured')? 'checked' : null }} class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300
+                                    @error('featured') border border-red-400 @enderror">
                                     <label for="featured"
                                         class="ml-3 block text-sm font-medium text-gray-700 @error('featured') text-red-400 @enderror">
                                         Featured
