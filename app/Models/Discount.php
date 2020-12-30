@@ -35,7 +35,7 @@ class Discount extends Model
         return $this->ends_at->lessThan(today());
     }
 
-    public function imagePath()
+    public function coverImagePath()
     {
         return Storage::disk('discounts')->url($this->cover_image_path);
     }

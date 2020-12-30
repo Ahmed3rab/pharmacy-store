@@ -30,12 +30,13 @@ class ListDiscountsTest extends TestCase
             ->assertJson([
                 'data' => [
                     [
-                        'uuid'       => $categoriesDiscount->uuid,
-                        'percentage' => (float) $categoriesDiscount->percentage,
-                        'starts_at'  => $categoriesDiscount->starts_at->toDateTimeString(),
-                        'ends_at'    => $categoriesDiscount->ends_at->toDateTimeString(),
-                        'products'   => [],
-                        'categories' => [
+                        'uuid'             => $categoriesDiscount->uuid,
+                        'percentage'       => (float) $categoriesDiscount->percentage,
+                        'starts_at'        => $categoriesDiscount->starts_at->toDateTimeString(),
+                        'ends_at'          => $categoriesDiscount->ends_at->toDateTimeString(),
+                        'cover_image_path' => $categoriesDiscount->coverImagePath(),
+                        'products'         => [],
+                        'categories'       => [
                             [
                                 'uuid'      => $categoriesDiscount->categories->first()->uuid,
                                 'icon_path' => $categoriesDiscount->categories->first()->iconPath(),
@@ -81,6 +82,7 @@ class ListDiscountsTest extends TestCase
                         'percentage' => (float) $productsDiscount->percentage,
                         'starts_at'  => $productsDiscount->starts_at->toDateTimeString(),
                         'ends_at'    => $productsDiscount->ends_at->toDateTimeString(),
+                        'cover_image_path'    => $productsDiscount->coverImagePath(),
                         "categories" => [],
                         'products'   => [
                             [
