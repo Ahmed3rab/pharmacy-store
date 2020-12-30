@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\ActivityLogController;
 use App\Http\Controllers\API\AdvertisementController;
 use App\Http\Controllers\API\CategoryController;
+use App\Http\Controllers\API\DiscountController;
 use App\Http\Controllers\API\LoginController;
 use App\Http\Controllers\API\OrderController;
 use App\Http\Controllers\API\ProductController;
@@ -14,6 +15,7 @@ Route::get('categories', [CategoryController::class, 'index']);
 Route::get('categories/{category}', [CategoryController::class, 'show']);
 Route::get('products/{product}', [ProductController::class, 'show']);
 Route::get('advertisements', [AdvertisementController::class, 'index']);
+Route::get('discounts', [DiscountController::class, 'index']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('orders', [OrderController::class, 'store']);

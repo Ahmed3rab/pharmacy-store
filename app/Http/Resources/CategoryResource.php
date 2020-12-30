@@ -14,6 +14,7 @@ class CategoryResource extends JsonResource
             'position'  => (int) $this->position,
             'name'      => $this->name,
             'discount'  => new DiscountResource($this->activeDiscount),
+            'products'  => ProductResource::collection($this->whenLoaded('products')),
         ];
     }
 }
