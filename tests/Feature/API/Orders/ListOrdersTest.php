@@ -43,9 +43,10 @@ class ListOrdersTest extends TestCase
                         'order_items_quantity_count' => $orders->first()->items()->sum('quantity'),
                         'created_at'                 => $orders->first()->created_at,
                         'is_complete'                => $orders->first()->isComplete(),
+                        'status'                     => $orders->first()->status,
                         'notes'                      => $orders->first()->notes,
                         'total'                      => $orders->first()->items->sum('total'),
-                        'items' => [
+                        'items'                      => [
                             [
                                 'price'    => $orders->first()->items->first()->price,
                                 'quantity' => $orders->first()->items->first()->quantity,
@@ -89,9 +90,10 @@ class ListOrdersTest extends TestCase
                         'order_items_quantity_count' => $orders->last()->items()->sum('quantity'),
                         'created_at'                 => $orders->last()->created_at,
                         'is_complete'                => $orders->last()->isComplete(),
+                        'status'                     => $orders->last()->status,
                         'notes'                      => $orders->last()->notes,
                         'total'                      => $orders->last()->items->sum('total'),
-                        'items' => [
+                        'items'                      => [
                             [
                                 'price'    => $orders->last()->items->first()->price,
                                 'quantity' => $orders->last()->items->first()->quantity,

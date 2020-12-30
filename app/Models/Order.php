@@ -96,4 +96,13 @@ class Order extends Model
             $query->where('product_id', $product->id);
         });
     }
+
+    public function getStatusAttribute()
+    {
+        if ($this->completed_at) {
+            return __('order_states.completed');
+        }
+
+        return __("order_states.pending");
+    }
 }
