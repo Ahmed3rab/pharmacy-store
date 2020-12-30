@@ -31,6 +31,7 @@ class ListDiscountsTest extends TestCase
                 'data' => [
                     [
                         'uuid'             => $categoriesDiscount->uuid,
+                        'title'             => $categoriesDiscount->title,
                         'percentage'       => (float) $categoriesDiscount->percentage,
                         'starts_at'        => $categoriesDiscount->starts_at->toDateTimeString(),
                         'ends_at'          => $categoriesDiscount->ends_at->toDateTimeString(),
@@ -39,6 +40,7 @@ class ListDiscountsTest extends TestCase
                     ],
                     [
                         'uuid'             => $productsDiscount->uuid,
+                        'title'            => $productsDiscount->title,
                         'percentage'       => (float) $productsDiscount->percentage,
                         'starts_at'        => $productsDiscount->starts_at->toDateTimeString(),
                         'ends_at'          => $productsDiscount->ends_at->toDateTimeString(),
@@ -47,5 +49,20 @@ class ListDiscountsTest extends TestCase
                     ],
                 ],
             ]);
+    }
+
+    /**
+     *@test
+     */
+    function guestsCanListFeaturedDiscountsOnly()
+    {
+        $featuredDiscount = Discount::factory()->create(['featured' => true]);
+
+        $unfeaturedDiscount = Discount::factory()->create(['featured' => false]);
+
+        $this->get('api/discounts?featured=true')
+            ->assertOk()
+            ->assertSee($featuredDiscount->title)
+            ->assertDontSee($unfeaturedDiscount->title);
     }
 }

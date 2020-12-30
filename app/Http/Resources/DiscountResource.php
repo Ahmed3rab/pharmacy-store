@@ -17,6 +17,7 @@ class DiscountResource extends JsonResource
     {
         return [
             'uuid'             => $this->uuid,
+            'title'            => $this->title,
             'percentage'       => (float) $this->percentage,
             'starts_at'        => $this->starts_at->toDateTimeString(),
             'ends_at'          => $this->ends_at->toDateTimeString(),
