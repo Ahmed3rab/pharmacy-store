@@ -52,6 +52,52 @@
             @enderror
         </div>
 
+        <div class="w-1/2 mb-5">
+            <label for="cover_image" class="block text-sm font-medium leading-5 text-gray-700">
+                Discount Cover Image
+            </label>
+            <div class="mt-1 rounded-md shadow-sm">
+                <input id="cover_image" type="file" name="cover_image"
+                    class="form-input border border-gray-300 block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5 @error('cover_image') border border-red-400 @enderror">
+            </div>
+            @error('cover_image')
+            <small class="text-red-600 text-sm">{{ $message }}</small>
+            @enderror
+        </div>
+
+        <div class="w-1/2 mb-5">
+            <div role="group" aria-labelledby="label-notifications">
+                <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-baseline">
+                    <div>
+                        <div class="text-base font-medium text-gray-900 sm:text-sm sm:text-gray-700"
+                            id="label-notifications">
+                            Featured Status
+                        </div>
+                    </div>
+                    <div class="sm:col-span-2">
+                        <div class="max-w-lg">
+                            <p class="text-sm text-gray-500">Only featured discounts will appear in home page.
+                            </p>
+                            <div class="mt-4 space-y-4">
+                                <div class="flex items-center">
+                                    <input id="featured" name="featured" type="checkbox" value="1"
+                                        class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 @error('featured') border border-red-400 @enderror">
+                                    <label for="featured"
+                                        class="ml-3 block text-sm font-medium text-gray-700 @error('featured') text-red-400 @enderror">
+                                        Featured
+                                    </label>
+                                </div>
+                            </div>
+
+                            @error('featured')
+                            <small class="text-red-600 text-sm">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div x-data="{ tab: '{{ old('products')? 'product' : 'category' }}' }"
             class="flex flex-col justify-between space-y-5">
             <div class="">

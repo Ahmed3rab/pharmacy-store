@@ -43,6 +43,12 @@
                         <tr class="{{ $loop->even ? 'bg-gray-50' :  'bg-white'}}">
                             <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
                                 <a href="{{ route('discounts.show', $discount) }}">{{ $discount->title }}</a>
+                                @if ($discount->featured)
+                                <span
+                                    class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">
+                                    Featured
+                                </span>
+                                @endif
                             </td>
                             <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
                                 {{ $discount->percentage }}%

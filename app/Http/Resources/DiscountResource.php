@@ -16,12 +16,14 @@ class DiscountResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'uuid'       => $this->uuid,
-            'percentage' => (float) $this->percentage,
-            'starts_at'  => $this->starts_at->toDateTimeString(),
-            'ends_at'    => $this->ends_at->toDateTimeString(),
-            'products'   => ProductResource::collection($this->whenLoaded('products')),
-            'categories' => CategoryResource::collection($this->whenLoaded('categories')),
+            'uuid'             => $this->uuid,
+            'percentage'       => (float) $this->percentage,
+            'starts_at'        => $this->starts_at->toDateTimeString(),
+            'ends_at'          => $this->ends_at->toDateTimeString(),
+            'featured'         => $this->featured,
+            'cover_image_path' => $this->coverImagePath(),
+            'products'         => ProductResource::collection($this->whenLoaded('products')),
+            'categories'       => CategoryResource::collection($this->whenLoaded('categories')),
         ];
     }
 }

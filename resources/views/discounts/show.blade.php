@@ -12,6 +12,8 @@
 </div>
 @endsection
 @section('content')
+<img class="w-80 mb-5" src="{{ $discount->coverImagePath() }}" alt="{{ $discount->title }}">
+
 <div class="bg-white shadow overflow-hidden sm:rounded-lg">
     <div class="px-4 py-3 sm:p-0">
         <dl>
@@ -21,6 +23,12 @@
                 </dt>
                 <dd class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
                     {{ $discount->title }}
+                    @if ($discount->featured)
+                    <span
+                        class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">
+                        Featured
+                    </span>
+                    @endif
                 </dd>
             </div>
             <div class="mt-8 sm:mt-0 sm:grid sm:grid-cols-5 sm:gap-4 sm:border-t sm:border-gray-200 sm:px-6 sm:py-3">

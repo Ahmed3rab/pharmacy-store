@@ -10,8 +10,15 @@ class DiscountController extends Controller
 {
     public function index()
     {
-        $discounts = Discount::with(['products', 'categories.products'])->paginate();
+        $discounts = Discount::paginate();
 
         return DiscountResource::collection($discounts);
+    }
+
+    public function show(Discount $discount)
+    {
+        $discount->load(['products', 'categories.products'])->paginate();
+
+        return new DiscountResource($discount);
     }
 }

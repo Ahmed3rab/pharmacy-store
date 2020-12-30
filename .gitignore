@@ -4,6 +4,7 @@
 /public/products
 /public/advertisements
 /public/categories
+/public/discounts
 /storage/*.key
 /vendor
 .env

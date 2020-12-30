@@ -7,6 +7,8 @@ use App\Models\Discount;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class CreateDiscountTest extends TestCase
@@ -35,6 +37,7 @@ class CreateDiscountTest extends TestCase
         $this->get(route('discounts.create'))->assertOk();
         $this->post(route('discounts.store'), array_merge($discount->toArray(), [
             'categories' => $categories->map->only('uuid')->toArray(),
+            'image'     => $image = UploadedFile::fake()->image('image.jpg'),
         ]))
             ->assertSessionDoesntHaveErrors();
 
@@ -49,6 +52,8 @@ class CreateDiscountTest extends TestCase
             'discountable_type' => 'categories',
             'discountable_id'   => $categories->last()->id,
         ]);
+
+        Storage::disk('discounts')->exists(Discount::first()->uuid . '-' . time() . '.' . $image->extension());
 
         $this->assertEquals(($categories->first()->products->first()->price - ($discount->percentage * $categories->first()->products->first()->price / 100)),
             $categories->first()->products->first()->price_after
@@ -95,5 +100,32 @@ class CreateDiscountTest extends TestCase
 
         $this->assertEquals(($products->first()->price - ($discount->percentage * $products->first()->price / 100)), $products->first()->price_after);
         $this->assertEquals(($products->last()->price - ($discount->percentage * $products->last()->price / 100)), $products->last()->price_after);
+    }
+
+    /**
+     *@test
+     */
+    function authenticatedUserCanCreateNewDiscountWithACoverImage()
+    {
+        Storage::fake();
+
+        $this->actingAs(User::factory()->create());
+
+        $discount = Discount::factory()->make();
+        $categories = Category::factory()->times(2)->hasProducts()->create();
+
+        $this->get(route('discounts.create'))->assertOk();
+        $this->post(route('discounts.store'), array_merge($discount->toArray(), [
+            'categories'  => $categories->map->only('uuid')->toArray(),
+            'cover_image' => $image = UploadedFile::fake()->image('image.jpg'),
+        ]))
+            ->assertSessionDoesntHaveErrors();
+
+        $this->assertDatabaseHas('discounts', [
+            'title'            => $discount->title,
+            'cover_image_path' => Discount::first()->uuid . '-' . time() . '.' . $image->extension(),
+        ]);
+
+        Storage::disk('discounts')->exists(Discount::first()->uuid . '-' . time() . '.' . $image->extension());
     }
 }
