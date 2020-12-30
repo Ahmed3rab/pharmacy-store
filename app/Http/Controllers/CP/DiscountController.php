@@ -32,18 +32,23 @@ class DiscountController extends Controller
 
     public function store()
     {
-        request()->validate([
-            'title'        => 'required|string',
-            'featured'     => 'nullable|boolean',
-            'percentage'   => 'required|numeric|between:1,99',
-            'starts_at'    => 'required|date',
-            'ends_at'      => 'required|date|after:today',
-            'cover_image'  => ['nullable', 'image'],
-            'categories'   => ['nullable', 'required_without:products', 'array'],
-            'categories.*' => ['nullable', 'required_without:products', 'exists:categories,uuid', new UniqueProduct],
-            'products'     => 'nullable|required_without:categories|array',
-            'products.*'   => ['nullable', 'exists:products,uuid', new UniqueProduct],
-        ]);
+        request()->validate(
+            [
+                'title'        => 'required|string',
+                'featured'     => 'nullable|boolean',
+                'percentage'   => 'required|numeric|between:1,99',
+                'starts_at'    => 'required|date',
+                'ends_at'      => 'required|date|after:today',
+                'cover_image'  => 'nullable|image|required_if:featured,1',
+                'categories'   => ['nullable', 'required_without:products', 'array'],
+                'categories.*' => ['nullable', 'required_without:products', 'exists:categories,uuid', new UniqueProduct],
+                'products'     => 'nullable|required_without:categories|array',
+                'products.*'   => ['nullable', 'exists:products,uuid', new UniqueProduct],
+            ],
+            [
+                'cover_image.required_if' => 'Cover image is required if discount is set to featured.',
+            ]
+        );
 
         $discount = Discount::create([
             'title'      => request('title'),
@@ -94,18 +99,23 @@ class DiscountController extends Controller
 
     public function update(Discount $discount)
     {
-        request()->validate([
-            'title'        => 'required|string',
-            'featured'     => 'nullable|boolean',
-            'percentage'   => 'required|numeric|between:1,99',
-            'starts_at'    => 'required|date',
-            'ends_at'      => 'required|date|after:today',
-            'image'        => ['nullable', 'image'],
-            'categories'   => ['nullable', 'required_without:products', 'array'],
-            'categories.*' => ['nullable', 'required_without:products', 'exists:categories,uuid', new UniqueProduct($discount)],
-            'products'     => 'nullable|required_without:categories|array',
-            'products.*'   => ['nullable', 'exists:products,uuid', new UniqueProduct($discount)],
-        ]);
+        request()->validate(
+            [
+                'title'        => 'required|string',
+                'featured'     => 'nullable|boolean',
+                'percentage'   => 'required|numeric|between:1,99',
+                'starts_at'    => 'required|date',
+                'ends_at'      => 'required|date|after:today',
+                'cover_image'  => 'nullable|image|required_if:featured,1',
+                'categories'   => ['nullable', 'required_without:products', 'array'],
+                'categories.*' => ['nullable', 'required_without:products', 'exists:categories,uuid', new UniqueProduct($discount)],
+                'products'     => 'nullable|required_without:categories|array',
+                'products.*'   => ['nullable', 'exists:products,uuid', new UniqueProduct($discount)],
+            ],
+            [
+                'cover_image.required_if' => 'Cover image is required if discount is set to featured.',
+            ]
+        );
 
         $discount->update([
             'title'      => request('title'),
