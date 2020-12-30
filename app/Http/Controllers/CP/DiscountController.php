@@ -34,6 +34,7 @@ class DiscountController extends Controller
     {
         request()->validate([
             'title'        => 'required|string',
+            'featured'     => 'nullable|boolean',
             'percentage'   => 'required|numeric|between:1,99',
             'starts_at'    => 'required|date',
             'ends_at'      => 'required|date|after:today',
@@ -46,6 +47,7 @@ class DiscountController extends Controller
 
         $discount = Discount::create([
             'title'      => request('title'),
+            'featured'   => request('featured') ? true : false,
             'percentage' => request('percentage'),
             'starts_at'  => request('starts_at'),
             'ends_at'    => request('ends_at'),
@@ -94,6 +96,7 @@ class DiscountController extends Controller
     {
         request()->validate([
             'title'        => 'required|string',
+            'featured'     => 'nullable|boolean',
             'percentage'   => 'required|numeric|between:1,99',
             'starts_at'    => 'required|date',
             'ends_at'      => 'required|date|after:today',
@@ -106,6 +109,7 @@ class DiscountController extends Controller
 
         $discount->update([
             'title'      => request('title'),
+            'featured'   => request('featured') ? true : false,
             'percentage' => request('percentage'),
             'starts_at'  => request('starts_at'),
             'ends_at'    => request('ends_at'),

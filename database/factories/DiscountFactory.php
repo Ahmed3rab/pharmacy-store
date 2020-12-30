@@ -25,6 +25,7 @@ class DiscountFactory extends Factory
             'uuid'       => $this->faker->uuid,
             'title'      => $this->faker->sentence,
             'percentage' => $this->faker->numberBetween(10, 90),
+            'featured'   => $this->faker->boolean,
             'starts_at'  => $this->faker->dateTimeBetween('-10days', 'now'),
             'ends_at'    => $this->faker->dateTimeBetween('now', '+20days'),
         ];

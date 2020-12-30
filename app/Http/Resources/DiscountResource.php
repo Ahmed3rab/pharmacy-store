@@ -20,6 +20,7 @@ class DiscountResource extends JsonResource
             'percentage'       => (float) $this->percentage,
             'starts_at'        => $this->starts_at->toDateTimeString(),
             'ends_at'          => $this->ends_at->toDateTimeString(),
+            'featured'         => $this->featured,
             'cover_image_path' => $this->coverImagePath(),
             'products'         => ProductResource::collection($this->whenLoaded('products')),
             'categories'       => CategoryResource::collection($this->whenLoaded('categories')),
