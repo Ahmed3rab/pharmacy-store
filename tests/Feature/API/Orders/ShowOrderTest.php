@@ -53,9 +53,10 @@ class ShowOrderTest extends TestCase
                 'order_items_quantity_count' => $order->items()->sum('quantity'),
                 'created_at'                 => $order->created_at,
                 'is_complete'                => $order->isComplete(),
+                'status'                     => $order->status,
                 'notes'                      => $order->notes,
                 'total'                      => $order->items->sum('total'),
-                'items' => [
+                'items'                      => [
                     [
                         'price'    => $order->items->first()->price,
                         'quantity' => $order->items->first()->quantity,
