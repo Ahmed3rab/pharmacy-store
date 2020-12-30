@@ -42,7 +42,9 @@ class Discount extends Model
 
     public function coverImagePath()
     {
-        return Storage::disk('discounts')->url($this->cover_image_path);
+        if ($this->cover_image_path) {
+            return Storage::disk('discounts')->url($this->cover_image_path);
+        }
     }
 
     public function setImage($image)
