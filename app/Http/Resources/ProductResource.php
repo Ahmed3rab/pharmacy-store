@@ -21,7 +21,6 @@ class ProductResource extends JsonResource
             'position'    => $this->position,
             'description' => $this->description,
             'quantity'    => $this->quantity,
-            'item_price'  => (float) $this->item_price,
             'price'       => (float) $this->price,
             'price_after' => (float) $this->price_after,
             'discount'    => new DiscountResource($this->activeDiscount),
