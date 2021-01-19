@@ -45,7 +45,8 @@ class Category extends Model
 
     public function iconPath()
     {
-        return Storage::disk('categories')->url($this->icon_path);
+        return $this->icon_path;
+        // return Storage::disk('categories')->url($this->icon_path);
     }
 
     public function path()

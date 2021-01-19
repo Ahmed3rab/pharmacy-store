@@ -16,8 +16,12 @@ class CategoryController
 
     public function show(Category $category)
     {
-        $products = $category->products()->published()->orderBy('position')->paginate(20);
+        $category->load('subCategories');
 
-        return ProductResource::collection($products);
+        return new CategoryResource($category);
+
+        // $products = $category->products()->published()->orderBy('position')->paginate(20);
+
+        // return ProductResource::collection($products);
     }
 }

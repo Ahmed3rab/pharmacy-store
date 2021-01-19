@@ -13,6 +13,7 @@ class CategoryResource extends JsonResource
             'icon_path' => $this->iconPath(),
             'position'  => (int) $this->position,
             'name'      => $this->name,
+            'sub_categories' => CategoryResource::collection($this->whenLoaded('subCategories')),
             'discount'  => new DiscountResource($this->activeDiscount),
             'products'  => ProductResource::collection($this->whenLoaded('products')),
         ];

@@ -40,7 +40,8 @@ class Product extends Model
 
     public function imagePath()
     {
-        return Storage::disk('products')->url($this->image_path);
+        return $this->image_path;
+        // return Storage::disk('products')->url($this->image_path);
     }
 
     public function discounts()
