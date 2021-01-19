@@ -3,7 +3,6 @@
 namespace Tests\Feature\API\Categories;
 
 use App\Models\Category;
-use App\Models\Discount;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -12,9 +11,9 @@ class ListCategoriesTest extends TestCase
     use RefreshDatabase;
 
     /**
-     *@test
+     * @test
      */
-    function guestsCanListPublishedCategories()
+    public function guestsCanListPublishedCategories()
     {
         $category = Category::factory()->create();
         $categoryWithDiscount = Category::factory()->hasDiscounts(1)->create();
@@ -47,5 +46,16 @@ class ListCategoriesTest extends TestCase
             ])
             ->assertDontSee($unpublishedCategory->uuid)
             ->assertDontSee($unpublishedCategory->name);
+    }
+
+    /**
+    * @test
+    */
+    public function guestsCanListParentCategories()
+    {
+        Category::factory()->has(Category::factory()->count(2), 'subCategories')->count(4)->create();
+        $subCategory = Category::whereNotNull('parent_id')->first();
+        $response = $this->get('/api/categories');
+        $response->assertJsonCount(4, 'data')->assertJsonMissing($subCategory->toArray());
     }
 }

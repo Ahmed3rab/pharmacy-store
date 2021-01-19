@@ -10,8 +10,7 @@ class CategoryController
 {
     public function index()
     {
-        $categories = Category::published()->orderBy('position')->paginate(20);
-
+        $categories = Category::published()->parent()->orderBy('position')->paginate(20);
         return CategoryResource::collection($categories);
     }
 

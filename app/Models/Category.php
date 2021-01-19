@@ -72,4 +72,14 @@ class Category extends Model
             $this->save();
         }
     }
+
+    public function subCategories()
+    {
+        return $this->hasMany(Category::class, 'parent_id');
+    }
+
+    public function scopeParent($query)
+    {
+        return $query->whereNull('parent_id');
+    }
 }

@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Category;
 use App\Models\Product;
-use App\Models\ProductDiscount;
 use App\Models\ProductDiscountItem;
 use Illuminate\Database\Seeder;
 
@@ -26,13 +25,15 @@ class DatabaseSeeder extends Seeder
             'phone_number' => '0920000000'
         ]);
 
-        Category::factory()->times(1)->hasProducts(30)->create();
-        Category::factory()->times(5)->hasDiscounts(1)->hasProducts(6)->create();
+        Category::factory()->has(Category::factory()->count(3)->hasProducts(10), 'subCategories')->count(5)->create();
+        // Category::factory()->times(1)->hasProducts(30)->create();
+        // Category::factory()->times(5)->hasDiscounts(1)->hasProducts(6)->create();
 
-        Product::factory()
-            ->times(3)
-            ->hasDiscounts(1)
-            ->create();
+        // Product::factory()
+        //     ->count(10)
+        //     ->for(Category::factory()->count(10)->for(Category::factory()->count(5)->create())->create())
+        //     ->hasDiscounts(1)
+        //     ->create();
 
         // ProductDiscountItem::factory()->times(5)->create();
 
