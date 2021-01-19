@@ -14,7 +14,7 @@ class AddParentIdFieldToCategoriesTable extends Migration
     public function up()
     {
         Schema::table('categories', function (Blueprint $table) {
-            $table->foreignId('parent_id')->nullable()->after('image_path');
+            $table->foreignId('parent_id')->nullable()->after('icon_path');
         });
     }
 
